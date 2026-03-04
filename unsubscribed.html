@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Unsubscribed — Vector DSP</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;700;800&family=Barlow:wght@300;400&family=IBM+Plex+Mono:wght@400&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0a0f;
+      --white: #edf0f4;
+      --cyan: #00C2FF;
+      --purple: #9B6DFF;
+      --muted: rgba(237,240,244,0.35);
+      --line: rgba(255,255,255,0.07);
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--white);
+      font-family: 'Barlow', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* background grid */
+    body::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(155,109,255,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(155,109,255,0.04) 1px, transparent 1px);
+      background-size: 48px 48px;
+      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 20%, transparent 75%);
+      pointer-events: none;
+    }
+
+    /* glow */
+    body::after {
+      content: '';
+      position: absolute;
+      width: 600px; height: 600px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(155,109,255,0.06) 0%, transparent 70%);
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+
+    .card {
+      position: relative; z-index: 2;
+      text-align: center;
+      max-width: 480px;
+    }
+
+    .badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 6px 14px;
+      border: 1px solid rgba(155,109,255,0.25);
+      background: rgba(155,109,255,0.06);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase;
+      color: var(--purple);
+      margin-bottom: 40px;
+    }
+
+    .wordmark {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700; font-size: 48px;
+      letter-spacing: 0.05em; text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .wordmark em { font-style: normal; color: var(--purple); }
+
+    .sub {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 48px;
+    }
+
+    .divider {
+      width: 40px; height: 1px;
+      background: var(--line);
+      margin: 0 auto 48px;
+    }
+
+    h1 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800; font-size: 36px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
+    h1 span { color: var(--cyan); }
+
+    p {
+      font-size: 16px; font-weight: 300; line-height: 1.8;
+      color: rgba(237,240,244,0.55);
+      margin-bottom: 48px;
+    }
+
+    .error-msg {
+      font-size: 14px; color: rgba(255,100,100,0.7);
+      margin-bottom: 32px;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 14px 32px;
+      background: transparent;
+      border: 1px solid rgba(155,109,255,0.4);
+      color: var(--purple);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase;
+      text-decoration: none;
+      transition: background 0.2s, border-color 0.2s;
+      cursor: pointer;
+    }
+    .btn:hover {
+      background: rgba(155,109,255,0.08);
+      border-color: rgba(155,109,255,0.7);
+    }
+  </style>
+</head>
+<body>
+  <div class="card" id="content">
+    <div class="badge">
+      <svg width="12" height="12" viewBox="0 0 28 28" fill="none">
+        <polygon points="14,2 26,8 26,20 14,26 2,20 2,8" stroke="#9B6DFF" stroke-width="1.5" fill="none"/>
+        <polyline points="7,14 10,10 13,15 16,11 21,14" stroke="#9B6DFF" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Vector DSP
+    </div>
+
+    <div class="wordmark">Vector<em> DSP</em></div>
+    <div class="sub">ToneLab Early Access</div>
+    <div class="divider"></div>
+
+    <div id="success-view">
+      <h1>Sorry to see<br>you <span>go.</span></h1>
+      <p>You've been removed from the ToneLab list.<br>We're always innovating — the door's open if you change your mind.</p>
+      <a href="https://vector-dsp.com" class="btn">Back to Vector DSP</a>
+    </div>
+
+    <div id="error-view" style="display:none;">
+      <h1>Something went<br><span>wrong.</span></h1>
+      <p class="error-msg">We couldn't process your unsubscribe request. Please try again or contact us directly.</p>
+      <a href="mailto:support@vector-dsp.com" class="btn">Contact Support</a>
+    </div>
+  </div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('status') === 'error') {
+      document.getElementById('success-view').style.display = 'none';
+      document.getElementById('error-view').style.display = 'block';
+    }
+  </script>
+</body>
+</html>

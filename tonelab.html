@@ -912,14 +912,25 @@ body {
   .stat-block { padding: 20px 16px; }
   .stat-val { font-size: 34px; }
 
+  /* How It Works section inline padding override */
+  #tl-how { padding: 40px 24px 60px !important; }
+  #tl-how .section-heading { font-size: clamp(28px, 7vw, 48px); }
+
   /* Lane diagram */
   .tl-lane-row { grid-template-columns: 56px 1fr 72px; }
   .tlr-mix { display: none; }
   .tlr-id { padding: 16px 12px; font-size: 20px; }
   .tlr-fx { font-size: 14px; padding: 12px 10px; }
+  .lane-diagram-wrap {
+    overflow-x: scroll;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-x;
+    overscroll-behavior-x: contain;
+  }
 
   /* Footer */
-  footer { padding: 28px 24px; flex-direction: column; align-items: flex-start; gap: 18px; }
+  footer { padding: 28px 24px; flex-direction: column; gap: 18px; }
+  footer:not([style*="align-items:center"]) { align-items: flex-start; }
   .footer-links { flex-wrap: wrap; gap: 14px; }
   .footer-copy { font-size: 13px; }
 }
@@ -1035,7 +1046,7 @@ body {
 </section>
 
 <!-- ── HOW IT WORKS ── -->
-<section style="padding:clamp(40px,5vw,56px) clamp(16px,5vw,56px) clamp(60px,8vw,100px);" id="tl-how">
+<section style="padding:clamp(40px,5vw,56px) clamp(16px,5vw,56px) clamp(60px,8vw,100px);overflow:visible;" id="tl-how">
   <div class="reveal">
     <div class="section-label">How It Works</div>
     <h2 class="section-heading" style="max-width:640px;">One plugin. Five lanes.<br>Infinite combinations.</h2>

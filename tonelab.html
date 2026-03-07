@@ -491,7 +491,7 @@ footer {
 ═══════════════════════════════════════ */
 #tonelab-page {
   min-height: 100vh;
-  display: none;
+  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -706,9 +706,8 @@ footer {
   color: var(--muted); cursor: pointer;
   transition: color 0.2s;
   animation: fadeUp 0.6s 0.4s ease both;
-  text-decoration: none;
 }
-.tl-back:hover { color: var(--purple); text-decoration: none; }
+.tl-back:hover { color: var(--purple); }
 .tl-back::before { content: '←'; }
 
 /* Waveform decoration bottom */
@@ -719,10 +718,20 @@ footer {
   display: flex; align-items: flex-end;
   justify-content: center;
   gap: 3px;
-  padding-bottom: 0;
+  padding: 0;
+  margin: 0;
   pointer-events: none;
   overflow: hidden;
   background: var(--bg);
+}
+
+#tonelab-page {
+  padding-bottom: 0 !important;
+}
+
+body {
+  padding-bottom: 0;
+  margin-bottom: 0;
 }
 .tl-bar {
   width: 2px;
@@ -832,10 +841,99 @@ footer {
 
 /* ── REVEAL ── */
 .reveal {
-  opacity: 0; transform: translateY(18px);
+  opacity: 1; transform: none;
   transition: opacity 0.55s ease, transform 0.55s ease;
 }
-.reveal.vis { opacity: 1; transform: none; }
+.reveal.anim {
+  opacity: 0; transform: translateY(18px);
+}
+.reveal.anim.vis { opacity: 1; transform: none; }
+
+/* ── LANE SCROLL HINT (mobile only) ── */
+.lane-scroll-hint {
+  display: none;
+}
+.lane-diagram-wrap {
+  padding: 0 clamp(0px, 10vw, 200px);
+}
+@media (max-width: 768px) {
+  .lane-scroll-hint {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+    color: rgba(237,240,244,0.35);
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+  .lane-scroll-hint svg {
+    flex-shrink: 0;
+  }
+  .lane-diagram-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding: 0;
+  }
+  .lane-diagram-wrap::-webkit-scrollbar { display: none; }
+  .lane-diagram-inner {
+    min-width: 520px;
+  }
+}
+
+/* ═══════════════════════════════════════
+   MOBILE
+═══════════════════════════════════════ */
+@media (max-width: 768px) {
+  nav { padding: 0 20px; }
+  .nav-links { gap: 16px; }
+  .nav-link { font-size: 12px; letter-spacing: 0.1em; }
+  .nav-cta { font-size: 12px; padding: 6px 12px; letter-spacing: 0.1em; }
+
+  /* ToneLab hero section */
+  #tl-hero-section { padding: 96px 24px 60px !important; }
+  #tl-hero-section > div[style] { padding-left: 0 !important; max-width: 100% !important; }
+
+  /* ToneLab page wrapper */
+  #tonelab-page { padding: 80px 24px 60px; align-items: flex-start; }
+  .tl-content { max-width: 100%; }
+  .tl-wordmark-large { font-size: clamp(42px, 13vw, 78px); }
+  .tl-description { font-size: 17px; margin-bottom: 32px; }
+  .tl-features { flex-wrap: wrap; gap: 10px; margin-bottom: 32px; }
+  .tl-feat { padding: 12px 14px; flex: 1 1 calc(50% - 10px); min-width: 110px; }
+  .tl-input-row { flex-direction: column; }
+  .tl-email-input { border-right: 1px solid rgba(0,194,255,0.2) !important; border-bottom: none !important; font-size: 16px; }
+
+  /* Sections */
+  .section { padding: 60px 24px; }
+  .section-sub { font-size: 17px; margin-bottom: 32px; }
+  .about-strip { grid-template-columns: 1fr; gap: 36px; padding: 56px 24px; }
+  .stat-block { padding: 20px 16px; }
+  .stat-val { font-size: 34px; }
+
+  /* Lane diagram */
+  .tl-lane-row { grid-template-columns: 56px 1fr 72px; }
+  .tlr-mix { display: none; }
+  .tlr-id { padding: 16px 12px; font-size: 20px; }
+  .tlr-fx { font-size: 14px; padding: 12px 10px; }
+
+  /* Footer */
+  footer { padding: 28px 24px; flex-direction: column; align-items: flex-start; gap: 18px; }
+  .footer-links { flex-wrap: wrap; gap: 14px; }
+  .footer-copy { font-size: 13px; }
+}
+
+@media (max-width: 480px) {
+  nav { padding: 0 16px; }
+  .nav-link:not(.nav-cta) { display: none; }
+  #tl-hero-section { padding: 80px 16px 56px !important; }
+  #tonelab-page { padding: 80px 16px 50px; }
+  .section { padding: 48px 16px; }
+  .about-strip { padding: 48px 16px; }
+  footer { padding: 24px 16px; }
+  .tl-feat { flex: 1 1 100%; }
+}
 </style>
 </head>
 <body>
@@ -857,7 +955,7 @@ footer {
     <a class="nav-cta" href="/tonelab.html">ToneLab →</a>
   </div>
   <div class="nav-links" id="tonelab-nav-links">
-    <a class="nav-link" href="/">← Back to Vector DSP</a>
+    <span class="nav-link" href="/">← Back to Vector DSP</span>
   </div>
 </nav>
 
@@ -866,9 +964,10 @@ footer {
      HOME PAGE
 ═══════════════════════════════════════ -->
 
+<div id="tonelab-page" class="page">
 
 <!-- ── TL HERO ── -->
-<section id="tl-hero-section" style="min-height:100vh; width:100%; display:flex; flex-direction:column; justify-content:center; align-items:flex-start; padding:100px 56px 60px; position:relative; overflow:hidden;">
+<section id="tl-hero-section" style="min-height:100vh; width:100%; display:flex; flex-direction:column; justify-content:center; align-items:flex-start; padding:100px clamp(16px,5vw,56px) 60px; position:relative; overflow:hidden;">
 
   <!-- background grid -->
   <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(0,194,255,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,194,255,0.04) 1px,transparent 1px);background-size:56px 56px;mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black 20%,transparent 75%);"></div>
@@ -890,7 +989,7 @@ footer {
   <div id="tl-cursor-glow" style="position:absolute;width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,rgba(0,194,255,0.07) 0%,rgba(155,109,255,0.05) 45%,transparent 70%);top:50%;right:0;transform:translateY(-50%);pointer-events:none;transition:left 0.12s ease,top 0.12s ease,opacity 0.4s ease;"></div>
 
   <!-- content -->
-  <div style="position:relative;z-index:2;max-width:540px;padding-left:80px;">
+  <div style="position:relative;z-index:2;max-width:540px;padding-left:clamp(0px,5vw,80px);">
 
     <!-- left: content -->
     <div>
@@ -936,7 +1035,7 @@ footer {
 </section>
 
 <!-- ── HOW IT WORKS ── -->
-<section style="padding:56px 56px 100px;" id="tl-how">
+<section style="padding:clamp(40px,5vw,56px) clamp(16px,5vw,56px) clamp(60px,8vw,100px);" id="tl-how">
   <div class="reveal">
     <div class="section-label">How It Works</div>
     <h2 class="section-heading" style="max-width:640px;">One plugin. Five lanes.<br>Infinite combinations.</h2>
@@ -946,7 +1045,7 @@ footer {
   </div>
 
   <!-- Step diagram -->
-  <div class="reveal" style="display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-bottom:64px;">
+  <div class="reveal" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:2px;margin-bottom:64px;">
     <div style="padding:40px 36px;background:var(--surface);border:1px solid var(--line);position:relative;">
       <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:66px;color:rgba(155,109,255,0.08);line-height:1;margin-bottom:16px;">01</div>
       <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:22px;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:12px;">Five Dedicated Lanes</div>
@@ -966,8 +1065,20 @@ footer {
 
   <!-- Lane diagram -->
   <div class="reveal">
-    <div style="font-size:16px;letter-spacing:0.3em;text-transform:uppercase;color:rgba(237,240,244,0.5);margin-bottom:24px;">Lane Architecture</div>
-    <div style="display:flex;flex-direction:column;gap:3px;padding:0 200px;">
+    <div style="font-size:16px;letter-spacing:0.3em;text-transform:uppercase;color:rgba(237,240,244,0.5);margin-bottom:16px;">Lane Architecture</div>
+
+    <!-- Mobile scroll hint — only visible on small screens -->
+    <div class="lane-scroll-hint">
+      <svg width="36" height="16" viewBox="0 0 36 16" fill="none">
+        <rect x="0.5" y="0.5" width="35" height="15" rx="7.5" stroke="rgba(237,240,244,0.2)"/>
+        <circle cx="10" cy="8" r="3" fill="rgba(237,240,244,0.25)"/>
+        <path d="M18 8 L26 8 M22 5 L26 8 L22 11" stroke="rgba(237,240,244,0.35)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Scroll to explore
+    </div>
+
+    <div class="lane-diagram-wrap">
+    <div class="lane-diagram-inner" style="display:flex;flex-direction:column;gap:3px;">
 
       <!-- header row -->
       <div style="display:grid;grid-template-columns:100px 1fr 160px 80px;gap:2px;padding:0 0 8px;">
@@ -1063,53 +1174,52 @@ footer {
         <div></div>
         <div style="font-size:16px;letter-spacing:0.1em;color:var(--mint);">Master</div>
       </div>
-    </div>
+    </div><!-- end lane-diagram-inner -->
+    </div><!-- end lane-diagram-wrap -->
   </div>
 </section>
 
-<div style="height:1px;background:var(--line);margin:0 56px;"></div>
-
-<!-- ── FEATURE BREAKDOWN ── -->
-<section style="padding:100px 56px;background:var(--surface);" id="tl-features-section">
+<div style="height:1px;background:var(--line);margin:0 clamp(16px,5vw,56px);"></div>
+<section style="padding:clamp(48px,7vw,100px) clamp(16px,5vw,56px);background:var(--surface);" id="tl-features-section">
   <div class="reveal">
     <div class="section-label">Features</div>
-    <h2 class="section-heading">What's Inside</h2>
-    <p style="font-family:'Barlow',sans-serif;font-size:21px;font-weight:300;line-height:1.8;color:rgba(237,240,244,0.5);max-width:480px;margin-top:16px;margin-bottom:56px;">Everything ToneLab is built to do. No fluff, no guesswork.</p>
+    <h2 class="section-heading">Precision where<br>it counts.</h2>
+    <p style="font-family:'Barlow',sans-serif;font-size:21px;font-weight:300;line-height:1.8;color:rgba(237,240,244,0.5);max-width:520px;margin-top:16px;margin-bottom:56px;">ToneLab gives mix engineers, producers, and sound designers a level of frequency-specific FX control that previously required building a custom parallel routing chain from scratch.</p>
   </div>
 
-  <div class="reveal" style="display:grid;grid-template-columns:1fr 1fr;gap:2px;">
+  <div class="reveal" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2px;">
 
     <div style="padding:40px;background:var(--bg);border-left:2px solid #FF6B6B;">
-      <div style="font-size:14px;letter-spacing:0.3em;text-transform:uppercase;color:#FF6B6B;margin-bottom:12px;">Core Concept</div>
-      <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:26px;text-transform:uppercase;letter-spacing:0.02em;margin-bottom:14px;">5 Color-Coded Lanes</div>
-      <p style="font-family:'Barlow',sans-serif;font-size:19px;font-weight:300;line-height:1.75;color:rgba(237,240,244,0.5);">ToneLab's five lanes each carry a pre-defined effect: Chorus, Distortion, Reverb, Delay, and Saturation. Every lane is always present and independent. Adjust its EQ and mix level and let it run.</p>
+      <div style="font-size:14px;letter-spacing:0.3em;text-transform:uppercase;color:#FF6B6B;margin-bottom:12px;">The Problem Solved</div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:26px;text-transform:uppercase;letter-spacing:0.02em;margin-bottom:14px;">FX Without Bleed</div>
+      <p style="font-family:'Barlow',sans-serif;font-size:19px;font-weight:300;line-height:1.75;color:rgba(237,240,244,0.5);">A reverb on a full mix smears everything. A distortion on a vocal muddies the low mids. ToneLab's per-lane EQ gates mean each effect only touches the frequencies you assign, keeping everything else exactly as it was.</p>
     </div>
 
     <div style="padding:40px;background:var(--bg);border-left:2px solid #00C2FF;">
-      <div style="font-size:14px;letter-spacing:0.3em;text-transform:uppercase;color:#00C2FF;margin-bottom:12px;">Frequency Control</div>
-      <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:26px;text-transform:uppercase;letter-spacing:0.02em;margin-bottom:14px;">Per-Lane EQ</div>
-      <p style="font-family:'Barlow',sans-serif;font-size:19px;font-weight:300;line-height:1.75;color:rgba(237,240,244,0.5);">Every lane carries an EQ that acts as a frequency gate for its effect. The effect only applies where the EQ lets it through — giving you surgical control over where your processing lives in the spectrum.</p>
+      <div style="font-size:14px;letter-spacing:0.3em;text-transform:uppercase;color:#00C2FF;margin-bottom:12px;">Workflow</div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:26px;text-transform:uppercase;letter-spacing:0.02em;margin-bottom:14px;">One Plugin, Not Five</div>
+      <p style="font-family:'Barlow',sans-serif;font-size:19px;font-weight:300;line-height:1.75;color:rgba(237,240,244,0.5);">Achieving this kind of control in a standard DAW means building a parallel send chain: five buses, five EQs, five effect plugins, five return faders. ToneLab collapses that entire workflow into a single insert.</p>
     </div>
 
     <div style="padding:40px;background:var(--bg);border-left:2px solid #9B6DFF;">
       <div style="font-size:14px;letter-spacing:0.3em;text-transform:uppercase;color:#9B6DFF;margin-bottom:12px;">Signal Flow</div>
-      <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:26px;text-transform:uppercase;letter-spacing:0.02em;margin-bottom:14px;">Parallel Architecture</div>
-      <p style="font-family:'Barlow',sans-serif;font-size:19px;font-weight:300;line-height:1.75;color:rgba(237,240,244,0.5);">Lanes run in parallel, not in series. Your dry signal feeds all five lanes simultaneously. Each processes its own frequency-shaped version and blends back into the output, preserving the integrity of the original signal.</p>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:26px;text-transform:uppercase;letter-spacing:0.02em;margin-bottom:14px;">Parallel, Not Serial</div>
+      <p style="font-family:'Barlow',sans-serif;font-size:19px;font-weight:300;line-height:1.75;color:rgba(237,240,244,0.5);">All five lanes run simultaneously off your dry signal. Nothing is processed in series, so no lane degrades the next. Each effect contributes independently and your dry signal always remains intact underneath.</p>
     </div>
 
     <div style="padding:40px;background:var(--bg);border-left:2px solid #4DFFEC;">
-      <div style="font-size:14px;letter-spacing:0.3em;text-transform:uppercase;color:#4DFFEC;margin-bottom:12px;">Platform</div>
-      <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:26px;text-transform:uppercase;letter-spacing:0.02em;margin-bottom:14px;">Built with JUCE</div>
-      <p style="font-family:'Barlow',sans-serif;font-size:19px;font-weight:300;line-height:1.75;color:rgba(237,240,244,0.5);">ToneLab is developed in JUCE, the industry-standard framework for professional audio plugins. Compatible with VST3 and AU, designed to run cleanly in any modern DAW workflow.</p>
+      <div style="font-size:14px;letter-spacing:0.3em;text-transform:uppercase;color:#4DFFEC;margin-bottom:12px;">Compatibility</div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:26px;text-transform:uppercase;letter-spacing:0.02em;margin-bottom:14px;">VST3 · AU · AAX</div>
+      <p style="font-family:'Barlow',sans-serif;font-size:19px;font-weight:300;line-height:1.75;color:rgba(237,240,244,0.5);">Built in JUCE for professional-grade performance. Works as a standard insert in Ableton, Logic, Pro Tools, Reaper, and any other DAW that supports VST3 or AU. No special setup required.</p>
     </div>
 
   </div>
 </section>
 
-<div style="height:1px;background:var(--line);margin:0 56px;"></div>
+<div style="height:1px;background:var(--line);margin:0 clamp(16px,5vw,56px);"></div>
 
 <!-- ── BOTTOM CTA ── -->
-<section style="padding:100px 56px;display:flex;flex-direction:column;align-items:center;text-align:center;position:relative;overflow:hidden;">
+<section style="padding:clamp(60px,7vw,100px) clamp(16px,5vw,56px);display:flex;flex-direction:column;align-items:center;text-align:center;position:relative;overflow:hidden;">
 
   <div style="position:absolute;inset:0;background:radial-gradient(ellipse 60% 60% at 50% 100%,rgba(0,194,255,0.05),transparent);pointer-events:none;"></div>
 
@@ -1128,19 +1238,19 @@ footer {
 </section>
 
 <!-- ToneLab footer -->
-<footer style="padding:40px 56px;border-top:1px solid var(--line);display:flex;flex-direction:column;align-items:center;gap:16px;text-align:center;">
+<footer style="padding:clamp(24px,4vw,40px) clamp(16px,5vw,56px);border-top:1px solid var(--line);display:flex;flex-direction:column;align-items:center;gap:16px;text-align:center;">
   <div style="display:flex;align-items:baseline;gap:10px;">
     <span style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:22px;letter-spacing:0.1em;text-transform:uppercase;">Tone<span style="color:var(--cyan);">Lab</span></span>
     <span style="font-size:15px;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);">by Vector DSP</span>
   </div>
-  <a class="tl-back" href="/" style="animation:none;">Back to Vector DSP</a>
+  <span class="tl-back" href="/" style="animation:none;">Back to Vector DSP</span>
   <div style="font-size:15px;color:var(--muted2);letter-spacing:0.05em;">© 2026 Vector DSP</div>
 </footer>
 
 <!-- Bottom waveform bars -->
 <div class="tl-wave-deco" id="tl-bars"></div>
 
-
+</div><!-- end tonelab-page -->
 
 
 <script>
@@ -1152,16 +1262,23 @@ function scrollToSection(sel) {
 }
 
 /* ─── SCROLL REVEALS ─── */
+const revealEls = document.querySelectorAll('.reveal');
+revealEls.forEach(r => {
+  if (r.getBoundingClientRect().top > window.innerHeight * 0.92) {
+    r.classList.add('anim');
+  }
+});
 const observer = new IntersectionObserver(entries => {
   entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis'); });
-}, { threshold: 0.1 });
-document.querySelectorAll('.reveal').forEach(r => observer.observe(r));
+}, { threshold: 0.05 });
+revealEls.forEach(r => observer.observe(r));
 
 /* ─── BOTTOM BARS ─── */
 function buildBars() {
   const container = document.getElementById('tl-bars');
-  if (container.children.length > 0) return;
-  const count = Math.floor(window.innerWidth / 6);
+  if (!container) return;
+  container.innerHTML = '';
+  const count = Math.floor(container.offsetWidth / 5);
   for (let i = 0; i < count; i++) {
     const b = document.createElement('div');
     b.className = 'tl-bar';
@@ -1170,6 +1287,8 @@ function buildBars() {
     container.appendChild(b);
   }
 }
+document.addEventListener('DOMContentLoaded', buildBars);
+window.addEventListener('resize', buildBars);
 
 /* ─── EMAIL SIGNUP ─── */
 async function submitToBrevo(email) {

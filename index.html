@@ -830,10 +830,63 @@ footer {
 
 /* ── REVEAL ── */
 .reveal {
-  opacity: 0; transform: translateY(18px);
+  opacity: 1; transform: none;
   transition: opacity 0.55s ease, transform 0.55s ease;
 }
-.reveal.vis { opacity: 1; transform: none; }
+.reveal.anim {
+  opacity: 0; transform: translateY(18px);
+}
+.reveal.anim.vis { opacity: 1; transform: none; }
+
+/* ═══════════════════════════════════════
+   MOBILE
+═══════════════════════════════════════ */
+@media (max-width: 768px) {
+  nav { padding: 0 20px; }
+  .nav-links { gap: 16px; }
+  .nav-link { font-size: 12px; letter-spacing: 0.1em; }
+  .nav-cta { font-size: 12px; padding: 6px 12px; letter-spacing: 0.1em; }
+
+  .hero { padding: 96px 24px 72px; }
+  .hero-schematic { display: none; }
+  .hero-eyebrow { font-size: 12px; letter-spacing: 0.25em; }
+  .hero-headline { font-size: clamp(42px, 12vw, 68px); margin-bottom: 24px; }
+  .hero-body { font-size: 17px; margin-bottom: 32px; }
+  .hero-actions { flex-direction: column; gap: 10px; }
+  .btn-primary, .btn-ghost { text-align: center; padding: 13px 24px; font-size: 16px; }
+  .hero-scroll { left: 24px; bottom: 20px; font-size: 11px; }
+
+  .section { padding: 60px 24px; }
+  .section-sub { font-size: 17px; margin-bottom: 32px; }
+
+  .products-grid { grid-template-columns: 1fr; }
+  .product-card { padding: 28px 20px; }
+  .product-name { font-size: 32px; }
+  .product-desc { font-size: 16px; }
+
+  .pillars { grid-template-columns: 1fr; }
+  .pillar { padding: 28px 20px; }
+  .pillar-desc { font-size: 16px; }
+
+  .about-strip { grid-template-columns: 1fr; gap: 36px; padding: 56px 24px; }
+  .about-body { font-size: 17px; }
+  .about-stats { grid-template-columns: 1fr 1fr; }
+  .stat-block { padding: 20px 16px; }
+  .stat-val { font-size: 34px; }
+
+  footer { padding: 28px 24px; flex-direction: column; align-items: flex-start; gap: 18px; }
+  .footer-links { flex-wrap: wrap; gap: 14px; }
+  .footer-copy { font-size: 13px; }
+}
+
+@media (max-width: 480px) {
+  nav { padding: 0 16px; }
+  .nav-link:not(.nav-cta) { display: none; }
+  .hero { padding: 80px 16px 64px; }
+  .section { padding: 48px 16px; }
+  .about-strip { padding: 48px 16px; }
+  footer { padding: 24px 16px; }
+}
 </style>
 </head>
 <body>
@@ -951,7 +1004,7 @@ footer {
         <div class="product-name tonelab-name">ToneLab</div>
         <div class="product-type">Music Production Plugin · VST3 · AU · AAX</div>
         <p class="product-desc">
-          A music production plugin built on industry-standard DSP architecture. Intentional tools designed for every type of creator, from bedroom producers to working engineers.
+          A multi-lane FXEQ plugin that lets you apply effects to specific frequency ranges — not your entire signal. Reverb in the mids only. Distortion just in the lows. Five parallel lanes, each with its own EQ gate, in a single insert.
         </p>
         <a class="product-link">Get Early Access <span>→</span></a>
       </div>
@@ -1018,7 +1071,7 @@ footer {
       <h2 class="about-heading">The Science<br>Behind the <span class="hl">Sound.</span></h2>
       <p class="about-body">
       <p class="about-body">
-        Vector DSP is built on a straightforward idea: audio software should be honest about what it does and thoughtful about how it does it. We build DSP tools using industry-standard architecture, carefully designed to stay out of the way and let the music speak.
+        Vector DSP is built on a straightforward idea: audio software should give you more control, not more complexity. We build DSP tools using industry-standard architecture — each one designed around a specific problem that existing plugins don't solve well.
       </p>
     </div>
     <div class="about-stats reveal">
@@ -1052,7 +1105,7 @@ footer {
     </div>
     <div class="footer-links">
       <span class="footer-link" onclick="window.location='/tonelab.html'">ToneLab</span>
-      <a class="footer-link" href="mailto:support@vector-dsp.com">Contact</a>
+      <a class="footer-link" href="/cdn-cgi/l/email-protection#a2d1d7d2d2cdd0d6e2d4c7c1d6cdd08fc6d1d28cc1cdcf">Contact</a>
       <span class="footer-link">Press</span>
     </div>
     <div class="footer-copy">© 2026 Vector DSP. All rights reserved.</div>
@@ -1061,7 +1114,7 @@ footer {
 
 
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 
 /* ─── SMOOTH SCROLL ─── */
 function scrollToSection(sel) {
@@ -1070,10 +1123,17 @@ function scrollToSection(sel) {
 }
 
 /* ─── SCROLL REVEALS ─── */
+const revealEls = document.querySelectorAll('.reveal');
+// Only animate elements below the fold; above-fold content stays visible
+revealEls.forEach(r => {
+  if (r.getBoundingClientRect().top > window.innerHeight * 0.92) {
+    r.classList.add('anim');
+  }
+});
 const observer = new IntersectionObserver(entries => {
   entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis'); });
-}, { threshold: 0.1 });
-document.querySelectorAll('.reveal').forEach(r => observer.observe(r));
+}, { threshold: 0.05 });
+revealEls.forEach(r => observer.observe(r));
 
 /* ─── BOTTOM BARS ─── */
 function buildBars() {
@@ -1185,15 +1245,4 @@ document.querySelectorAll('.tl-email-input').forEach(input => {
     emailFocused = true;
     if (row) row.classList.add('focused');
     if (tlGlow) tlGlow.style.opacity = 0;
-  });
-  input.addEventListener('blur', () => {
-    emailFocused = false;
-    if (row) row.classList.remove('focused');
-  });
-});
-
-</script>
-
-
-</body>
-</html>
+  })

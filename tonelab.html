@@ -32,7 +32,7 @@ body {
   background: var(--bg);
   color: var(--white);
   font-family: 'IBM Plex Mono', monospace;
-  overflow-x: hidden;
+  overflow-x: clip;
   cursor: default;
 }
 
@@ -912,26 +912,24 @@ body {
   .stat-block { padding: 20px 16px; }
   .stat-val { font-size: 34px; }
 
-  /* How It Works section inline padding override */
-  #tl-how { padding: 40px 24px 60px !important; }
+  /* How It Works — fix inline padding and prevent content clipping */
+  #tl-how { padding: 40px 24px 60px !important; overflow: visible !important; }
   #tl-how .section-heading { font-size: clamp(28px, 7vw, 48px); }
 
-  /* Lane diagram */
-  .tl-lane-row { grid-template-columns: 56px 1fr 72px; }
-  .tlr-mix { display: none; }
-  .tlr-id { padding: 16px 12px; font-size: 20px; }
-  .tlr-fx { font-size: 14px; padding: 12px 10px; }
+  /* Lane diagram scroll — override body overflow-x so scroll works */
   .lane-diagram-wrap {
     overflow-x: scroll;
     -webkit-overflow-scrolling: touch;
-    touch-action: pan-x;
+    touch-action: pan-x pan-y;
     overscroll-behavior-x: contain;
+    position: relative;
+    z-index: 1;
   }
+  .lane-diagram-inner { min-width: 520px; }
 
-  /* Footer */
-  footer { padding: 28px 24px; flex-direction: column; gap: 18px; }
-  footer:not([style*="align-items:center"]) { align-items: flex-start; }
-  .footer-links { flex-wrap: wrap; gap: 14px; }
+  /* Footer — centered on tonelab, left on index */
+  footer { padding: 28px 24px; flex-direction: column; gap: 18px; align-items: center; text-align: center; }
+  .footer-links { flex-wrap: wrap; gap: 14px; justify-content: center; }
   .footer-copy { font-size: 13px; }
 }
 

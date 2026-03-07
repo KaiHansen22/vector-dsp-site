@@ -32,7 +32,7 @@ body {
   background: var(--bg);
   color: var(--white);
   font-family: 'IBM Plex Mono', monospace;
-  overflow-x: clip;
+  overflow-x: hidden;
   cursor: default;
 }
 
@@ -493,10 +493,11 @@ footer {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: stretch;
   justify-content: center;
   position: relative;
-  overflow: hidden;
+  overflow-x: clip;
+  overflow-y: visible;
   padding: 80px 40px;
 }
 #tonelab-page.active {
@@ -916,18 +917,20 @@ body {
   #tl-how { padding: 40px 24px 60px !important; overflow: visible !important; }
   #tl-how .section-heading { font-size: clamp(28px, 7vw, 48px); }
 
-  /* Lane diagram scroll — override body overflow-x so scroll works */
+  /* Lane diagram scroll */
   .lane-diagram-wrap {
     overflow-x: scroll;
     -webkit-overflow-scrolling: touch;
     touch-action: pan-x pan-y;
     overscroll-behavior-x: contain;
-    position: relative;
-    z-index: 1;
+    width: 100vw;
+    margin-left: -24px;
+    padding-left: 24px;
+    box-sizing: border-box;
   }
-  .lane-diagram-inner { min-width: 520px; }
+  .lane-diagram-inner { min-width: 520px; padding-right: 24px; }
 
-  /* Footer — centered on tonelab, left on index */
+  /* Footer */
   footer { padding: 28px 24px; flex-direction: column; gap: 18px; align-items: center; text-align: center; }
   .footer-links { flex-wrap: wrap; gap: 14px; justify-content: center; }
   .footer-copy { font-size: 13px; }

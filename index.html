@@ -1004,7 +1004,7 @@ footer {
         <div class="product-name tonelab-name">ToneLab</div>
         <div class="product-type">Music Production Plugin · VST3 · AU · AAX</div>
         <p class="product-desc">
-          A multi-lane FXEQ plugin that lets you apply effects to specific frequency ranges — not your entire signal. Reverb in the mids only. Distortion just in the lows. Five parallel lanes, each with its own EQ gate, in a single insert.
+          A multi FX processor with a classic EQ interface that lets you apply effects to specific frequency ranges — not your entire signal. Reverb in the mids only. Distortion just in the lows. Five parallel lanes, each with its own EQ, in a single insert.
         </p>
         <a class="product-link">Get Early Access <span>→</span></a>
       </div>
@@ -1105,7 +1105,7 @@ footer {
     </div>
     <div class="footer-links">
       <a class="footer-link" href="/tonelab.html">ToneLab</a>
-      <a class="footer-link" href="mailto:support@vector-dsp.com">Contact</a>
+      <a class="footer-link" href="/cdn-cgi/l/email-protection#3e4d4b4e4e514c4a7e485b5d4a514c135a4d4e105d5153">Contact</a>
       <span class="footer-link">Press</span>
     </div>
     <div class="footer-copy">© 2026 Vector DSP. All rights reserved.</div>
@@ -1114,7 +1114,7 @@ footer {
 
 
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 function scrollToSection(sel) {
   const el = document.querySelector(sel);
   if (el) el.scrollIntoView({ behavior: 'smooth' });
@@ -1240,8 +1240,4 @@ if (tlHero && tlGlow) {
 /* ─── EMAIL INPUT GLOW ─── */
 document.querySelectorAll('.tl-email-input').forEach(input => {
   const row = input.closest('.tl-input-row');
-  input.addEventListener('focus', () => {
-    emailFocused = true;
-    if (row) row.classList.add('focused');
-    if (tlGlow) tlGlow.style.opacity = 0;
-  })
+  i

@@ -902,9 +902,9 @@ footer {
     <span class="nav-wordmark">Vector<em> DSP</em></span>
   </a>
   <div class="nav-links" id="home-nav-links">
-    <span class="nav-link" onclick="scrollToSection('#products')">Products</span>
-    <span class="nav-link" onclick="scrollToSection('#about')">About</span>
-    <span class="nav-link" onclick="scrollToSection('#technology')">Technology</span>
+    <a class="nav-link" href="#products" onclick="event.preventDefault();scrollToSection('#products')">Products</a>
+    <a class="nav-link" href="#about" onclick="event.preventDefault();scrollToSection('#about')">About</a>
+    <a class="nav-link" href="#technology" onclick="event.preventDefault();scrollToSection('#technology')">Technology</a>
     <a class="nav-cta" href="/tonelab.html">ToneLab →</a>
   </div>
   <div class="nav-links" id="tonelab-nav-links" style="display:none;visibility:hidden;">
@@ -945,8 +945,8 @@ footer {
         Vector DSP builds audio software rooted in signal processing. Thoughtfully designed tools for creators who care about how their sound is handled.
       </p>
       <div class="hero-actions">
-        <a class="btn-primary" onclick="window.location='/tonelab.html'">Explore ToneLab</a>
-        <a class="btn-ghost" onclick="scrollToSection('#about')">Our Technology</a>
+        <a class="btn-primary" href="/tonelab.html">Explore ToneLab</a>
+        <a class="btn-ghost" href="#about" onclick="event.preventDefault();scrollToSection('#about')">Our Technology</a>
       </div>
     </div>
 
@@ -1104,7 +1104,7 @@ footer {
       <span class="footer-wordmark">Vector<em> DSP</em></span>
     </div>
     <div class="footer-links">
-      <span class="footer-link" onclick="window.location='/tonelab.html'">ToneLab</span>
+      <a class="footer-link" href="/tonelab.html">ToneLab</a>
       <a class="footer-link" href="/cdn-cgi/l/email-protection#a2d1d7d2d2cdd0d6e2d4c7c1d6cdd08fc6d1d28cc1cdcf">Contact</a>
       <span class="footer-link">Press</span>
     </div>
@@ -1115,12 +1115,11 @@ footer {
 
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-
-/* ─── SMOOTH SCROLL ─── */
 function scrollToSection(sel) {
   const el = document.querySelector(sel);
   if (el) el.scrollIntoView({ behavior: 'smooth' });
 }
+</script><script>
 
 /* ─── SCROLL REVEALS ─── */
 const revealEls = document.querySelectorAll('.reveal');

@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ToneLab — Buy · Vector DSP</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════
+   TOKENS
+═══════════════════════════════════════ */
+:root {
+  --bg:        #0B0D11;
+  --surface:   #13161D;
+  --surface2:  #1C2029;
+  --line:      rgba(255,255,255,0.07);
+  --purple:    #9B6DFF;
+  --purple-lt: #C4A8FF;
+  --purple-dim: rgba(155,109,255,0.12);
+  --cyan:      #00C2FF;
+  --violet:    #9B6DFF;
+  --mint:      #4DFFEC;
+  --white:     #EDF0F4;
+  --muted:     #5A6070;
+  --muted2:    #383D4A;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--white);
+  font-family: 'IBM Plex Mono', monospace;
+  overflow-x: hidden;
+  cursor: default;
+}
+
+/* noise overlay */
+body::after {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+  background-size: 256px;
+  pointer-events: none; z-index: 9999;
+}
+
+/* ═══════════════════════════════════════
+   NAV
+═══════════════════════════════════════ */
+nav {
+  position: fixed; top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 56px;
+  height: 64px;
+  background: rgba(11,13,17,0.88);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--line);
+}
+
+.nav-brand {
+  display: flex; align-items: center; gap: 10px;
+  cursor: pointer; text-decoration: none;
+}
+.nav-wordmark {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700; font-size: 21px;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--white);
+}
+.nav-wordmark em { color: var(--purple); font-style: normal; }
+
+.nav-links { display: flex; align-items: center; gap: 32px; }
+.nav-link {
+  font-size: 16px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--muted); text-decoration: none;
+  transition: color 0.2s;
+}
+.nav-link:hover { color: var(--white); }
+
+/* ═══════════════════════════════════════
+   ANIMATIONS
+═══════════════════════════════════════ */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes waveDrift {
+  from { transform: translateX(-5%); }
+  to   { transform: translateX(5%); }
+}
+@keyframes tlBar {
+  from { transform: scaleY(0.1); opacity: 0.3; }
+  to   { transform: scaleY(1); opacity: 0.7; }
+}
+@keyframes blink {
+  0%, 100% { opacity: 1; } 50% { opacity: 0.3; }
+}
+
+.reveal {
+  opacity: 1; transform: none;
+  transition: opacity 0.55s ease, transform 0.55s ease;
+}
+.reveal.anim { opacity: 0; transform: translateY(18px); }
+.reveal.anim.vis { opacity: 1; transform: none; }
+
+/* ═══════════════════════════════════════
+   HERO
+═══════════════════════════════════════ */
+#hero {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 100px clamp(16px,5vw,56px) 60px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(0,194,255,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,194,255,0.04) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 20%, transparent 75%);
+  pointer-events: none;
+}
+
+.hero-glow {
+  position: absolute;
+  width: 700px; height: 700px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0,194,255,0.07) 0%, rgba(155,109,255,0.05) 45%, transparent 70%);
+  top: 50%; right: 0;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.hero-content {
+  position: relative; z-index: 2;
+  max-width: 600px;
+  padding-left: clamp(0px, 5vw, 80px);
+}
+
+.tl-parent-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 6px 14px;
+  border: 1px solid rgba(155,109,255,0.3);
+  background: rgba(155,109,255,0.07);
+  margin-bottom: 32px;
+  animation: fadeUp 0.6s ease both;
+}
+.tl-parent-badge span {
+  font-size: 14px; letter-spacing: 0.3em; text-transform: uppercase;
+  color: var(--purple-lt);
+}
+
+.tl-wordmark-large {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 800;
+  font-size: clamp(40px, 6vw, 72px);
+  text-transform: uppercase; letter-spacing: 0.03em;
+  line-height: 1;
+}
+.tl-wordmark-large .tone { color: var(--white); }
+.tl-wordmark-large .lab  { color: var(--cyan); }
+
+.hero-tagline {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 16px; letter-spacing: 0.3em; text-transform: uppercase;
+  color: var(--muted);
+  margin: 20px 0 28px;
+  animation: fadeUp 0.6s 0.1s ease both;
+}
+
+.hero-desc {
+  font-family: 'Barlow', sans-serif;
+  font-size: 23px; font-weight: 300; line-height: 1.75;
+  color: rgba(237,240,244,0.7);
+  margin-bottom: 16px;
+  animation: fadeUp 0.6s 0.15s ease both;
+}
+.hero-desc2 {
+  font-family: 'Barlow', sans-serif;
+  font-size: 21px; font-weight: 300; line-height: 1.75;
+  color: rgba(237,240,244,0.45);
+  margin-bottom: 52px;
+  animation: fadeUp 0.6s 0.2s ease both;
+}
+
+/* ═══════════════════════════════════════
+   PURCHASE CARD
+═══════════════════════════════════════ */
+.purchase-block {
+  animation: fadeUp 0.6s 0.25s ease both;
+  max-width: 480px;
+}
+
+.purchase-label {
+  font-size: 15px; letter-spacing: 0.3em; text-transform: uppercase;
+  color: var(--cyan); margin-bottom: 16px;
+}
+
+.purchase-card {
+  background: var(--surface2);
+  border: 1px solid rgba(255,255,255,0.1);
+  padding: 32px 36px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.purchase-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--cyan), var(--purple), var(--mint));
+  opacity: 0.3;
+  transition: opacity 0.3s ease;
+}
+
+.purchase-card:hover {
+  border-color: rgba(0,194,255,0.4);
+  box-shadow: 0 0 40px rgba(0,194,255,0.08), 0 0 80px rgba(155,109,255,0.05);
+}
+
+.purchase-card:hover::before {
+  opacity: 1;
+}
+
+.purchase-price-row {
+  display: flex; align-items: baseline; gap: 10px;
+  margin-bottom: 6px;
+}
+
+.purchase-price {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 800; font-size: 58px;
+  color: var(--white); line-height: 1;
+}
+
+.purchase-currency {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 600; font-size: 26px;
+  color: var(--muted); align-self: flex-start; margin-top: 8px;
+}
+
+.purchase-type {
+  font-size: 14px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 24px;
+}
+
+.purchase-includes {
+  list-style: none;
+  margin-bottom: 28px;
+  display: flex; flex-direction: column; gap: 10px;
+}
+.purchase-includes li {
+  display: flex; align-items: center; gap: 10px;
+  font-family: 'Barlow', sans-serif;
+  font-size: 17px; font-weight: 300;
+  color: rgba(237,240,244,0.7);
+  white-space: nowrap;
+}
+.purchase-includes li::before {
+  content: '';
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--cyan); flex-shrink: 0;
+}
+
+.purchase-divider {
+  height: 1px; background: var(--line); margin-bottom: 24px;
+}
+
+.btn-buy {
+  display: block; width: 100%;
+  padding: 16px 36px;
+  background: var(--cyan);
+  color: var(--bg);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700; font-size: 21px;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  border: none; cursor: pointer; text-decoration: none;
+  text-align: center;
+  clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+  transition: all 0.2s;
+}
+.btn-buy:hover { background: #33CEFF; transform: translateY(-2px); }
+
+.purchase-guarantee {
+  margin-top: 14px;
+  font-size: 14px; letter-spacing: 0.1em;
+  color: var(--muted2);
+  text-align: center;
+}
+
+/* ═══════════════════════════════════════
+   FORMAT BADGES (below hero)
+═══════════════════════════════════════ */
+.format-strip {
+  display: flex; gap: 12px; flex-wrap: wrap;
+  margin-top: 28px;
+  animation: fadeUp 0.6s 0.35s ease both;
+}
+.format-badge {
+  display: flex; align-items: center; gap: 8px;
+  padding: 10px 18px;
+  border: 1px solid var(--line);
+  background: rgba(0,194,255,0.03);
+  font-size: 14px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--muted);
+}
+.format-dot {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: var(--cyan);
+  box-shadow: 0 0 6px var(--cyan);
+  animation: blink 2s ease-in-out infinite;
+}
+
+/* ═══════════════════════════════════════
+   WHAT YOU GET SECTION
+═══════════════════════════════════════ */
+.section {
+  padding: clamp(60px,7vw,100px) clamp(16px,5vw,56px);
+}
+
+.section-label {
+  font-size: 15px; letter-spacing: 0.35em; text-transform: uppercase;
+  color: var(--purple); margin-bottom: 48px;
+  display: flex; align-items: center; gap: 12px;
+}
+.section-label::before {
+  content: ''; width: 24px; height: 1px; background: var(--purple);
+}
+
+.section-heading {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 800; font-size: clamp(36px, 5vw, 58px);
+  text-transform: uppercase; letter-spacing: -0.01em;
+  line-height: 1; margin-bottom: 20px;
+}
+
+/* ═══════════════════════════════════════
+   FEATURE CARDS
+═══════════════════════════════════════ */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(300px,100%), 1fr));
+  gap: 2px;
+  margin-top: 48px;
+}
+
+.feature-card {
+  padding: 40px;
+  background: var(--surface);
+  border-left: 2px solid var(--lc, var(--purple));
+  transition: background 0.2s;
+}
+.feature-card:hover { background: var(--surface2); }
+
+.feature-eyebrow {
+  font-size: 14px; letter-spacing: 0.3em; text-transform: uppercase;
+  color: var(--lc, var(--purple)); margin-bottom: 12px;
+}
+
+.feature-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700; font-size: 26px;
+  text-transform: uppercase; letter-spacing: 0.02em;
+  margin-bottom: 14px;
+}
+
+.feature-body {
+  font-family: 'Barlow', sans-serif;
+  font-size: 19px; font-weight: 300; line-height: 1.75;
+  color: rgba(237,240,244,0.5);
+}
+
+/* ═══════════════════════════════════════
+   SPECS ROW
+═══════════════════════════════════════ */
+.specs-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 2px;
+  margin-top: 2px;
+}
+
+.spec-block {
+  padding: 32px;
+  background: var(--bg);
+  border: 1px solid var(--line);
+}
+
+.spec-val {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 800; font-size: 42px;
+  color: var(--cyan); line-height: 1;
+  margin-bottom: 6px;
+}
+
+.spec-key {
+  font-size: 15px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ═══════════════════════════════════════
+   BOTTOM CTA
+═══════════════════════════════════════ */
+.bottom-cta {
+  padding: clamp(60px,7vw,100px) clamp(16px,5vw,56px);
+  display: flex; flex-direction: column;
+  align-items: center; text-align: center;
+  position: relative; overflow: hidden;
+}
+
+.bottom-cta-glow {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 60% 60% at 50% 100%, rgba(0,194,255,0.05), transparent);
+  pointer-events: none;
+}
+
+.bottom-cta-inner {
+  position: relative; z-index: 2;
+  max-width: 560px;
+}
+
+.bottom-cta-eyebrow {
+  font-size: 15px; letter-spacing: 0.35em; text-transform: uppercase;
+  color: var(--cyan); margin-bottom: 24px;
+}
+
+.bottom-cta-heading {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 800; font-size: clamp(36px, 5vw, 60px);
+  text-transform: uppercase; line-height: 1;
+  margin-bottom: 20px;
+}
+
+.bottom-cta-sub {
+  font-family: 'Barlow', sans-serif;
+  font-size: 21px; font-weight: 300; line-height: 1.8;
+  color: rgba(237,240,244,0.45); margin-bottom: 40px;
+}
+
+.btn-buy-lg {
+  display: inline-block;
+  padding: 18px 56px;
+  background: var(--cyan);
+  color: var(--bg);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700; font-size: 22px;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  border: none; cursor: pointer; text-decoration: none;
+  clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+  transition: all 0.2s;
+  margin-bottom: 16px;
+}
+.btn-buy-lg:hover { background: #33CEFF; transform: translateY(-2px); }
+
+.btn-price-sub {
+  font-size: 16px; letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--muted); white-space: nowrap;
+  text-align: center; width: 100%;
+}
+
+/* ═══════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════ */
+footer {
+  padding: clamp(24px,4vw,40px) clamp(16px,5vw,56px);
+  border-top: 1px solid var(--line);
+  display: flex; flex-direction: column;
+  align-items: center; gap: 16px; text-align: center;
+}
+
+.footer-wordmark {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700; font-size: 22px;
+  letter-spacing: 0.1em; text-transform: uppercase;
+}
+.footer-wordmark .lab { color: var(--cyan); }
+.footer-wordmark .by { font-size: 15px; letter-spacing: 0.2em; color: var(--muted); margin-left: 10px; font-weight: 400; }
+
+.tl-back {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 15px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--muted); text-decoration: none;
+  transition: color 0.2s;
+}
+.tl-back:hover { color: var(--purple); }
+.tl-back::before { content: '←  '; }
+
+/* ═══════════════════════════════════════
+   WAVE DECO
+═══════════════════════════════════════ */
+.tl-wave-deco {
+  position: relative; width: 100%; height: 120px;
+  display: flex; align-items: flex-end; justify-content: center;
+  gap: 3px; padding: 0; margin: 0;
+  pointer-events: none; overflow: hidden;
+  background: var(--bg);
+}
+.tl-bar {
+  width: 2px;
+  background: linear-gradient(to top, transparent, rgba(0,194,255,0.3));
+  border-radius: 1px 1px 0 0;
+  animation: tlBar var(--d) var(--dl) ease-in-out infinite alternate;
+  transform-origin: bottom;
+}
+
+/* ═══════════════════════════════════════
+   MOBILE
+═══════════════════════════════════════ */
+@media (max-width: 768px) {
+  nav { padding: 0 20px; }
+  .nav-link { font-size: 12px; letter-spacing: 0.1em; }
+  #hero { padding: 96px 24px 60px; }
+  .hero-content { padding-left: 0; max-width: 100%; }
+  .purchase-card { padding: 24px 20px; }
+  .purchase-price { font-size: 44px; }
+  .section { padding: 60px 24px; }
+  .feature-card { padding: 28px 24px; }
+  .spec-block { padding: 24px 20px; }
+  .spec-val { font-size: 32px; }
+  .bottom-cta { padding: 60px 24px; }
+  footer { padding: 28px 24px; }
+}
+
+@media (max-width: 480px) {
+  nav { padding: 0 16px; }
+  .format-strip { gap: 8px; }
+  .format-badge { font-size: 12px; padding: 8px 12px; }
+}
+/* ── HOW IT WORKS CARD HOVER ── */
+.hiw-card { transition: background 0.2s ease; }
+.hiw-card .hiw-num { transition: color 0.2s ease, text-shadow 0.2s ease; }
+.hiw-card:hover .hiw-num-purple { color: rgba(155,109,255,0.35) !important; }
+.hiw-card:hover .hiw-num-cyan   { color: rgba(0,194,255,0.35) !important; }
+.hiw-card:hover .hiw-num-mint   { color: rgba(77,255,236,0.35) !important; }
+
+/* ── LANE DIAGRAM ── */
+.tl-lane-row {
+  display: grid;
+  grid-template-columns: 100px 1fr 160px 80px;
+  gap: 2px;
+  align-items: stretch;
+}
+.tlr-id {
+  padding: 22px 28px;
+  background: color-mix(in srgb, var(--lc) 12%, var(--bg));
+  border-left: 2px solid var(--lc);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700; font-size: 26px;
+  letter-spacing: 0.1em; color: var(--lc);
+  display: flex; align-items: center;
+}
+.tlr-eq {
+  padding: 16px 20px;
+  background: var(--surface);
+  display: flex; flex-direction: column; gap: 4px;
+}
+.tlr-fx {
+  padding: 16px 20px;
+  background: var(--surface2);
+  font-size: 19px; letter-spacing: 0.15em; text-transform: uppercase;
+  color: rgba(237,240,244,0.65);
+  border: 1px dashed rgba(255,255,255,0.1);
+  text-align: center;
+  display: flex; align-items: center; justify-content: center;
+}
+.tlr-mix {
+  padding: 16px 16px;
+  background: var(--surface);
+  display: flex; align-items: center;
+}
+.tlr-mix-bar {
+  height: 4px; width: var(--mw);
+  background: linear-gradient(90deg, var(--lc), color-mix(in srgb, var(--lc) 40%, transparent));
+  border-radius: 2px;
+}
+
+/* ── LANE SCROLL HINT ── */
+.lane-scroll-hint { display: none; }
+.lane-diagram-wrap { padding: 0 clamp(0px, 10vw, 200px); }
+@media (max-width: 768px) {
+  .lane-scroll-hint {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 16px; color: rgba(237,240,244,0.35);
+    font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase;
+  }
+  .lane-diagram-wrap {
+    overflow-x: auto; -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; padding: 0;
+  }
+  .lane-diagram-wrap::-webkit-scrollbar { display: none; }
+  .lane-diagram-inner { min-width: 520px; }
+  .tl-lane-row { grid-template-columns: 70px 1fr 100px; }
+  .tlr-mix { display: none; }
+  .tlr-id { padding: 18px 14px; font-size: 22px; }
+  .tlr-fx { font-size: 15px; padding: 14px 12px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ NAV ═══ -->
+<nav>
+  <a class="nav-brand" href="/">
+    <svg width="26" height="26" viewBox="0 0 28 28" fill="none">
+      <polygon points="14,2 26,8 26,20 14,26 2,20 2,8" stroke="#9B6DFF" stroke-width="1.5" fill="rgba(155,109,255,0.06)"/>
+      <polyline points="7,14 10,10 13,15 16,11 21,14" stroke="#9B6DFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <span class="nav-wordmark">Vector<em> DSP</em></span>
+  </a>
+  <div class="nav-links">
+    <a class="nav-link" href="/">← Back to Vector DSP</a>
+  </div>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section id="hero">
+
+  <div class="hero-grid"></div>
+
+  <!-- background waveforms -->
+  <div style="position:absolute;inset:0;overflow:hidden;pointer-events:none;">
+    <svg style="position:absolute;width:200%;left:-50%;top:22%;opacity:0.045;animation:waveDrift 12s ease-in-out infinite alternate;" viewBox="0 0 1440 120" preserveAspectRatio="none">
+      <polyline points="0,60 80,60 120,20 160,100 200,10 240,80 280,40 320,70 360,30 400,90 440,50 480,60 520,20 560,85 600,35 640,70 680,25 720,80 760,45 800,65 840,30 880,90 920,50 960,60 1040,60 1080,25 1120,80 1160,40 1200,70 1240,20 1280,85 1320,45 1360,60 1440,60" stroke="#00C2FF" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <svg style="position:absolute;width:200%;left:-50%;top:55%;opacity:0.04;animation:waveDrift 16s 2s ease-in-out infinite alternate-reverse;" viewBox="0 0 1440 120" preserveAspectRatio="none">
+      <polyline points="0,60 60,60 90,30 120,90 150,45 180,75 240,60 280,25 320,80 360,50 400,65 440,35 480,85 520,55 560,70 600,40 640,80 680,60 720,30 760,75 800,50 840,65 880,35 920,80 960,55 1000,60 1040,28 1080,78 1120,42 1160,68 1200,32 1240,82 1280,52 1360,62 1440,60" stroke="#9B6DFF" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </div>
+
+  <div class="hero-glow"></div>
+
+  <div class="hero-content">
+
+    <div class="tl-parent-badge">
+      <svg width="14" height="14" viewBox="0 0 28 28" fill="none">
+        <polygon points="14,2 26,8 26,20 14,26 2,20 2,8" stroke="#9B6DFF" stroke-width="1.5" fill="none"/>
+        <polyline points="7,14 10,10 13,15 16,11 21,14" stroke="#9B6DFF" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span>A Vector DSP Product</span>
+    </div>
+
+    <div style="display:flex;align-items:center;gap:16px;margin-bottom:20px;animation:fadeUp 0.6s 0.05s ease both;">
+      <svg width="52" height="52" viewBox="0 0 44 44" fill="none">
+        <rect x="2" y="2" width="40" height="40" rx="6" fill="rgba(0,194,255,0.07)" stroke="rgba(0,194,255,0.3)" stroke-width="1.5"/>
+        <polyline points="5,14 8,14 10,9 12,19 14,7 16,14 39,14" stroke="#00C2FF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <polyline points="5,22 9,22 11,18 14,26 17,15 19,22 22,22 24,19 26,25 28,22 39,22" stroke="#9B6DFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <polyline points="5,30 11,30 14,26 17,34 20,30 39,30" stroke="#4DFFEC" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      </svg>
+      <div class="tl-wordmark-large">
+        <span class="tone">Tone</span><span class="lab">Lab</span>
+      </div>
+    </div>
+
+    <div class="hero-tagline">Spectrally Controlled Multi-FX · VST3 · AU · AAX</div>
+
+    <p class="hero-desc">Five independent effect lanes, each with its own EQ. Apply effects precisely where you want them in the frequency spectrum.</p>
+    <p class="hero-desc2">Not just what happens to your sound — but precisely <em>where</em> it happens.</p>
+
+    <!-- PURCHASE CARD -->
+    <div class="purchase-block">
+      <div class="purchase-label">Get Tonelab</div>
+      <div class="purchase-card">
+        <div class="purchase-price-row">
+          <span class="purchase-currency">$</span>
+          <span class="purchase-price">73</span>
+          <span class="purchase-currency">.99</span>
+        </div>
+        <div class="purchase-type">One-time purchase</div>
+        <ul class="purchase-includes">
+          <li>ToneLab VST3, AU &amp; AAX plugin</li>
+          <li>Activate on up to 2 devices</li>
+          <li>All future updates included</li>
+          <li>License key delivered by email</li>
+        </ul>
+        <div class="purchase-divider"></div>
+        <a class="btn-buy" href="https://vector-dsp.lemonsqueezy.com/checkout/buy/67014b5c-5c9d-4d96-93a3-76fa7391dc15" target="_blank">Buy Now →</a>
+        <div class="purchase-guarantee">Secure checkout · Instant delivery</div>
+      </div>
+
+      <div class="format-strip">
+        <div class="format-badge"><span class="format-dot"></span>VST3</div>
+        <div class="format-badge"><span class="format-dot"></span>AU</div>
+        <div class="format-badge"><span class="format-dot"></span>AAX</div>
+        <div class="format-badge"><span class="format-dot"></span>Mac &amp; Windows</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- divider -->
+<div style="height:1px;background:var(--line);margin:0 clamp(16px,5vw,56px);"></div>
+
+<!-- ═══ HOW IT WORKS ═══ -->
+<section class="section" id="tl-how">
+  <div class="reveal">
+    <div class="section-label">How It Works</div>
+    <h2 class="section-heading" style="max-width:640px;">One plugin. Five lanes.<br>Infinite combinations.</h2>
+    <p style="font-family:'Barlow',sans-serif;font-size:21px;font-weight:300;line-height:1.8;color:rgba(237,240,244,0.5);max-width:520px;margin-top:16px;margin-bottom:56px;">Traditional FX chains apply effects to the full frequency range. ToneLab changes that. Each lane pairs an effect with its own EQ — so you decide which frequencies receive that effect and at what intensity.</p>
+  </div>
+  <div class="reveal" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr));gap:2px;margin-bottom:64px;">
+    <div class="hiw-card" style="padding:40px;background:var(--surface);border-left:2px solid #9B6DFF;">
+      <div class="hiw-num hiw-num-purple" style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:66px;color:rgba(155,109,255,0.18);line-height:1;margin-bottom:16px;">01</div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:26px;text-transform:uppercase;letter-spacing:0.02em;margin-bottom:14px;">Five Dedicated Lanes</div>
+      <p style="font-family:'Barlow',sans-serif;font-size:19px;font-weight:300;line-height:1.75;color:rgba(237,240,244,0.5);">Each lane has a pre-defined effect — Chorus, Distortion, Reverb, Delay, and Saturation. No menus, no routing. Each effect lives in its own lane, always active.</p>
+    </div>
+    <div class="hiw-card" style="padding:40px;background:var(--surface);border-left:2px solid #00C2FF;">
+      <div class="hiw-num hiw-num-cyan" style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:66px;color:rgba(0,194,255,0.18);line-height:1;margin-bottom:16px;">02</div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:26px;text-transform:uppercase;letter-spacing:0.02em;margin-bottom:14px;">Shape the Range</div>
+      <p style="font-family:'Barlow',sans-serif;font-size:19px;font-weight:300;line-height:1.75;color:rgba(237,240,244,0.5);">Each lane has its own EQ interface. Use it to define exactly which frequencies that lane's effect acts on. Push reverb into the mids only. Saturate just the low end. Keep the highs clean.</p>
+    </div>
+    <div class="hiw-card" style="padding:40px;background:var(--surface);border-left:2px solid #4DFFEC;">
+      <div class="hiw-num hiw-num-mint" style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:66px;color:rgba(77,255,236,0.18);line-height:1;margin-bottom:16px;">03</div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:26px;text-transform:uppercase;letter-spacing:0.02em;margin-bottom:14px;">Blend the Result</div>
+      <p style="font-family:'Barlow',sans-serif;font-size:19px;font-weight:300;line-height:1.75;color:rgba(237,240,244,0.5);">All five lanes mix back into a single output. The result is a layered, frequency-aware sound design: the precision of surgical EQ with the character of your chosen effects.</p>
+    </div>
+  </div>
+  <div class="reveal">
+    <div style="font-size:16px;letter-spacing:0.3em;text-transform:uppercase;color:rgba(237,240,244,0.5);margin-bottom:16px;">Lane Architecture</div>
+    <div class="lane-scroll-hint">
+      <svg width="36" height="16" viewBox="0 0 36 16" fill="none">
+        <rect x="0.5" y="0.5" width="35" height="15" rx="7.5" stroke="rgba(237,240,244,0.2)"/>
+        <circle cx="10" cy="8" r="3" fill="rgba(237,240,244,0.25)"/>
+        <path d="M18 8 L26 8 M22 5 L26 8 L22 11" stroke="rgba(237,240,244,0.35)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Scroll to explore
+    </div>
+    <div class="lane-diagram-wrap">
+    <div class="lane-diagram-inner" style="display:flex;flex-direction:column;gap:3px;">
+      <div style="display:grid;grid-template-columns:100px 1fr 160px 80px;gap:2px;padding:0 0 8px;">
+        <div style="font-size:16px;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);">Lane</div>
+        <div style="font-size:16px;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);">EQ Shape</div>
+        <div style="font-size:16px;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);">Effect</div>
+        <div style="font-size:16px;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);">Mix</div>
+      </div>
+      <div class="tl-lane-row" style="--lc:#FF6B6B;">
+        <div class="tlr-id">01</div>
+        <div class="tlr-eq"><svg viewBox="0 0 300 48" fill="none" preserveAspectRatio="none" style="width:100%;height:48px;"><line x1="0" y1="40" x2="300" y2="40" stroke="rgba(255,255,255,0.08)" stroke-width="1"/><path d="M0,10 C20,10 40,10 60,12 C80,14 90,36 110,38 C130,40 300,40 300,40 L300,40 L0,40 Z" fill="rgba(255,107,107,0.12)"/><path d="M0,10 C20,10 40,10 60,12 C80,14 90,36 110,38 C130,40 300,40 300,40" stroke="#FF6B6B" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+        <div class="tlr-fx">Distortion</div>
+        <div class="tlr-mix"><div class="tlr-mix-bar" style="--mw:70%;"></div></div>
+      </div>
+      <div class="tl-lane-row" style="--lc:#FFB347;">
+        <div class="tlr-id">02</div>
+        <div class="tlr-eq"><svg viewBox="0 0 300 48" fill="none" preserveAspectRatio="none" style="width:100%;height:48px;"><line x1="0" y1="40" x2="300" y2="40" stroke="rgba(255,255,255,0.08)" stroke-width="1"/><path d="M0,40 C40,40 80,40 110,38 C130,36 140,14 150,10 C160,14 170,36 190,38 C220,40 260,40 300,40 L300,40 L0,40 Z" fill="rgba(255,179,71,0.12)"/><path d="M0,40 C40,40 80,40 110,38 C130,36 140,14 150,10 C160,14 170,36 190,38 C220,40 260,40 300,40" stroke="#FFB347" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+        <div class="tlr-fx">Chorus</div>
+        <div class="tlr-mix"><div class="tlr-mix-bar" style="--mw:50%;"></div></div>
+      </div>
+      <div class="tl-lane-row" style="--lc:#00C2FF;">
+        <div class="tlr-id">03</div>
+        <div class="tlr-eq"><svg viewBox="0 0 300 48" fill="none" preserveAspectRatio="none" style="width:100%;height:48px;"><line x1="0" y1="40" x2="300" y2="40" stroke="rgba(255,255,255,0.08)" stroke-width="1"/><path d="M0,10 C15,10 30,10 50,14 C65,18 75,36 90,39 C100,40 300,40 300,40 L0,40 Z" fill="rgba(0,194,255,0.1)"/><path d="M0,40 C100,40 200,40 210,39 C225,36 235,18 250,14 C270,10 285,10 300,10 L300,40 Z" fill="rgba(0,194,255,0.1)"/><path d="M0,10 C15,10 30,10 50,14 C65,18 75,36 90,39 C100,40 180,40 180,40" stroke="#00C2FF" stroke-width="1.8" stroke-linecap="round"/><path d="M120,40 C180,40 200,40 210,39 C225,36 235,18 250,14 C270,10 285,10 300,10" stroke="#00C2FF" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+        <div class="tlr-fx">Reverb</div>
+        <div class="tlr-mix"><div class="tlr-mix-bar" style="--mw:45%;"></div></div>
+      </div>
+      <div class="tl-lane-row" style="--lc:#9B6DFF;">
+        <div class="tlr-id">04</div>
+        <div class="tlr-eq"><svg viewBox="0 0 300 48" fill="none" preserveAspectRatio="none" style="width:100%;height:48px;"><line x1="0" y1="40" x2="300" y2="40" stroke="rgba(255,255,255,0.08)" stroke-width="1"/><path d="M0,40 C60,40 100,40 120,36 C135,30 142,16 150,10 C158,16 165,30 180,36 C200,40 240,40 300,40 L0,40 Z" fill="rgba(155,109,255,0.1)"/><path d="M0,40 C60,40 100,40 120,36 C135,30 142,16 150,10 C158,16 165,30 180,36 C200,40 240,40 300,40" stroke="#9B6DFF" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+        <div class="tlr-fx">Delay</div>
+        <div class="tlr-mix"><div class="tlr-mix-bar" style="--mw:55%;"></div></div>
+      </div>
+      <div class="tl-lane-row" style="--lc:#4DFFEC;">
+        <div class="tlr-id">05</div>
+        <div class="tlr-eq"><svg viewBox="0 0 300 48" fill="none" preserveAspectRatio="none" style="width:100%;height:48px;"><line x1="0" y1="40" x2="300" y2="40" stroke="rgba(255,255,255,0.08)" stroke-width="1"/><path d="M0,40 C60,40 150,40 165,36 C175,30 180,14 190,10 C200,14 205,30 215,36 C225,40 300,40 300,40 L0,40 Z" fill="rgba(77,255,236,0.08)"/><path d="M0,40 C60,40 150,40 165,36 C175,30 180,14 190,10 C200,14 205,30 215,36 C225,40 245,40 252,35 C258,28 262,16 268,12 C274,16 278,28 284,35 C290,40 300,40" stroke="#4DFFEC" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="tlr-fx">Saturation</div>
+        <div class="tlr-mix"><div class="tlr-mix-bar" style="--mw:60%;"></div></div>
+      </div>
+      <div style="margin-top:3px;display:grid;grid-template-columns:100px 1fr 160px 80px;gap:2px;padding:16px 20px;background:var(--surface2);border:1px solid rgba(255,255,255,0.05);">
+        <div style="font-size:16px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(237,240,244,0.5);">Output</div>
+        <div style="font-size:19px;color:rgba(237,240,244,0.55);font-family:'Barlow',sans-serif;font-weight:300;">All lanes summed to stereo output</div>
+        <div></div>
+        <div style="font-size:16px;letter-spacing:0.1em;color:var(--mint);">Master</div>
+      </div>
+    </div>
+    </div>
+  </div>
+</section>
+
+<div style="height:1px;background:var(--line);margin:0 clamp(16px,5vw,56px);"></div>
+
+<!-- ═══ FEATURES ═══ -->
+<section class="section" style="background:var(--surface);">
+  <div class="reveal">
+    <div class="section-label">Features</div>
+    <h2 class="section-heading">Precision where<br>it counts.</h2>
+    <p style="font-family:'Barlow',sans-serif;font-size:21px;font-weight:300;line-height:1.8;color:rgba(237,240,244,0.5);max-width:520px;margin-top:16px;margin-bottom:56px;">ToneLab gives mix engineers, producers, and sound designers a level of frequency-specific FX control that previously required building a custom parallel routing chain from scratch.</p>
+  </div>
+  <div class="reveal" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr));gap:2px;">
+    <div style="padding:40px;background:var(--bg);border-left:2px solid #FF6B6B;">
+      <div style="font-size:14px;letter-spacing:0.3em;text-transform:uppercase;color:#FF6B6B;margin-bottom:12px;">The Problem Solved</div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:26px;text-transform:uppercase;letter-spacing:0.02em;margin-bottom:14px;">FX Without Bleed</div>
+      <p style="font-family:'Barlow',sans-serif;font-size:19px;font-weight:300;line-height:1.75;color:rgba(237,240,244,0.5);">A reverb on a full mix smears everything. A distortion on a vocal muddies the low mids. ToneLab's per-lane EQ means each effect only touches the frequencies you assign, keeping everything else exactly as it was.</p>
+    </div>
+    <div style="padding:40px;background:var(--bg);border-left:2px solid #00C2FF;">
+      <div style="font-size:14px;letter-spacing:0.3em;text-transform:uppercase;color:#00C2FF;margin-bottom:12px;">Workflow</div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:26px;text-transform:uppercase;letter-spacing:0.02em;margin-bottom:14px;">One Plugin, Not Five</div>
+      <p style="font-family:'Barlow',sans-serif;font-size:19px;font-weight:300;line-height:1.75;color:rgba(237,240,244,0.5);">Achieving this kind of control in a standard DAW means building a parallel send chain: five buses, five EQs, five effect plugins, five return faders. ToneLab collapses that entire workflow into a single insert.</p>
+    </div>
+    <div style="padding:40px;background:var(--bg);border-left:2px solid #9B6DFF;">
+      <div style="font-size:14px;letter-spacing:0.3em;text-transform:uppercase;color:#9B6DFF;margin-bottom:12px;">Signal Flow</div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:26px;text-transform:uppercase;letter-spacing:0.02em;margin-bottom:14px;">Parallel, Not Serial</div>
+      <p style="font-family:'Barlow',sans-serif;font-size:19px;font-weight:300;line-height:1.75;color:rgba(237,240,244,0.5);">All five lanes run simultaneously off your dry signal. Nothing is processed in series, so no lane degrades the next. Each effect contributes independently and your dry signal always remains intact underneath.</p>
+    </div>
+    <div style="padding:40px;background:var(--bg);border-left:2px solid #4DFFEC;">
+      <div style="font-size:14px;letter-spacing:0.3em;text-transform:uppercase;color:#4DFFEC;margin-bottom:12px;">Compatibility</div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:26px;text-transform:uppercase;letter-spacing:0.02em;margin-bottom:14px;">VST3 · AU · AAX</div>
+      <p style="font-family:'Barlow',sans-serif;font-size:19px;font-weight:300;line-height:1.75;color:rgba(237,240,244,0.5);">Built in JUCE for professional-grade performance. Works as a standard insert in Ableton, Logic, Pro Tools, Reaper, and any other DAW that supports VST3 or AU. No special setup required.</p>
+    </div>
+  </div>
+</section>
+
+<div style="height:1px;background:var(--line);margin:0 clamp(16px,5vw,56px);"></div>
+
+<!-- ═══ BOTTOM CTA ═══ -->
+<section class="bottom-cta reveal">
+  <div class="bottom-cta-glow"></div>
+  <div class="bottom-cta-inner">
+    <div class="bottom-cta-eyebrow">One-Time Purchase</div>
+    <h2 class="bottom-cta-heading">Own It.<br><span style="color:var(--cyan);">Shape Everything.</span></h2>
+    <p class="bottom-cta-sub">One purchase. Activate on up to 2 machines. All future updates included.</p>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:14px;">
+      <a class="btn-buy-lg" href="https://vector-dsp.lemonsqueezy.com/checkout/buy/67014b5c-5c9d-4d96-93a3-76fa7391dc15" target="_blank">Buy Tonelab — $73.99</a>
+      <div class="btn-price-sub">2 licenses &nbsp;·&nbsp; Instant delivery</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="footer-wordmark">Tone<span class="lab">Lab</span><span class="by">by Vector DSP</span></div>
+  <a class="tl-back" href="/">Back to Vector DSP</a>
+  <div style="font-size:15px;color:var(--muted2);letter-spacing:0.05em;">© 2026 Vector DSP. All rights reserved.</div>
+</footer>
+
+<div class="tl-wave-deco" id="tl-bars"></div>
+
+<script>
+/* ─── SCROLL REVEALS ─── */
+const revealEls = document.querySelectorAll('.reveal');
+revealEls.forEach(r => {
+  if (r.getBoundingClientRect().top > window.innerHeight * 0.92) r.classList.add('anim');
+});
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis'); });
+}, { threshold: 0.05 });
+revealEls.forEach(r => observer.observe(r));
+
+/* ─── HOW IT WORKS CARD HOVER ─── */
+document.querySelectorAll('.hiw-card').forEach(card => {
+  card.addEventListener('mouseenter', () => {
+    const num = card.querySelector('.hiw-num');
+    if (num) num.style.textShadow = '0 0 8px currentColor';
+  });
+  card.addEventListener('mouseleave', () => {
+    const num = card.querySelector('.hiw-num');
+    if (num) num.style.textShadow = '';
+  });
+});
+
+/* ─── BOTTOM WAVE BARS ─── */
+function buildBars() {
+  const container = document.getElementById('tl-bars');
+  if (!container) return;
+  container.innerHTML = '';
+  const count = Math.floor(container.offsetWidth / 5);
+  for (let i = 0; i < count; i++) {
+    const b = document.createElement('div');
+    b.className = 'tl-bar';
+    const h = 20 + Math.random() * 80;
+    b.style.cssText = `height:${h}%;--d:${0.8 + Math.random() * 1.2}s;--dl:${Math.random() * 0.8}s;`;
+    container.appendChild(b);
+  }
+}
+document.addEventListener('DOMContentLoaded', buildBars);
+window.addEventListener('resize', buildBars);
+</script>
+
+</body>
+</html>

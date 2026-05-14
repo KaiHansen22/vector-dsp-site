@@ -14,3 +14,8 @@
   from = "/api/unsubscribe"
   to = "/.netlify/functions/unsubscribe"
   status = 200
+
+[[redirects]]
+  from = "/api/babylovegrowth"
+  to = "/.netlify/functions/babylovegrowth"
+  status = 200

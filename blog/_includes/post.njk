@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{ title }} — Vector DSP</title>
+<meta name="description" content="{{ description }}">
+<link rel="canonical" href="https://vectordsp.com/blog/{{ page.fileSlug }}/">
+
+<!-- Open Graph -->
+<meta property="og:type" content="article">
+<meta property="og:title" content="{{ title }}">
+<meta property="og:description" content="{{ description }}">
+<meta property="og:url" content="https://vectordsp.com/blog/{{ page.fileSlug }}/">
+<meta property="og:site_name" content="Vector DSP">
+<meta property="article:published_time" content="{{ date | isoDate }}">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ title }}">
+<meta name="twitter:description" content="{{ description }}">
+
+<!-- JSON-LD structured data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": {{ title | dump | safe }},
+  "description": {{ description | dump | safe }},
+  "datePublished": "{{ date | isoDate }}",
+  "author": { "@type": "Organization", "name": "Vector DSP" },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Vector DSP",
+    "url": "https://vectordsp.com"
+  },
+  "url": "https://vectordsp.com/blog/{{ page.fileSlug }}/",
+  "mainEntityOfPage": "https://vectordsp.com/blog/{{ page.fileSlug }}/"
+}
+</script>
+
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg:        #0B0D11;
+  --surface:   #13161D;
+  --surface2:  #1C2029;
+  --line:      rgba(255,255,255,0.07);
+  --purple:    #9B6DFF;
+  --purple-lt: #C4A8FF;
+  --purple-dim:rgba(155,109,255,0.12);
+  --cyan:      #00C2FF;
+  --mint:      #4DFFEC;
+  --white:     #EDF0F4;
+  --muted:     #5A6070;
+  --muted2:    #383D4A;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--white);
+  font-family: 'IBM Plex Mono', monospace;
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+/* ─── Nav ─── */
+.nav {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(11,13,17,0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--line);
+  padding: 16px clamp(16px,5vw,56px);
+  display: flex; justify-content: space-between; align-items: center;
+}
+.nav .brand {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: 0.08em;
+  color: var(--white);
+  text-decoration: none;
+}
+.nav-links { display: flex; gap: 24px; }
+.nav-links a {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 400;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--white); }
+
+/* ─── Post ─── */
+article.post {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 72px clamp(16px,5vw,56px) 120px;
+}
+article.post .meta {
+  display: flex; align-items: center; gap: 12px;
+  color: var(--muted);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+article.post .meta a { color: var(--purple-lt); text-decoration: none; }
+article.post .meta a:hover { color: var(--purple); }
+
+article.post h1 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: clamp(34px, 6vw, 54px);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  margin-bottom: 20px;
+  color: var(--white);
+}
+article.post .lede {
+  color: var(--muted);
+  font-family: 'Barlow', sans-serif;
+  font-size: 18px;
+  margin-bottom: 40px;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 28px;
+}
+
+article.post .content {
+  font-family: 'Barlow', sans-serif;
+  font-size: 17px;
+  color: var(--white);
+}
+article.post .content h2 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 28px;
+  margin: 44px 0 14px;
+}
+article.post .content h3 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 600;
+  font-size: 22px;
+  margin: 32px 0 10px;
+}
+article.post .content p { margin-bottom: 18px; }
+article.post .content a {
+  color: var(--cyan);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(0,194,255,0.3);
+  transition: border-color 0.2s;
+}
+article.post .content a:hover { border-bottom-color: var(--cyan); }
+article.post .content ul,
+article.post .content ol { margin: 0 0 18px 24px; }
+article.post .content li { margin-bottom: 8px; }
+article.post .content blockquote {
+  border-left: 3px solid var(--purple);
+  padding: 6px 0 6px 22px;
+  margin: 24px 0;
+  color: var(--purple-lt);
+  font-style: italic;
+}
+article.post .content code {
+  background: var(--surface2);
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.92em;
+}
+article.post .content pre {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  padding: 16px;
+  border-radius: 6px;
+  overflow-x: auto;
+  margin: 24px 0;
+}
+article.post .content pre code { background: none; padding: 0; }
+article.post .content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 6px;
+  margin: 24px 0;
+  display: block;
+}
+article.post .content hr {
+  border: none;
+  border-top: 1px solid var(--line);
+  margin: 36px 0;
+}
+
+/* ─── Footer ─── */
+.site-footer {
+  border-top: 1px solid var(--line);
+  padding: clamp(24px,4vw,40px) clamp(16px,5vw,56px);
+  text-align: center;
+  color: var(--muted);
+  font-size: 12px;
+}
+.site-footer .links a {
+  color: var(--muted);
+  text-decoration: none;
+  margin: 0 10px;
+  transition: color 0.2s;
+}
+.site-footer .links a:hover { color: var(--white); }
+.site-footer .copyright { margin-top: 12px; opacity: 0.6; }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="/" class="brand">VECTOR DSP</a>
+  <div class="nav-links">
+    <a href="/tonelab.html">ToneLab</a>
+    <a href="/blog/">Blog</a>
+  </div>
+</nav>
+
+<article class="post">
+  <div class="meta">
+    <a href="/blog/">← All posts</a>
+    <span>·</span>
+    <time datetime="{{ date | isoDate }}">{{ date | readableDate }}</time>
+  </div>
+  <h1>{{ title }}</h1>
+  {% if description %}<div class="lede">{{ description }}</div>{% endif %}
+  <div class="content">
+    {{ content | safe }}
+  </div>
+</article>
+
+<footer class="site-footer">
+  <div class="links">
+    <a href="/">Home</a>
+    <a href="/tonelab.html">ToneLab</a>
+    <a href="/blog/">Blog</a>
+    <a href="/privacy.html">Privacy</a>
+    <a href="/terms.html">Terms</a>
+    <a href="/refunds.html">Refunds</a>
+  </div>
+  <div class="copyright">© Vector DSP</div>
+</footer>
+
+</body>
+</html>

@@ -1,3 +1,10 @@
+[build]
+  command = "npx @11ty/eleventy"
+  publish = "_site"
+
+[build.environment]
+  NODE_VERSION = "20"
+
 [[redirects]]
   from = "/api/subscribe"
   to = "/.netlify/functions/subscribe"

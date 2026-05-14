@@ -1,0 +1,189 @@
+---
+title: Blog
+description: Articles on audio DSP, plugin development, and the craft of mixing.
+permalink: /blog/
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blog — Vector DSP</title>
+<meta name="description" content="{{ description }}">
+<link rel="canonical" href="https://vectordsp.com/blog/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Vector DSP — Blog">
+<meta property="og:description" content="{{ description }}">
+<meta property="og:url" content="https://vectordsp.com/blog/">
+
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg:        #0B0D11;
+  --surface:   #13161D;
+  --surface2:  #1C2029;
+  --line:      rgba(255,255,255,0.07);
+  --purple:    #9B6DFF;
+  --purple-lt: #C4A8FF;
+  --cyan:      #00C2FF;
+  --white:     #EDF0F4;
+  --muted:     #5A6070;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--white);
+  font-family: 'IBM Plex Mono', monospace;
+  overflow-x: hidden;
+}
+
+.nav {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(11,13,17,0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--line);
+  padding: 16px clamp(16px,5vw,56px);
+  display: flex; justify-content: space-between; align-items: center;
+}
+.nav .brand {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: 0.08em;
+  color: var(--white);
+  text-decoration: none;
+}
+.nav-links { display: flex; gap: 24px; }
+.nav-links a {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 13px;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--white); }
+
+main {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 72px clamp(16px,5vw,56px) 120px;
+}
+main h1 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: clamp(40px, 6vw, 64px);
+  line-height: 1.0;
+  letter-spacing: -0.01em;
+  margin-bottom: 12px;
+}
+main .subtitle {
+  color: var(--muted);
+  font-family: 'Barlow', sans-serif;
+  font-size: 18px;
+  margin-bottom: 56px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid var(--line);
+}
+
+.post-card {
+  display: block;
+  padding: 28px 0;
+  border-bottom: 1px solid var(--line);
+  text-decoration: none;
+  color: inherit;
+  transition: opacity 0.2s, transform 0.2s;
+}
+.post-card:hover { opacity: 0.8; }
+.post-card time {
+  display: block;
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.post-card h2 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 1.2;
+  margin-bottom: 8px;
+  color: var(--white);
+}
+.post-card p {
+  color: var(--muted);
+  font-family: 'Barlow', sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.empty {
+  color: var(--muted);
+  font-family: 'Barlow', sans-serif;
+  padding: 60px 0;
+  text-align: center;
+}
+
+.site-footer {
+  border-top: 1px solid var(--line);
+  padding: clamp(24px,4vw,40px) clamp(16px,5vw,56px);
+  text-align: center;
+  color: var(--muted);
+  font-size: 12px;
+}
+.site-footer .links a {
+  color: var(--muted);
+  text-decoration: none;
+  margin: 0 10px;
+  transition: color 0.2s;
+}
+.site-footer .links a:hover { color: var(--white); }
+.site-footer .copyright { margin-top: 12px; opacity: 0.6; }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="/" class="brand">VECTOR DSP</a>
+  <div class="nav-links">
+    <a href="/tonelab.html">ToneLab</a>
+    <a href="/blog/">Blog</a>
+  </div>
+</nav>
+
+<main>
+  <h1>Blog</h1>
+  <div class="subtitle">{{ description }}</div>
+
+  {% set posts = collections.post | reverse %}
+  {% if posts.length === 0 %}
+    <div class="empty">No posts yet. Check back soon.</div>
+  {% else %}
+    {% for post in posts %}
+      <a class="post-card" href="{{ post.url }}">
+        <time datetime="{{ post.data.date | isoDate }}">{{ post.data.date | readableDate }}</time>
+        <h2>{{ post.data.title }}</h2>
+        {% if post.data.description %}<p>{{ post.data.description }}</p>{% endif %}
+      </a>
+    {% endfor %}
+  {% endif %}
+</main>
+
+<footer class="site-footer">
+  <div class="links">
+    <a href="/">Home</a>
+    <a href="/tonelab.html">ToneLab</a>
+    <a href="/blog/">Blog</a>
+    <a href="/privacy.html">Privacy</a>
+    <a href="/terms.html">Terms</a>
+  </div>
+  <div class="copyright">© Vector DSP</div>
+</footer>
+
+</body>
+</html>

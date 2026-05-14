@@ -1,4 +1,4 @@
-// Eleventy config for vectordsp.com
+// Eleventy config for vector-dsp.com
 // Existing HTML pages at the root are passed through unchanged.
 // Only the /blog/ subdirectory is templated.
 

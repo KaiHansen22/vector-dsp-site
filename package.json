@@ -2,7 +2,7 @@
   "name": "vector-dsp-site",
   "version": "1.0.0",
   "private": true,
-  "description": "Vector DSP marketing site (vectordsp.com)",
+  "description": "Vector DSP marketing site (vector-dsp.com)",
   "scripts": {
     "build": "eleventy",
     "dev": "eleventy --serve",

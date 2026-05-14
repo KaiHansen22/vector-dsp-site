@@ -8,7 +8,7 @@ This is a placeholder post used to verify the Eleventy build is working. You can
 
 ## What this proves
 
-If you're reading this on `vectordsp.com/blog/hello-world/`, then:
+If you're reading this on `vector-dsp.com/blog/hello-world/`, then:
 
 - Eleventy built the site successfully on Netlify.
 - The `post.njk` layout is wrapping markdown content as expected.

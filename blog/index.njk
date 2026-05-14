@@ -1,7 +1,8 @@
 ---
 title: Blog
-description: Articles on audio DSP, plugin development, and the craft of mixing.
+description: Notes on audio DSP, plugin development, and the craft of mixing.
 permalink: /blog/
+eleventyExcludeFromCollections: true
 ---
 <!DOCTYPE html>
 <html lang="en">
@@ -29,10 +30,13 @@ permalink: /blog/
   --line:      rgba(255,255,255,0.07);
   --purple:    #9B6DFF;
   --purple-lt: #C4A8FF;
+  --purple-dim:rgba(155,109,255,0.12);
   --cyan:      #00C2FF;
   --white:     #EDF0F4;
   --muted:     #5A6070;
+  --muted2:    #383D4A;
 }
+
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
 body {
@@ -40,85 +44,121 @@ body {
   color: var(--white);
   font-family: 'IBM Plex Mono', monospace;
   overflow-x: hidden;
+  cursor: default;
+}
+body::after {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+  background-size: 256px;
+  pointer-events: none; z-index: 9999;
 }
 
-.nav {
-  position: sticky; top: 0; z-index: 50;
-  background: rgba(11,13,17,0.85);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+nav {
+  position: fixed; top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 56px;
+  height: 64px;
+  background: rgba(11,13,17,0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--line);
-  padding: 16px clamp(16px,5vw,56px);
-  display: flex; justify-content: space-between; align-items: center;
 }
-.nav .brand {
+.nav-brand { display: flex; align-items: center; gap: 10px; cursor: pointer; text-decoration: none; }
+.nav-wordmark {
   font-family: 'Barlow Condensed', sans-serif;
-  font-weight: 700;
-  font-size: 18px;
-  letter-spacing: 0.08em;
+  font-weight: 700; font-size: 21px;
+  letter-spacing: 0.1em; text-transform: uppercase;
   color: var(--white);
-  text-decoration: none;
 }
-.nav-links { display: flex; gap: 24px; }
-.nav-links a {
-  color: var(--muted);
-  text-decoration: none;
-  font-size: 13px;
+.nav-wordmark em { color: var(--purple); font-style: normal; }
+.nav-links { display: flex; align-items: center; gap: 32px; }
+.nav-link {
+  font-size: 16px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--muted); text-decoration: none;
   transition: color 0.2s;
 }
-.nav-links a:hover { color: var(--white); }
+.nav-link:hover { color: var(--white); }
+.nav-link.active { color: var(--white); }
+.nav-cta {
+  padding: 8px 20px;
+  background: var(--purple-dim);
+  border: 1px solid rgba(155,109,255,0.35);
+  color: var(--purple-lt);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 14px; letter-spacing: 0.15em; text-transform: uppercase;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+.nav-cta:hover {
+  background: rgba(155,109,255,0.22);
+  border-color: var(--purple);
+  color: var(--white);
+}
 
 main {
   max-width: 880px;
   margin: 0 auto;
-  padding: 72px clamp(16px,5vw,56px) 120px;
+  padding: 128px clamp(16px,5vw,56px) 120px;
+}
+.eyebrow {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--purple);
+  margin-bottom: 16px;
 }
 main h1 {
   font-family: 'Barlow Condensed', sans-serif;
   font-weight: 700;
-  font-size: clamp(40px, 6vw, 64px);
+  font-size: clamp(44px, 7vw, 72px);
   line-height: 1.0;
   letter-spacing: -0.01em;
-  margin-bottom: 12px;
+  margin-bottom: 16px;
 }
 main .subtitle {
   color: var(--muted);
   font-family: 'Barlow', sans-serif;
-  font-size: 18px;
+  font-size: 19px;
+  line-height: 1.5;
   margin-bottom: 56px;
   padding-bottom: 32px;
   border-bottom: 1px solid var(--line);
+  max-width: 640px;
 }
 
 .post-card {
   display: block;
-  padding: 28px 0;
+  padding: 32px 0;
   border-bottom: 1px solid var(--line);
   text-decoration: none;
   color: inherit;
   transition: opacity 0.2s, transform 0.2s;
 }
-.post-card:hover { opacity: 0.8; }
+.post-card:hover { opacity: 0.8; transform: translateX(4px); }
 .post-card time {
   display: block;
-  font-size: 11px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
   color: var(--muted);
-  letter-spacing: 0.12em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
   margin-bottom: 8px;
 }
 .post-card h2 {
   font-family: 'Barlow Condensed', sans-serif;
   font-weight: 700;
-  font-size: 28px;
-  line-height: 1.2;
+  font-size: 30px;
+  line-height: 1.15;
   margin-bottom: 8px;
   color: var(--white);
 }
 .post-card p {
   color: var(--muted);
   font-family: 'Barlow', sans-serif;
-  font-size: 16px;
+  font-size: 17px;
   line-height: 1.5;
 }
 
@@ -127,36 +167,63 @@ main .subtitle {
   font-family: 'Barlow', sans-serif;
   padding: 60px 0;
   text-align: center;
+  font-size: 17px;
 }
 
-.site-footer {
+footer {
+  padding: 48px 56px;
+  display: flex; align-items: center; justify-content: space-between;
   border-top: 1px solid var(--line);
-  padding: clamp(24px,4vw,40px) clamp(16px,5vw,56px);
-  text-align: center;
-  color: var(--muted);
-  font-size: 12px;
 }
-.site-footer .links a {
-  color: var(--muted);
-  text-decoration: none;
-  margin: 0 10px;
+.footer-brand { display: flex; align-items: center; gap: 10px; }
+.footer-wordmark {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700; font-size: 20px;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--white);
+}
+.footer-wordmark em { color: var(--purple); font-style: normal; }
+.footer-links { display: flex; flex-wrap: wrap; gap: 28px; }
+.footer-link {
+  font-size: 15px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--muted); text-decoration: none;
   transition: color 0.2s;
 }
-.site-footer .links a:hover { color: var(--white); }
-.site-footer .copyright { margin-top: 12px; opacity: 0.6; }
+.footer-link:hover { color: var(--white); }
+
+@media (max-width: 720px) {
+  nav { padding: 0 20px; }
+  .nav-links { gap: 16px; }
+  .nav-link { font-size: 12px; letter-spacing: 0.1em; }
+  .nav-cta { font-size: 12px; padding: 6px 12px; letter-spacing: 0.1em; }
+  main { padding-top: 104px; }
+  footer { padding: 28px 24px; flex-direction: column; align-items: flex-start; gap: 18px; }
+  .footer-links { gap: 14px; }
+}
+@media (max-width: 480px) {
+  nav { padding: 0 16px; }
+  .nav-link:not(.nav-cta) { display: none; }
+}
 </style>
 </head>
 <body>
 
-<nav class="nav">
-  <a href="/" class="brand">VECTOR DSP</a>
+<nav>
+  <a class="nav-brand" href="/">
+    <svg width="26" height="26" viewBox="0 0 28 28" fill="none">
+      <polygon points="14,2 26,8 26,20 14,26 2,20 2,8" stroke="#9B6DFF" stroke-width="1.5" fill="rgba(155,109,255,0.06)"/>
+      <polyline points="7,14 10,10 13,15 16,11 21,14" stroke="#9B6DFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <span class="nav-wordmark">Vector<em> DSP</em></span>
+  </a>
   <div class="nav-links">
-    <a href="/tonelab.html">ToneLab</a>
-    <a href="/blog/">Blog</a>
+    <a class="nav-link active" href="/blog/">Blog</a>
+    <a class="nav-cta" href="/tonelab.html">ToneLab →</a>
   </div>
 </nav>
 
 <main>
+  <div class="eyebrow">— Field Notes</div>
   <h1>Blog</h1>
   <div class="subtitle">{{ description }}</div>
 
@@ -174,15 +241,21 @@ main .subtitle {
   {% endif %}
 </main>
 
-<footer class="site-footer">
-  <div class="links">
-    <a href="/">Home</a>
-    <a href="/tonelab.html">ToneLab</a>
-    <a href="/blog/">Blog</a>
-    <a href="/privacy.html">Privacy</a>
-    <a href="/terms.html">Terms</a>
+<footer>
+  <div class="footer-brand">
+    <svg width="22" height="22" viewBox="0 0 28 28" fill="none">
+      <polygon points="14,2 26,8 26,20 14,26 2,20 2,8" stroke="#9B6DFF" stroke-width="1.5" fill="rgba(155,109,255,0.06)"/>
+      <polyline points="7,14 10,10 13,15 16,11 21,14" stroke="#9B6DFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <span class="footer-wordmark">Vector<em> DSP</em></span>
   </div>
-  <div class="copyright">© Vector DSP</div>
+  <div class="footer-links">
+    <a class="footer-link" href="/tonelab.html">ToneLab</a>
+    <a class="footer-link" href="/blog/">Blog</a>
+    <a class="footer-link" href="/terms.html">Terms</a>
+    <a class="footer-link" href="/privacy.html">Privacy</a>
+    <a class="footer-link" href="/refunds.html">Refunds</a>
+  </div>
 </footer>
 
 </body>

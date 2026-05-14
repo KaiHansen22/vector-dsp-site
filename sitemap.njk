@@ -1,0 +1,20 @@
+---
+permalink: /sitemap.xml
+eleventyExcludeFromCollections: true
+---
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://vectordsp.com/</loc></url>
+  <url><loc>https://vectordsp.com/tonelab.html</loc></url>
+  <url><loc>https://vectordsp.com/tonelab-buy.html</loc></url>
+  <url><loc>https://vectordsp.com/privacy.html</loc></url>
+  <url><loc>https://vectordsp.com/terms.html</loc></url>
+  <url><loc>https://vectordsp.com/refunds.html</loc></url>
+  <url><loc>https://vectordsp.com/blog/</loc></url>
+{% for post in collections.post %}
+  <url>
+    <loc>https://vectordsp.com{{ post.url }}</loc>
+    <lastmod>{{ post.data.date | isoDate }}</lastmod>
+  </url>
+{% endfor %}
+</urlset>

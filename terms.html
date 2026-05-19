@@ -22,7 +22,16 @@
   "publisher": {
     "@type": "Organization",
     "name": "Vector DSP",
-    "url": "https://vector-dsp.com"
+    "legalName": "Vector DSP LLC",
+    "url": "https://vector-dsp.com",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "4845 Pearl East Cir, Ste 118 #328173",
+      "addressLocality": "Boulder",
+      "addressRegion": "CO",
+      "postalCode": "80301",
+      "addressCountry": "US"
+    }
   }
 }
 </script>
@@ -34,28 +43,25 @@
 <style>
 /* ═══ TOKENS ═══ */
 :root {
-  --bg:         #0B0D11;
-  --surface:    #13161D;
-  --surface2:   #1C2029;
-  --line:       rgba(255,255,255,0.07);
-  --purple:     #9B6DFF;
-  --purple-lt:  #C4A8FF;
+  --bg: #0B0D11;
+  --surface: #13161D;
+  --surface2: #1C2029;
+  --line: rgba(255,255,255,0.07);
+  --purple: #9B6DFF;
+  --purple-lt: #C4A8FF;
   --purple-dim: rgba(155,109,255,0.12);
-  --white:      #EDF0F4;
-  --muted:      #5A6070;
-  --muted2:     #383D4A;
+  --white: #EDF0F4;
+  --muted: #5A6070;
+  --muted2: #383D4A;
 }
-
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
-
 body {
   background: var(--bg);
   color: var(--white);
   font-family: 'IBM Plex Mono', monospace;
   overflow-x: hidden;
 }
-
 /* noise overlay */
 body::after {
   content: '';
@@ -64,7 +70,6 @@ body::after {
   background-size: 256px;
   pointer-events: none; z-index: 9999;
 }
-
 /* ═══ NAV ═══ */
 nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
@@ -101,7 +106,6 @@ nav {
   text-decoration: none; transition: all 0.2s;
 }
 .nav-cta:hover { border-color: var(--purple); color: var(--white); }
-
 /* ═══ HERO ═══ */
 .legal-hero {
   padding: 128px 56px 64px;
@@ -126,7 +130,6 @@ nav {
   font-size: 13px; color: var(--muted); letter-spacing: 0.08em;
   text-transform: uppercase;
 }
-
 /* ═══ CONTENT ═══ */
 .legal-content {
   max-width: 860px;
@@ -167,7 +170,6 @@ nav {
   color: var(--purple); font-family: 'IBM Plex Mono', monospace;
   font-size: 11px; top: 10px;
 }
-
 /* callout box */
 .callout {
   background: var(--purple-dim);
@@ -178,7 +180,15 @@ nav {
   margin: 0; color: var(--purple-lt);
 }
 .callout strong { color: var(--white); }
-
+/* address block */
+.address-block {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  padding: 20px 24px; margin-top: 12px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px; color: var(--white);
+  line-height: 1.8;
+}
 /* table */
 .table-wrap { overflow-x: auto; margin-bottom: 16px; }
 table { width: 100%; border-collapse: collapse; }
@@ -194,10 +204,8 @@ td {
   font-family: 'Barlow', sans-serif; font-size: 14px;
 }
 tr:last-child td { border-bottom: none; }
-
 a { color: var(--purple-lt); text-decoration: none; transition: color 0.2s; }
 a:hover { color: var(--white); }
-
 /* ═══ FOOTER ═══ */
 footer {
   padding: 48px 56px;
@@ -222,7 +230,6 @@ footer {
   font-size: 14px; color: var(--muted2); letter-spacing: 0.05em;
   width: 100%;
 }
-
 @media (max-width: 768px) {
   nav { padding: 0 24px; }
   .legal-hero { padding: 108px 24px 48px; }
@@ -232,7 +239,6 @@ footer {
 </style>
 </head>
 <body>
-
 <nav>
   <a class="nav-brand" href="/">
     <svg width="26" height="26" viewBox="0 0 28 28" fill="none">
@@ -250,7 +256,7 @@ footer {
 <div class="legal-hero">
   <div class="legal-label">Legal</div>
   <h1>Terms of Service</h1>
-  <p class="legal-meta">Last updated: April 2026 &nbsp;·&nbsp; Vector DSP</p>
+  <p class="legal-meta">Last updated: May 2026 &nbsp;·&nbsp; Vector DSP LLC</p>
 </div>
 
 <div class="legal-content">
@@ -258,12 +264,12 @@ footer {
   <div class="legal-section">
     <h2>01 — Agreement</h2>
     <p>By purchasing, downloading, or using any Vector DSP software product, including ToneLab, you agree to be bound by these Terms of Service. If you do not agree, do not install or use the software.</p>
-    <p>These terms constitute the entire agreement between you and Vector DSP regarding your use of our software.</p>
+    <p>These terms constitute the entire agreement between you and Vector DSP LLC (&ldquo;Vector DSP&rdquo;, &ldquo;we&rdquo;, &ldquo;us&rdquo;) regarding your use of our software.</p>
   </div>
 
   <div class="legal-section">
     <h2>02 — License Grant</h2>
-    <p>Upon purchase, Vector DSP grants you a personal, non-exclusive, non-transferable, perpetual license to install and use the software on up to two (2) computers that you own or control.</p>
+    <p>Upon purchase, Vector DSP LLC grants you a personal, non-exclusive, non-transferable, perpetual license to install and use the software on up to two (2) computers that you own or control.</p>
     <ul>
       <li>One license covers all supported plugin formats (AU, VST3, AAX) on each activated machine</li>
       <li>You may install on a second machine using the same license key</li>
@@ -291,7 +297,7 @@ footer {
 
   <div class="legal-section">
     <h2>05 — Intellectual Property</h2>
-    <p>All Vector DSP software, including ToneLab, is the exclusive intellectual property of Vector DSP. The software is licensed, not sold. These terms do not transfer any ownership rights to you.</p>
+    <p>All Vector DSP software, including ToneLab, is the exclusive intellectual property of Vector DSP LLC. The software is licensed, not sold. These terms do not transfer any ownership rights to you.</p>
     <p>Audio output produced using ToneLab is yours. We make no claim over music or recordings created with our software.</p>
   </div>
 
@@ -303,22 +309,33 @@ footer {
 
   <div class="legal-section">
     <h2>07 — Disclaimer of Warranties</h2>
-    <p>The software is provided "as is" without warranty of any kind, express or implied, including but not limited to warranties of merchantability, fitness for a particular purpose, or non-infringement. Vector DSP does not warrant that the software will be error-free or operate without interruption.</p>
+    <p>The software is provided "as is" without warranty of any kind, express or implied, including but not limited to warranties of merchantability, fitness for a particular purpose, or non-infringement. Vector DSP LLC does not warrant that the software will be error-free or operate without interruption.</p>
   </div>
 
   <div class="legal-section">
     <h2>08 — Limitation of Liability</h2>
-    <p>To the maximum extent permitted by applicable law, Vector DSP shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising from your use of or inability to use the software. Our total liability to you for any claim shall not exceed the amount you paid for the software.</p>
+    <p>To the maximum extent permitted by applicable law, Vector DSP LLC shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising from your use of or inability to use the software. Our total liability to you for any claim shall not exceed the amount you paid for the software.</p>
   </div>
 
   <div class="legal-section">
     <h2>09 — Governing Law</h2>
-    <p>These terms are governed by the laws of the United States. Any disputes shall be resolved in the courts of competent jurisdiction.</p>
+    <p>These Terms are governed by the laws of the State of Colorado, United States, without regard to its conflict-of-laws principles. Any disputes arising from these Terms or your use of the software shall be resolved in the state or federal courts located in Colorado, and you consent to the jurisdiction of those courts.</p>
   </div>
 
   <div class="legal-section">
     <h2>10 — Changes to These Terms</h2>
-    <p>Vector DSP reserves the right to update these terms at any time. Continued use of the software after changes constitutes acceptance of the new terms. Material changes will be communicated via our website.</p>
+    <p>Vector DSP LLC reserves the right to update these terms at any time. Continued use of the software after changes constitutes acceptance of the new terms. Material changes will be communicated via our website.</p>
+  </div>
+
+  <div class="legal-section">
+    <h2>11 — Entity & Notices</h2>
+    <p>&ldquo;Vector DSP&rdquo; refers to Vector DSP LLC, a limited liability company organized under the laws of the State of Colorado, United States (Colorado Secretary of State filing ID 20261581498). Notices to Vector DSP LLC shall be sent to:</p>
+    <div class="address-block">
+      Vector DSP LLC<br>
+      4845 Pearl East Cir, Ste 118 #328173<br>
+      Boulder, CO 80301, USA<br>
+      <a href="mailto:support@vector-dsp.com">support@vector-dsp.com</a>
+    </div>
   </div>
 
   <div class="legal-section">
@@ -343,8 +360,7 @@ footer {
     <a class="footer-link" href="/refunds.html">Refunds</a>
     <a class="footer-link" href="/tonelab.html">ToneLab</a>
   </div>
-  <p class="footer-copy">© 2026 Vector DSP. All rights reserved.</p>
+  <p class="footer-copy">© 2026 Vector DSP LLC. All rights reserved.</p>
 </footer>
-
 </body>
 </html>

@@ -25,10 +25,11 @@
   "headline": {{ title | dump | safe }},
   "description": {{ description | dump | safe }},
   "datePublished": "{{ date | isoDate }}",
-  "author": { "@type": "Organization", "name": "Vector DSP" },
+  "author": { "@type": "Organization", "name": "Vector DSP", "legalName": "Vector DSP LLC" },
   "publisher": {
     "@type": "Organization",
     "name": "Vector DSP",
+    "legalName": "Vector DSP LLC",
     "url": "https://vector-dsp.com"
   },
   "url": "https://vector-dsp.com/blog/{{ page.fileSlug }}/",

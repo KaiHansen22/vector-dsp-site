@@ -22,7 +22,16 @@
   "publisher": {
     "@type": "Organization",
     "name": "Vector DSP",
-    "url": "https://vector-dsp.com"
+    "legalName": "Vector DSP LLC",
+    "url": "https://vector-dsp.com",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "4845 Pearl East Cir, Ste 118 #328173",
+      "addressLocality": "Boulder",
+      "addressRegion": "CO",
+      "postalCode": "80301",
+      "addressCountry": "US"
+    }
   }
 }
 </script>
@@ -34,28 +43,25 @@
 <style>
 /* ═══ TOKENS ═══ */
 :root {
-  --bg:         #0B0D11;
-  --surface:    #13161D;
-  --surface2:   #1C2029;
-  --line:       rgba(255,255,255,0.07);
-  --purple:     #9B6DFF;
-  --purple-lt:  #C4A8FF;
+  --bg: #0B0D11;
+  --surface: #13161D;
+  --surface2: #1C2029;
+  --line: rgba(255,255,255,0.07);
+  --purple: #9B6DFF;
+  --purple-lt: #C4A8FF;
   --purple-dim: rgba(155,109,255,0.12);
-  --white:      #EDF0F4;
-  --muted:      #5A6070;
-  --muted2:     #383D4A;
+  --white: #EDF0F4;
+  --muted: #5A6070;
+  --muted2: #383D4A;
 }
-
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
-
 body {
   background: var(--bg);
   color: var(--white);
   font-family: 'IBM Plex Mono', monospace;
   overflow-x: hidden;
 }
-
 /* noise overlay */
 body::after {
   content: '';
@@ -64,7 +70,6 @@ body::after {
   background-size: 256px;
   pointer-events: none; z-index: 9999;
 }
-
 /* ═══ NAV ═══ */
 nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
@@ -101,7 +106,6 @@ nav {
   text-decoration: none; transition: all 0.2s;
 }
 .nav-cta:hover { border-color: var(--purple); color: var(--white); }
-
 /* ═══ HERO ═══ */
 .legal-hero {
   padding: 128px 56px 64px;
@@ -126,7 +130,6 @@ nav {
   font-size: 13px; color: var(--muted); letter-spacing: 0.08em;
   text-transform: uppercase;
 }
-
 /* ═══ CONTENT ═══ */
 .legal-content {
   max-width: 860px;
@@ -167,7 +170,6 @@ nav {
   color: var(--purple); font-family: 'IBM Plex Mono', monospace;
   font-size: 11px; top: 10px;
 }
-
 /* callout box */
 .callout {
   background: var(--purple-dim);
@@ -178,7 +180,6 @@ nav {
   margin: 0; color: var(--purple-lt);
 }
 .callout strong { color: var(--white); }
-
 /* table */
 .table-wrap { overflow-x: auto; margin-bottom: 16px; }
 table { width: 100%; border-collapse: collapse; }
@@ -194,10 +195,8 @@ td {
   font-family: 'Barlow', sans-serif; font-size: 14px;
 }
 tr:last-child td { border-bottom: none; }
-
 a { color: var(--purple-lt); text-decoration: none; transition: color 0.2s; }
 a:hover { color: var(--white); }
-
 /* ═══ FOOTER ═══ */
 footer {
   padding: 48px 56px;
@@ -222,7 +221,6 @@ footer {
   font-size: 14px; color: var(--muted2); letter-spacing: 0.05em;
   width: 100%;
 }
-
 @media (max-width: 768px) {
   nav { padding: 0 24px; }
   .legal-hero { padding: 108px 24px 48px; }
@@ -232,7 +230,6 @@ footer {
 </style>
 </head>
 <body>
-
 <nav>
   <a class="nav-brand" href="/">
     <svg width="26" height="26" viewBox="0 0 28 28" fill="none">
@@ -250,7 +247,7 @@ footer {
 <div class="legal-hero">
   <div class="legal-label">Legal</div>
   <h1>Refund Policy</h1>
-  <p class="legal-meta">Last updated: April 2026 &nbsp;·&nbsp; Vector DSP</p>
+  <p class="legal-meta">Last updated: May 2026 &nbsp;·&nbsp; Vector DSP LLC</p>
 </div>
 
 <div class="legal-content">
@@ -297,7 +294,7 @@ footer {
       <li>The email address used at purchase</li>
       <li>The reason for your request</li>
     </ul>
-    <p>We aim to respond within 2 business days. Approved refunds are processed via your original payment method.</p>
+    <p>We aim to respond within 2 business days. Approved refunds are processed by Vector DSP LLC via your original payment method.</p>
   </div>
 
   <div class="legal-section">
@@ -322,8 +319,7 @@ footer {
     <a class="footer-link" href="/refunds.html">Refunds</a>
     <a class="footer-link" href="/tonelab.html">ToneLab</a>
   </div>
-  <p class="footer-copy">© 2026 Vector DSP. All rights reserved.</p>
+  <p class="footer-copy">© 2026 Vector DSP LLC. All rights reserved.</p>
 </footer>
-
 </body>
 </html>

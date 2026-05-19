@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="description" content="How Vector DSP collects, uses, and protects personal data on our plugins and website. Privacy policy for Vector DSP customers.">
+<link rel="canonical" href="https://vector-dsp.com/privacy.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Privacy Policy — Vector DSP">
+<meta property="og:description" content="How Vector DSP collects, uses, and protects personal data on our plugins and website. Privacy policy for Vector DSP customers.">
+<meta property="og:url" content="https://vector-dsp.com/privacy.html">
+<meta property="og:site_name" content="Vector DSP">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Privacy Policy — Vector DSP">
+<meta name="twitter:description" content="How Vector DSP collects, uses, and protects personal data on our plugins and website. Privacy policy for Vector DSP customers.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "Privacy Policy",
+  "url": "https://vector-dsp.com/privacy.html",
+  "publisher": {
+    "@type": "Organization",
+    "name": "Vector DSP",
+    "legalName": "Vector DSP LLC",
+    "url": "https://vector-dsp.com",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "4845 Pearl East Cir, Ste 118 #328173",
+      "addressLocality": "Boulder",
+      "addressRegion": "CO",
+      "postalCode": "80301",
+      "addressCountry": "US"
+    }
+  }
+}
+</script>
+<title>Privacy Policy — Vector DSP</title>
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ═══ TOKENS ═══ */
+:root {
+  --bg: #0B0D11;
+  --surface: #13161D;
+  --surface2: #1C2029;
+  --line: rgba(255,255,255,0.07);
+  --purple: #9B6DFF;
+  --purple-lt: #C4A8FF;
+  --purple-dim: rgba(155,109,255,0.12);
+  --white: #EDF0F4;
+  --muted: #5A6070;
+  --muted2: #383D4A;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--white);
+  font-family: 'IBM Plex Mono', monospace;
+  overflow-x: hidden;
+}
+/* noise overlay */
+body::after {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+  background-size: 256px;
+  pointer-events: none; z-index: 9999;
+}
+/* ═══ NAV ═══ */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 56px; height: 64px;
+  background: rgba(11,13,17,0.88);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--line);
+}
+.nav-brand {
+  display: flex; align-items: center; gap: 10px;
+  text-decoration: none; cursor: pointer;
+}
+.nav-wordmark {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700; font-size: 21px;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--white);
+}
+.nav-wordmark em { color: var(--purple); font-style: normal; }
+.nav-links { display: flex; align-items: center; gap: 32px; }
+.nav-link {
+  font-size: 16px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--muted); text-decoration: none; transition: color 0.2s;
+}
+.nav-link:hover { color: var(--white); }
+.nav-cta {
+  padding: 8px 20px;
+  background: var(--purple-dim);
+  border: 1px solid rgba(155,109,255,0.35);
+  color: var(--purple-lt);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 16px; letter-spacing: 0.15em; text-transform: uppercase;
+  text-decoration: none; transition: all 0.2s;
+}
+.nav-cta:hover { border-color: var(--purple); color: var(--white); }
+/* ═══ HERO ═══ */
+.legal-hero {
+  padding: 128px 56px 64px;
+  border-bottom: 1px solid var(--line);
+  max-width: 860px;
+}
+.legal-label {
+  font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--purple); margin-bottom: 24px;
+  display: flex; align-items: center; gap: 12px;
+}
+.legal-label::before {
+  content: ''; width: 32px; height: 1px; background: var(--purple);
+}
+.legal-hero h1 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 800; font-size: clamp(40px, 6vw, 72px);
+  letter-spacing: -0.01em; line-height: 1.0;
+  color: var(--white); margin-bottom: 20px;
+}
+.legal-meta {
+  font-size: 13px; color: var(--muted); letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+/* ═══ CONTENT ═══ */
+.legal-content {
+  max-width: 860px;
+  padding: 72px 56px 140px;
+}
+.legal-section { margin-bottom: 64px; }
+.legal-section h2 {
+  font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--purple); font-family: 'IBM Plex Mono', monospace;
+  margin-bottom: 24px; padding-bottom: 14px;
+  border-bottom: 1px solid var(--line);
+  display: flex; align-items: center; gap: 12px;
+}
+.legal-section h2::before {
+  content: ''; width: 16px; height: 1px; background: var(--purple);
+}
+.legal-section h3 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 22px; font-weight: 700; letter-spacing: 0.04em;
+  color: var(--white); margin-bottom: 12px; margin-top: 32px;
+  text-transform: uppercase;
+}
+.legal-section p {
+  font-size: 15px; color: var(--muted); line-height: 1.8;
+  margin-bottom: 16px;
+  font-family: 'Barlow', sans-serif;
+}
+.legal-section ul { list-style: none; padding: 0; margin-bottom: 16px; }
+.legal-section ul li {
+  font-size: 15px; color: var(--muted); padding: 7px 0 7px 24px;
+  position: relative; line-height: 1.7;
+  font-family: 'Barlow', sans-serif;
+  border-bottom: 1px solid var(--line);
+}
+.legal-section ul li:last-child { border-bottom: none; }
+.legal-section ul li::before {
+  content: '—'; position: absolute; left: 0;
+  color: var(--purple); font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px; top: 10px;
+}
+/* callout box */
+.callout {
+  background: var(--purple-dim);
+  border: 1px solid rgba(155,109,255,0.20);
+  padding: 24px 28px; margin-bottom: 24px;
+}
+.callout p {
+  margin: 0; color: var(--purple-lt);
+}
+.callout strong { color: var(--white); }
+/* address block */
+.address-block {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  padding: 20px 24px; margin-top: 12px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px; color: var(--white);
+  line-height: 1.8;
+}
+/* table */
+.table-wrap { overflow-x: auto; margin-bottom: 16px; }
+table { width: 100%; border-collapse: collapse; }
+th {
+  text-align: left; padding: 10px 16px;
+  font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--purple); border-bottom: 1px solid rgba(155,109,255,0.25);
+  font-family: 'IBM Plex Mono', monospace; font-weight: 500;
+}
+td {
+  padding: 14px 16px; color: var(--muted);
+  border-bottom: 1px solid var(--line); line-height: 1.6; vertical-align: top;
+  font-family: 'Barlow', sans-serif; font-size: 14px;
+}
+tr:last-child td { border-bottom: none; }
+a { color: var(--purple-lt); text-decoration: none; transition: color 0.2s; }
+a:hover { color: var(--white); }
+/* ═══ FOOTER ═══ */
+footer {
+  padding: 48px 56px;
+  display: flex; align-items: center; justify-content: space-between;
+  border-top: 1px solid var(--line);
+  flex-wrap: wrap; gap: 20px;
+}
+.footer-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+.footer-wordmark {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700; font-size: 20px;
+  letter-spacing: 0.1em; text-transform: uppercase; color: var(--white);
+}
+.footer-wordmark em { color: var(--purple); font-style: normal; }
+.footer-links { display: flex; gap: 28px; flex-wrap: wrap; }
+.footer-link {
+  font-size: 15px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--muted); text-decoration: none; transition: color 0.2s;
+}
+.footer-link:hover { color: var(--white); }
+.footer-copy {
+  font-size: 14px; color: var(--muted2); letter-spacing: 0.05em;
+  width: 100%;
+}
+@media (max-width: 768px) {
+  nav { padding: 0 24px; }
+  .legal-hero { padding: 108px 24px 48px; }
+  .legal-content { padding: 48px 24px 100px; }
+  footer { padding: 32px 24px; flex-direction: column; align-items: flex-start; }
+}
+</style>
+</head>
+<body>
+<nav>
+  <a class="nav-brand" href="/">
+    <svg width="26" height="26" viewBox="0 0 28 28" fill="none">
+      <polygon points="14,2 26,8 26,20 14,26 2,20 2,8" stroke="#9B6DFF" stroke-width="1.5" fill="rgba(155,109,255,0.06)"/>
+      <polyline points="7,14 10,10 13,15 16,11 21,14" stroke="#9B6DFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <span class="nav-wordmark">Vector<em> DSP</em></span>
+  </a>
+  <div class="nav-links">
+    <a class="nav-link" href="/">Home</a>
+    <a class="nav-link" href="/tonelab.html">ToneLab</a>
+  </div>
+</nav>
+
+<div class="legal-hero">
+  <div class="legal-label">Legal</div>
+  <h1>Privacy Policy</h1>
+  <p class="legal-meta">Last updated: May 2026 &nbsp;·&nbsp; Vector DSP LLC</p>
+</div>
+
+<div class="legal-content">
+
+  <div class="legal-section">
+    <h2>01 — Overview</h2>
+    <p>Vector DSP LLC (&ldquo;Vector DSP&rdquo;, &ldquo;we&rdquo;, &ldquo;us&rdquo;) is committed to protecting your privacy. This policy explains what data we collect, why we collect it, and how it is handled. We collect the minimum data necessary to operate our licensing system and improve our products.</p>
+    <p>We do not sell, rent, or share your personal data with third parties for marketing purposes.</p>
+  </div>
+
+  <div class="legal-section">
+    <h2>02 — Data We Collect</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Data</th><th>Why</th><th>Stored by</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Email address</td><td>Purchase record and license delivery</td><td>Lemon Squeezy</td></tr>
+          <tr><td>License key</td><td>Software activation and validation</td><td>Lemon Squeezy</td></tr>
+          <tr><td>Machine ID</td><td>Binding license to your computer to prevent unauthorised use</td><td>Locally on your device</td></tr>
+          <tr><td>Activation timestamp</td><td>Validating license status every 7 days</td><td>Locally on your device</td></tr>
+          <tr><td>Payment details</td><td>Processing your purchase</td><td>Lemon Squeezy / payment processor — never seen by Vector DSP LLC</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>The machine ID is a one-way hash derived from your MAC address, username, and computer name. It cannot be reversed to identify you personally and is used solely for license binding.</p>
+  </div>
+
+  <div class="legal-section">
+    <h2>03 — How We Use Your Data</h2>
+    <ul>
+      <li>To process and fulfil your software purchase</li>
+      <li>To deliver your license key and activation instructions</li>
+      <li>To validate your license when the plugin checks in every 7 days</li>
+      <li>To respond to support requests you initiate</li>
+      <li>To send important product updates (you can opt out at any time)</li>
+    </ul>
+    <p>We do not use your data for advertising, profiling, or any purpose beyond operating our licensing system.</p>
+  </div>
+
+  <div class="legal-section">
+    <h2>04 — Third-Party Services</h2>
+    <h3>Lemon Squeezy</h3>
+    <p>We use Lemon Squeezy as our payment and licensing platform. When you purchase ToneLab, Lemon Squeezy processes your payment and stores your purchase record. Their privacy policy is available at <a href="https://www.lemonsqueezy.com/privacy" target="_blank">lemonsqueezy.com/privacy</a>.</p>
+    <h3>PACE Anti-Piracy</h3>
+    <p>The AAX version of ToneLab uses PACE Anti-Piracy signing technology required by Avid for Pro Tools compatibility. PACE does not receive or store any of your personal data through this integration.</p>
+  </div>
+
+  <div class="legal-section">
+    <h2>05 — Data Retention</h2>
+    <p>License cache data stored locally on your device remains until you uninstall the software or manually delete it. Purchase records held by Lemon Squeezy are retained in accordance with their data retention policy and applicable financial regulations.</p>
+  </div>
+
+  <div class="legal-section">
+    <h2>06 — Your Rights</h2>
+    <ul>
+      <li>Access the personal data we hold about you</li>
+      <li>Request correction of inaccurate data</li>
+      <li>Request deletion of your data</li>
+      <li>Opt out of marketing communications</li>
+    </ul>
+    <p>To exercise any of these rights, contact us at <a href="mailto:support@vector-dsp.com">support@vector-dsp.com</a>.</p>
+  </div>
+
+  <div class="legal-section">
+    <h2>07 — Cookies</h2>
+    <p>Our website uses minimal cookies necessary for site functionality. We do not use tracking cookies or third-party advertising cookies.</p>
+  </div>
+
+  <div class="legal-section">
+    <h2>08 — Changes to This Policy</h2>
+    <p>We may update this policy from time to time. Material changes will be posted on this page with an updated date. Continued use of our software after changes constitutes acceptance of the revised policy.</p>
+  </div>
+
+  <div class="legal-section">
+    <h2>Contact</h2>
+    <p>Privacy questions or data requests: <a href="mailto:support@vector-dsp.com">support@vector-dsp.com</a></p>
+    <p>Mailing address for written notices:</p>
+    <div class="address-block">
+      Vector DSP LLC<br>
+      4845 Pearl East Cir, Ste 118 #328173<br>
+      Boulder, CO 80301, USA
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <a class="footer-brand" href="/">
+    <svg width="22" height="22" viewBox="0 0 28 28" fill="none">
+      <polygon points="14,2 26,8 26,20 14,26 2,20 2,8" stroke="#9B6DFF" stroke-width="1.5" fill="rgba(155,109,255,0.06)"/>
+      <polyline points="7,14 10,10 13,15 16,11 21,14" stroke="#9B6DFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <span class="footer-wordmark">Vector<em> DSP</em></span>
+  </a>
+  <div class="footer-links">
+    <a class="footer-link" href="/blog/">Blog</a>
+    <a class="footer-link" href="/terms.html">Terms</a>
+    <a class="footer-link" href="/privacy.html">Privacy</a>
+    <a class="footer-link" href="/refunds.html">Refunds</a>
+    <a class="footer-link" href="/tonelab.html">ToneLab</a>
+  </div>
+  <p class="footer-copy">© 2026 Vector DSP LLC. All rights reserved.</p>
+</footer>
+</body>
+</html>

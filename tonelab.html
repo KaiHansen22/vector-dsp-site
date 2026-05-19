@@ -3,28 +3,30 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="ToneLab is a multi-effects audio plugin from Vector DSP with 5 parallel FX lanes. Join the waitlist for early access.">
+<meta name="description" content="ToneLab is a multi-effects audio plugin from Vector DSP with 5 parallel FX lanes. Pre-order now for $49.99 (retail $73.99).">
 <link rel="canonical" href="https://vector-dsp.com/tonelab.html">
-<meta property="og:type" content="website">
+<meta property="og:type" content="product">
 <meta property="og:title" content="ToneLab — Multi-FX Audio Plugin by Vector DSP">
-<meta property="og:description" content="ToneLab is a multi-effects audio plugin from Vector DSP with 5 parallel FX lanes. Join the waitlist for early access.">
+<meta property="og:description" content="ToneLab is a multi-effects audio plugin from Vector DSP with 5 parallel FX lanes. Pre-order now for $49.99 (retail $73.99).">
 <meta property="og:url" content="https://vector-dsp.com/tonelab.html">
 <meta property="og:site_name" content="Vector DSP">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="ToneLab — Multi-FX Audio Plugin by Vector DSP">
-<meta name="twitter:description" content="ToneLab is a multi-effects audio plugin from Vector DSP with 5 parallel FX lanes. Join the waitlist for early access.">
+<meta name="twitter:description" content="ToneLab is a multi-effects audio plugin from Vector DSP with 5 parallel FX lanes. Pre-order now for $49.99 (retail $73.99).">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
+  "@type": "Product",
   "name": "ToneLab",
-  "applicationCategory": "MultimediaApplication",
-  "operatingSystem": "macOS, Windows",
+  "description": "Multi-effects audio plugin with 5 parallel FX lanes for macOS and Windows.",
+  "brand": { "@type": "Brand", "name": "Vector DSP" },
   "url": "https://vector-dsp.com/tonelab.html",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Vector DSP",
-    "url": "https://vector-dsp.com"
+  "offers": {
+    "@type": "Offer",
+    "price": "49.99",
+    "priceCurrency": "USD",
+    "availability": "https://schema.org/PreOrder",
+    "url": "https://vector-dsp.com/tonelab.html"
   }
 }
 </script>
@@ -993,6 +995,222 @@ body {
   footer { padding: 24px 16px; }
   .tl-feat { flex: 1 1 100%; }
 }
+
+/* ═══════════════════════════════════════
+   PREORDER CARD
+═══════════════════════════════════════ */
+.preorder-card {
+  width: 100%;
+  max-width: 480px;
+  background: var(--surface2);
+  border: 1px solid rgba(255,255,255,0.1);
+  padding: 28px 32px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.preorder-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--cyan), var(--purple), var(--mint));
+  opacity: 0.5;
+  transition: opacity 0.3s ease;
+}
+.preorder-card:hover { border-color: rgba(0,194,255,0.4); }
+.preorder-card:hover::before { opacity: 1; }
+
+.preorder-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 4px 12px;
+  background: rgba(77,255,236,0.08);
+  border: 1px solid rgba(77,255,236,0.35);
+  color: var(--mint);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px; letter-spacing: 0.25em; text-transform: uppercase;
+  margin-bottom: 16px;
+}
+.preorder-badge::before {
+  content: '';
+  width: 5px; height: 5px; border-radius: 50%;
+  background: var(--mint);
+  box-shadow: 0 0 8px var(--mint);
+  animation: blink 2s ease-in-out infinite;
+}
+
+.preorder-price-row {
+  display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap;
+  margin-bottom: 4px;
+}
+.preorder-price-retail {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 600; font-size: 28px;
+  color: var(--muted);
+  text-decoration: line-through;
+  text-decoration-color: rgba(255,107,107,0.7);
+  text-decoration-thickness: 2px;
+  line-height: 1;
+}
+.preorder-price-now {
+  display: flex; align-items: baseline; gap: 2px;
+}
+.preorder-price-now .currency {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 600; font-size: 24px;
+  color: var(--muted);
+  align-self: flex-start; margin-top: 6px;
+}
+.preorder-price-now .amount {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 800; font-size: 56px;
+  color: var(--white); line-height: 1;
+}
+.preorder-price-now .cents {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 600; font-size: 24px;
+  color: var(--muted);
+  align-self: flex-start; margin-top: 6px;
+}
+.preorder-savings {
+  font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--mint); margin-bottom: 18px;
+}
+
+.preorder-includes {
+  list-style: none;
+  margin: 0 0 20px;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.preorder-includes li {
+  display: flex; align-items: center; gap: 10px;
+  font-family: 'Barlow', sans-serif;
+  font-size: 16px; font-weight: 300;
+  color: rgba(237,240,244,0.65);
+}
+.preorder-includes li::before {
+  content: '';
+  width: 5px; height: 5px; border-radius: 50%;
+  background: var(--cyan); flex-shrink: 0;
+}
+
+.preorder-divider {
+  height: 1px; background: var(--line); margin-bottom: 18px;
+}
+
+.preorder-input-label {
+  font-size: 13px; letter-spacing: 0.3em; text-transform: uppercase;
+  color: var(--cyan); margin-bottom: 8px;
+}
+
+.btn-preorder {
+  display: block; width: 100%;
+  padding: 14px 28px;
+  background: var(--cyan);
+  color: var(--bg);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700; font-size: 19px;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  border: none; cursor: pointer;
+  text-align: center; white-space: nowrap;
+  clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+  transition: all 0.2s;
+}
+.btn-preorder:hover { background: #33CEFF; transform: translateY(-2px); }
+.btn-preorder.success { background: var(--mint); pointer-events: none; }
+
+.preorder-fineprint {
+  margin-top: 12px;
+  font-size: 13px; letter-spacing: 0.05em;
+  color: var(--muted2);
+  text-align: center;
+}
+
+@media (max-width: 480px) {
+  .preorder-card { padding: 22px 20px; }
+  .preorder-price-now .amount { font-size: 44px; }
+  .preorder-price-retail { font-size: 22px; }
+}
+
+/* ═══════════════════════════════════════
+   INSTAGRAM SECTION
+═══════════════════════════════════════ */
+.ig-section {
+  padding: clamp(60px,7vw,100px) clamp(16px,5vw,56px);
+  display: flex; flex-direction: column; align-items: center;
+  position: relative; overflow: hidden;
+  border-top: 1px solid var(--line);
+}
+.ig-section::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 60% 50% at 50% 30%, rgba(155,109,255,0.06), transparent 70%);
+  pointer-events: none;
+}
+.ig-eyebrow {
+  position: relative; z-index: 1;
+  font-size: 15px; letter-spacing: 0.35em; text-transform: uppercase;
+  color: var(--purple); margin-bottom: 16px;
+  display: flex; align-items: center; gap: 12px;
+}
+.ig-eyebrow::before {
+  content: ''; width: 24px; height: 1px; background: var(--purple);
+}
+.ig-heading {
+  position: relative; z-index: 1;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 800; font-size: clamp(32px, 4vw, 52px);
+  text-transform: uppercase; line-height: 1;
+  text-align: center; margin-bottom: 14px;
+  max-width: 640px;
+}
+.ig-heading .hl { color: var(--purple); }
+.ig-sub {
+  position: relative; z-index: 1;
+  font-family: 'Barlow', sans-serif;
+  font-size: 19px; font-weight: 300; line-height: 1.7;
+  color: rgba(237,240,244,0.5);
+  text-align: center; max-width: 440px;
+  margin-bottom: 36px;
+}
+.ig-embed-wrap {
+  position: relative; z-index: 1;
+  width: 100%; max-width: 540px;
+  display: flex; justify-content: center;
+}
+.ig-embed-wrap .instagram-media {
+  background: var(--surface) !important;
+  border-radius: 0 !important;
+  border: 1px solid var(--line) !important;
+}
+.ig-handle {
+  position: relative; z-index: 1;
+  display: inline-flex; align-items: center; gap: 10px;
+  margin-top: 28px;
+  padding: 10px 18px;
+  border: 1px solid rgba(155,109,255,0.35);
+  background: rgba(155,109,255,0.07);
+  color: var(--purple-lt);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 14px; letter-spacing: 0.2em; text-transform: uppercase;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+.ig-handle:hover {
+  background: rgba(155,109,255,0.18);
+  border-color: var(--purple);
+  color: var(--white);
+}
+.ig-handle svg { display: block; }
+
+/* FOOTER IG ICON */
+.footer-ig {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 13px; letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--muted); text-decoration: none;
+  transition: color 0.2s;
+}
+.footer-ig:hover { color: var(--purple-lt); }
+.footer-ig svg { display: block; }
 </style>
 </head>
 <body>
@@ -1081,14 +1299,35 @@ body {
       Not just what happens to your sound — but precisely <em>where</em> it happens.
     </p>
 
-    <div style="animation:fadeUp 0.6s 0.25s ease both;">
-      <div style="font-size:15px;letter-spacing:0.3em;text-transform:uppercase;color:var(--cyan);margin-bottom:10px;">Get Early Access</div>
-      <div class="tl-input-row" style="max-width:440px;">
-        <input class="tl-email-input" type="email" id="tl-email" placeholder="your@email.com" autocomplete="email"/>
-        <button class="tl-submit" id="tl-submit-btn" onclick="handleSignup()">Notify Me</button>
+    <div class="preorder-card" style="animation:fadeUp 0.6s 0.25s ease both;">
+      <div class="preorder-badge">Pre-Order · Early Bird</div>
+
+      <div class="preorder-price-row">
+        <span class="preorder-price-retail">$73.99</span>
+        <span class="preorder-price-now">
+          <span class="currency">$</span>
+          <span class="amount">49</span>
+          <span class="cents">.99</span>
+        </span>
       </div>
-      <div class="tl-privacy">No spam. Early access updates only.</div>
-      <div id="tl-success-msg" style="display:none;margin-top:10px;font-size:16px;color:var(--mint);letter-spacing:0.1em;">✓ You're on the list. We'll be in touch.</div>
+      <div class="preorder-savings">Save $24 · Pre-launch pricing</div>
+
+      <ul class="preorder-includes">
+        <li>ToneLab VST3, AU &amp; AAX plugin</li>
+        <li>Activate on up to 2 devices</li>
+        <li>All future updates included</li>
+        <li>Checkout link emailed at launch</li>
+      </ul>
+
+      <div class="preorder-divider"></div>
+
+      <div class="preorder-input-label">Reserve your copy</div>
+      <div class="tl-input-row" style="margin-bottom:8px;">
+        <input class="tl-email-input" type="email" id="tl-email" placeholder="your@email.com" autocomplete="email"/>
+      </div>
+      <button class="btn-preorder" id="tl-submit-btn" onclick="handleSignup()">Pre Order Now →</button>
+      <div class="preorder-fineprint">No charge today. We'll email your checkout link at launch.</div>
+      <div id="tl-success-msg" style="display:none;margin-top:12px;font-size:15px;color:var(--mint);letter-spacing:0.1em;text-align:center;">✓ Spot reserved. We'll be in touch.</div>
     </div>
   </div><!-- end content -->
 </section>
@@ -1277,22 +1516,49 @@ body {
 
 <div style="height:1px;background:var(--line);margin:0 clamp(16px,5vw,56px);"></div>
 
+<!-- ── INSTAGRAM REEL ── -->
+<section class="ig-section reveal">
+  <div class="ig-eyebrow">See It In Action</div>
+  <h2 class="ig-heading">Hear ToneLab in <span class="hl">motion.</span></h2>
+  <p class="ig-sub">Walkthroughs, sound design experiments, and behind-the-scenes drops — straight from the studio.</p>
+
+  <div class="ig-embed-wrap">
+    <blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="https://www.instagram.com/p/DWRY1u1CLTW/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style="background:#13161D; border:1px solid rgba(255,255,255,0.07); margin: 0 auto; max-width:540px; min-width:280px; width:99.375%;"></blockquote>
+  </div>
+
+  <a class="ig-handle" href="https://www.instagram.com/vector.dsp/" target="_blank" rel="noopener">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+      <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+    </svg>
+    Follow @vector.dsp
+  </a>
+</section>
+
+<div style="height:1px;background:var(--line);margin:0 clamp(16px,5vw,56px);"></div>
+
 <!-- ── BOTTOM CTA ── -->
 <section style="padding:clamp(60px,7vw,100px) clamp(16px,5vw,56px);display:flex;flex-direction:column;align-items:center;text-align:center;position:relative;overflow:hidden;">
 
   <div style="position:absolute;inset:0;background:radial-gradient(ellipse 60% 60% at 50% 100%,rgba(0,194,255,0.05),transparent);pointer-events:none;"></div>
 
   <div class="reveal" style="position:relative;z-index:2;max-width:560px;">
-    <div style="font-size:15px;letter-spacing:0.35em;text-transform:uppercase;color:var(--cyan);margin-bottom:24px;">Early Access</div>
-    <h2 style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:clamp(36px,5vw,60px);text-transform:uppercase;line-height:1;margin-bottom:20px;">Be First<br><span style="-webkit-text-stroke:1px rgba(237,240,244,0.2);color:transparent;">to Shape</span><br><span style="color:var(--cyan);">Your Sound.</span></h2>
-    <p style="font-family:'Barlow',sans-serif;font-size:21px;font-weight:300;line-height:1.8;color:rgba(237,240,244,0.45);margin-bottom:40px;">Sign up to be notified when ToneLab launches. Early access members will be first in line.</p>
+    <div style="font-size:15px;letter-spacing:0.35em;text-transform:uppercase;color:var(--cyan);margin-bottom:24px;">Pre-Order · Save $24</div>
+    <h2 style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:clamp(36px,5vw,60px);text-transform:uppercase;line-height:1;margin-bottom:20px;">Lock In<br><span style="-webkit-text-stroke:1px rgba(237,240,244,0.2);color:transparent;">Early Bird</span><br><span style="color:var(--cyan);">Pricing.</span></h2>
+    <p style="font-family:'Barlow',sans-serif;font-size:21px;font-weight:300;line-height:1.8;color:rgba(237,240,244,0.45);margin-bottom:24px;">
+      <span style="color:var(--muted);text-decoration:line-through;text-decoration-color:rgba(255,107,107,0.7);text-decoration-thickness:2px;">$73.99</span>
+      &nbsp;→&nbsp;
+      <span style="color:var(--white);font-weight:500;">$49.99</span>
+      &nbsp;until launch. No charge today — we'll email your checkout link the moment ToneLab ships.
+    </p>
 
     <div class="tl-input-row" style="max-width:440px;margin:0 auto 10px;">
       <input class="tl-email-input" type="email" id="tl-email-2" placeholder="your@email.com" autocomplete="email"/>
-      <button class="tl-submit" onclick="handleSignup2()">Notify Me</button>
+      <button class="tl-submit" onclick="handleSignup2()">Pre Order Now</button>
     </div>
-    <div class="tl-privacy" style="text-align:center;">No spam. Early access updates only.</div>
-    <div id="tl-success-msg-2" style="display:none;margin-top:10px;font-size:16px;color:var(--mint);letter-spacing:0.1em;">✓ You're on the list. We'll be in touch.</div>
+    <div class="tl-privacy" style="text-align:center;">No spam. Pre-order updates only.</div>
+    <div id="tl-success-msg-2" style="display:none;margin-top:10px;font-size:16px;color:var(--mint);letter-spacing:0.1em;">✓ Spot reserved. Checkout link coming at launch.</div>
   </div>
 </section>
 
@@ -1303,11 +1569,19 @@ body {
     <span style="font-size:15px;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);">by Vector DSP</span>
   </div>
   <a class="tl-back" href="/" style="animation:none;">Back to Vector DSP</a>
-  <div style="display:flex;gap:24px;flex-wrap:wrap;justify-content:center;">
+  <div style="display:flex;gap:24px;flex-wrap:wrap;justify-content:center;align-items:center;">
     <a href="/blog/" style="font-size:13px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);text-decoration:none;">Blog</a>
     <a href="/terms.html" style="font-size:13px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);text-decoration:none;">Terms</a>
     <a href="/privacy.html" style="font-size:13px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);text-decoration:none;">Privacy</a>
     <a href="/refunds.html" style="font-size:13px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);text-decoration:none;">Refunds</a>
+    <a class="footer-ig" href="https://www.instagram.com/vector.dsp/" target="_blank" rel="noopener" aria-label="Vector DSP on Instagram">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+      </svg>
+      Instagram
+    </a>
   </div>
   <div style="font-size:15px;color:var(--muted2);letter-spacing:0.05em;">© 2026 Vector DSP LLC</div>
 </footer>
@@ -1383,7 +1657,7 @@ async function handleSignup() {
 
   try {
     await submitToBrevo(email);
-    btn.textContent = '✓ Done';
+    btn.textContent = '✓ Reserved';
     btn.classList.add('success');
     input.disabled = true;
     msg.style.display = 'block';
@@ -1461,6 +1735,9 @@ document.querySelectorAll('.tl-email-input').forEach(input => {
   // init on page load
   document.addEventListener('DOMContentLoaded', () => buildBars());
 </script>
+
+<!-- Instagram embed -->
+<script async src="//www.instagram.com/embed.js"></script>
 
 
 </body>

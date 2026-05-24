@@ -1,0 +1,140 @@
+# ─────────────────────────────────────────────────────────────
+# ToneLab v1.0 launch swap
+# Fires at 04:00 UTC on 2026-05-25 (midnight Eastern).
+# Replaces the live tonelab.html / index.html with the staged
+# *.launch.html versions, commits, and pushes — Netlify
+# auto-deploys on push to main.
+#
+# Manual trigger available via Actions tab → "Run workflow"
+# (mode: swap | rollback | dry-run).
+# ─────────────────────────────────────────────────────────────
+
+name: ToneLab v1.0 Launch Swap
+
+on:
+  schedule:
+    # Minute Hour DayOfMonth Month DayOfWeek
+    # 04:00 UTC on May 25 = midnight Eastern (EDT)
+    - cron: '0 4 25 5 *'
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'swap (live), rollback (restore pre-launch), dry-run (no commit)'
+        required: true
+        default: 'dry-run'
+        type: choice
+        options:
+          - dry-run
+          - swap
+          - rollback
+
+permissions:
+  contents: write
+
+jobs:
+  launch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Determine mode
+        id: mode
+        run: |
+          if [ "${{ github.event_name }}" = "schedule" ]; then
+            echo "mode=swap" >> "$GITHUB_OUTPUT"
+          else
+            echo "mode=${{ inputs.mode }}" >> "$GITHUB_OUTPUT"
+          fi
+          echo "Running in mode: ${{ steps.mode.outputs.mode || inputs.mode || 'swap' }}"
+
+      - name: Verify staged files exist (swap mode)
+        if: steps.mode.outputs.mode == 'swap' || steps.mode.outputs.mode == 'dry-run'
+        run: |
+          missing=0
+          for f in tonelab.launch.html index.launch.html; do
+            if [ ! -f "$f" ]; then
+              echo "::error::Missing staged file: $f"
+              missing=1
+            fi
+          done
+          if [ "$missing" = "1" ]; then
+            echo "::error::Launch swap aborted — staged files not in repo."
+            exit 1
+          fi
+          echo "✓ Both staged files present."
+
+      - name: Verify rollback files exist (rollback mode)
+        if: steps.mode.outputs.mode == 'rollback'
+        run: |
+          missing=0
+          for f in tonelab.prelaunch.html index.prelaunch.html; do
+            if [ ! -f "$f" ]; then
+              echo "::error::Missing rollback file: $f"
+              missing=1
+            fi
+          done
+          if [ "$missing" = "1" ]; then
+            echo "::error::Rollback aborted — pre-launch snapshots not found."
+            exit 1
+          fi
+
+      - name: Perform swap
+        if: steps.mode.outputs.mode == 'swap'
+        run: |
+          # Snapshot the current pre-launch versions so rollback works.
+          cp tonelab.html tonelab.prelaunch.html
+          cp index.html   index.prelaunch.html
+
+          # Promote launch versions to live.
+          mv tonelab.launch.html tonelab.html
+          mv index.launch.html   index.html
+
+          echo "✓ Swap complete."
+          ls -la tonelab.html index.html tonelab.prelaunch.html index.prelaunch.html
+
+      - name: Perform rollback
+        if: steps.mode.outputs.mode == 'rollback'
+        run: |
+          # Stage the current "live" (failed launch) back as launch files
+          # so we can re-fire the swap later without re-staging from scratch.
+          cp tonelab.html tonelab.launch.html
+          cp index.html   index.launch.html
+
+          # Restore the pre-launch snapshots over the live files.
+          mv tonelab.prelaunch.html tonelab.html
+          mv index.prelaunch.html   index.html
+
+          echo "✓ Rollback complete — pre-launch site restored."
+
+      - name: Dry-run preview
+        if: steps.mode.outputs.mode == 'dry-run'
+        run: |
+          echo "─── DRY RUN: showing planned diff for tonelab.html ───"
+          diff -u tonelab.html tonelab.launch.html | head -120 || true
+          echo ""
+          echo "─── DRY RUN: showing planned diff for index.html ───"
+          diff -u index.html index.launch.html | head -60 || true
+          echo ""
+          echo "✓ Dry-run only — no files modified, no commit made."
+
+      - name: Commit and push
+        if: steps.mode.outputs.mode == 'swap' || steps.mode.outputs.mode == 'rollback'
+        run: |
+          git config user.name  "vector-dsp-bot"
+          git config user.email "bot@vector-dsp.com"
+          git add -A
+          if git diff --staged --quiet; then
+            echo "Nothing to commit — repo already in target state."
+            exit 0
+          fi
+          if [ "${{ steps.mode.outputs.mode }}" = "swap" ]; then
+            git commit -m "🚀 ToneLab v1.0 — public launch (automated swap)"
+          else
+            git commit -m "↩ ToneLab v1.0 — rollback to pre-launch site"
+          fi
+          git push origin HEAD:main
+          echo "✓ Pushed to main — Netlify will auto-deploy."

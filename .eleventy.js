@@ -15,6 +15,7 @@ module.exports = function (eleventyConfig) {
     "favicon.ico",
     "favicon-32x32.png",
     "apple-touch-icon.png",
+    "sundown-sale-1080.png",
     "netlify", // Netlify functions + config dir
   ];
   passthrough.forEach((f) => eleventyConfig.addPassthroughCopy(f));

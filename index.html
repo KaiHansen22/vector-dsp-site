@@ -3,16 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Vector DSP makes pro audio plugins for music producers. ToneLab — a multi-FX plugin for macOS and Windows — is our flagship. AU, VST3, AAX.">
+<meta name="description" content="ToneLab confines reverb, distortion, delay, chorus and saturation to the frequency ranges you choose — five parallel FX lanes, each with its own EQ, in one VST3 / AU / AAX insert. From $54.99.">
 <link rel="canonical" href="https://vector-dsp.com/">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Vector DSP — Pro Audio Plugins">
-<meta property="og:description" content="Vector DSP makes pro audio plugins for music producers. ToneLab — a multi-FX plugin for macOS and Windows — is our flagship. AU, VST3, AAX.">
+<meta property="og:title" content="ToneLab — Multi-FX Plugin with Per-Lane EQ | Vector DSP">
+<meta property="og:description" content="ToneLab confines reverb, distortion, delay, chorus and saturation to the frequency ranges you choose — five parallel FX lanes, each with its own EQ, in one VST3 / AU / AAX insert. From $54.99.">
 <meta property="og:url" content="https://vector-dsp.com/">
 <meta property="og:site_name" content="Vector DSP">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Vector DSP — Pro Audio Plugins">
-<meta name="twitter:description" content="Vector DSP makes pro audio plugins for music producers. ToneLab — a multi-FX plugin for macOS and Windows — is our flagship. AU, VST3, AAX.">
+<meta name="twitter:title" content="ToneLab — Multi-FX Plugin with Per-Lane EQ | Vector DSP">
+<meta name="twitter:description" content="ToneLab confines reverb, distortion, delay, chorus and saturation to the frequency ranges you choose — five parallel FX lanes, each with its own EQ, in one VST3 / AU / AAX insert. From $54.99.">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -33,10 +33,44 @@
     "@type": "ContactPoint",
     "email": "support@vector-dsp.com",
     "contactType": "customer support"
+  },
+  "founder": { "@type": "Person", "name": "Kai Hansen", "jobTitle": "Founder & Developer", "sameAs": ["https://www.linkedin.com/in/kai-hansen0/", "https://www.instagram.com/kaihansen0/"] },
+  "sameAs": ["https://www.instagram.com/vector.dsp/"]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "ToneLab",
+  "description": "Multi-effects audio plugin with five parallel FX lanes, each with its own EQ, so reverb, distortion, delay, chorus and saturation can be confined to chosen frequency ranges. VST3, AU and AAX for macOS and Windows.",
+  "applicationCategory": "MultimediaApplication",
+  "applicationSubCategory": "Audio Plugin",
+  "operatingSystem": "macOS 11+, Windows 10/11",
+  "url": "https://vector-dsp.com/tonelab.html",
+  "softwareVersion": "1.0",
+  "brand": { "@type": "Brand", "name": "Vector DSP" },
+  "publisher": { "@type": "Organization", "name": "Vector DSP LLC", "url": "https://vector-dsp.com" },
+  "featureList": [
+    "Five parallel effect lanes: reverb, distortion, delay, chorus, saturation",
+    "Per-lane EQ to confine each effect to a chosen frequency range",
+    "VST3, AU and AAX plugin formats",
+    "macOS Universal (Apple Silicon and Intel) and Windows 10/11",
+    "Free demo mode with no time limit",
+    "One license activates up to 2 devices"
+  ],
+  "offers": {
+    "@type": "Offer",
+    "price": "54.99",
+    "priceCurrency": "USD",
+    "priceValidUntil": "2026-09-07",
+    "availability": "https://schema.org/InStock",
+    "url": "https://vector-dsp.com/pricing.html",
+    "seller": { "@type": "Organization", "name": "Vector DSP LLC" }
   }
 }
 </script>
-<title>Vector DSP</title>
+<title>ToneLab — Multi-FX Plugin with Per-Lane EQ (VST3/AU/AAX) | Vector DSP</title>
 <link rel="icon" type="image/x-icon" href="/favicon.ico">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
@@ -360,6 +394,7 @@ nav {
 }
 .status-dot.coming { background: var(--cyan); box-shadow: 0 0 8px var(--cyan); animation: blink 2s ease-in-out infinite; }
 .status-dot.active { background: var(--mint); }
+.status-dot.live { background: var(--mint); box-shadow: 0 0 8px var(--mint); }
 @keyframes blink {
   0%, 100% { opacity: 1; } 50% { opacity: 0.3; }
 }
@@ -507,6 +542,42 @@ footer {
   letter-spacing: 0.1em; text-transform: uppercase;
 }
 .footer-wordmark em { color: var(--purple); font-style: normal; }
+
+/* FOUNDER BLOCK */
+.founder {
+  display: flex; gap: 26px; align-items: flex-start;
+  margin: 40px 0 8px; padding: 28px 0 0;
+  border-top: 1px solid var(--line);
+  max-width: 720px;
+}
+.founder-photo {
+  width: 104px; height: 104px; flex: 0 0 104px;
+  border-radius: 50%; object-fit: cover;
+  object-position: 50% 42%;
+  border: 1px solid rgba(155,109,255,0.28);
+  box-shadow: 0 0 0 4px rgba(155,109,255,0.06), 0 6px 22px rgba(0,0,0,0.5);
+}
+.founder-name {
+  font-family: 'Barlow Condensed', sans-serif; font-weight: 700;
+  font-size: 24px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--white);
+}
+.founder-role {
+  font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--purple); margin: 4px 0 14px;
+}
+.founder-quote {
+  font-family: 'Barlow', sans-serif; font-size: 17px; font-weight: 300;
+  line-height: 1.8; color: rgba(237,240,244,0.55); margin-bottom: 14px;
+}
+.founder-links { display: flex; gap: 22px; flex-wrap: wrap; }
+.founder-links a {
+  font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--muted); text-decoration: none; transition: color 0.2s;
+}
+.founder-links a:hover { color: var(--purple); }
+@media (max-width: 640px) {
+  .founder { flex-direction: column; gap: 18px; }
+}
 
 .footer-links {
   display: flex; gap: 28px;
@@ -940,8 +1011,9 @@ footer {
   <div class="nav-links" id="home-nav-links">
     <a class="nav-link" href="#products" onclick="event.preventDefault();scrollToSection('#products')">Products</a>
     <a class="nav-link" href="#technology" onclick="event.preventDefault();scrollToSection('#technology')">Technology</a>
-    <a class="nav-link" href="#about" onclick="event.preventDefault();scrollToSection('#about')">About</a>
-    <a class="nav-cta" href="/tonelab.html">ToneLab →</a>
+    <a class="nav-link" href="/pricing.html">Pricing</a>
+    <a class="nav-link" href="/about.html">About</a>
+    <a class="nav-cta" href="/tonelab.html">Get ToneLab →</a>
   </div>
   <div class="nav-links" id="tonelab-nav-links" style="display:none;visibility:hidden;">
     <span class="nav-link" href="/">← Back to Vector DSP</span>
@@ -961,6 +1033,7 @@ footer {
     <s style="color:#5A6070;text-decoration-color:rgba(255,107,107,0.8);">$73.99</s>
     <strong style="color:#EDF0F4;font-weight:700;">&nbsp;$54.99</strong>
     &nbsp;· through Sept 7 · code <strong style="color:#EDF0F4;letter-spacing:0.06em;">SUNDOWN</strong>
+    <span style="display:block;font-size:13px;color:rgba(237,240,244,0.5);margin-top:2px;">Less than half a FabFilter plug-in — and it replaces the five buses and five EQs you'd wire by hand.</span>
   </span>
   <span style="position:relative;z-index:2;display:inline-block;padding:7px 18px;border-radius:5px;background:#00C2FF;color:#0B0D11;font-family:'Barlow Condensed','Arial Narrow',Arial,sans-serif;font-weight:700;font-size:13px;letter-spacing:0.14em;text-transform:uppercase;">Get ToneLab →</span>
 </a>
@@ -996,18 +1069,21 @@ footer {
     </svg>
 
     <div style="position:relative;z-index:2;">
-      <div class="hero-eyebrow">Digital Signal Processing</div>
+      <div class="hero-eyebrow">Multi-FX Plugin · AU / VST3 / AAX</div>
       <h1 class="hero-headline">
-        Your Signal.<br>
-        <span class="ghost">Our Design.</span><br>
-        <span class="hl">Pure Intent.</span>
+        Five effects.<br>
+        <span class="ghost">One insert.</span><br>
+        <span class="hl">No mud.</span>
       </h1>
       <p class="hero-body">
-        Vector DSP builds audio software rooted in signal processing. Thoughtfully designed tools for creators who care about how their sound is handled.
+        ToneLab confines reverb, distortion, delay, chorus and saturation to the frequency ranges you choose — the parallel send chain you'd hand-build from five buses and five EQs, in a single VST3 / AU / AAX insert.
+      </p>
+      <p class="hero-body" style="font-size:17px;color:rgba(237,240,244,0.45);margin-top:-18px;">
+        For producers and mix engineers who want their FX surgical, not smeared. A Vector DSP product for macOS and Windows.
       </p>
       <div class="hero-actions">
         <a class="btn-primary" href="/tonelab.html">Explore ToneLab</a>
-        <a class="btn-ghost" href="#technology" onclick="event.preventDefault();scrollToSection('#technology')">Our Technology</a>
+        <a class="btn-ghost" href="/pricing.html">Pricing</a>
       </div>
     </div>
 
@@ -1020,19 +1096,19 @@ footer {
   <!-- MARQUEE -->
   <div class="marquee-wrap">
     <div class="marquee-track">
-      <div class="marquee-item"><span>Thoughtful DSP Design</span><div class="marquee-dot"></div></div>
-      <div class="marquee-item"><span>Precision Signal Processing</span><div class="marquee-dot"></div></div>
-      <div class="marquee-item"><span>Professional Audio Tools</span><div class="marquee-dot"></div></div>
-      <div class="marquee-item"><span>Music Production Software</span><div class="marquee-dot"></div></div>
-      <div class="marquee-item"><span>Built for Every Creator</span><div class="marquee-dot"></div></div>
-      <div class="marquee-item"><span>Signal, Shaped With Intent</span><div class="marquee-dot"></div></div>
+      <div class="marquee-item"><span>Reverb in the mids only</span><div class="marquee-dot"></div></div>
+      <div class="marquee-item"><span>Distortion just in the lows</span><div class="marquee-dot"></div></div>
+      <div class="marquee-item"><span>Five lanes. Five EQs. One insert.</span><div class="marquee-dot"></div></div>
+      <div class="marquee-item"><span>For producers and mix engineers</span><div class="marquee-dot"></div></div>
+      <div class="marquee-item"><span>AAX for Pro Tools</span><div class="marquee-dot"></div></div>
+      <div class="marquee-item"><span>macOS Universal · Windows 10 / 11</span><div class="marquee-dot"></div></div>
       <!-- duplicate for seamless loop -->
-      <div class="marquee-item"><span>Thoughtful DSP Design</span><div class="marquee-dot"></div></div>
-      <div class="marquee-item"><span>Precision Signal Processing</span><div class="marquee-dot"></div></div>
-      <div class="marquee-item"><span>Professional Audio Tools</span><div class="marquee-dot"></div></div>
-      <div class="marquee-item"><span>Music Production Software</span><div class="marquee-dot"></div></div>
-      <div class="marquee-item"><span>Built for Every Creator</span><div class="marquee-dot"></div></div>
-      <div class="marquee-item"><span>Signal, Shaped With Intent</span><div class="marquee-dot"></div></div>
+      <div class="marquee-item"><span>Reverb in the mids only</span><div class="marquee-dot"></div></div>
+      <div class="marquee-item"><span>Distortion just in the lows</span><div class="marquee-dot"></div></div>
+      <div class="marquee-item"><span>Five lanes. Five EQs. One insert.</span><div class="marquee-dot"></div></div>
+      <div class="marquee-item"><span>For producers and mix engineers</span><div class="marquee-dot"></div></div>
+      <div class="marquee-item"><span>AAX for Pro Tools</span><div class="marquee-dot"></div></div>
+      <div class="marquee-item"><span>macOS Universal · Windows 10 / 11</span><div class="marquee-dot"></div></div>
     </div>
   </div>
 
@@ -1048,7 +1124,7 @@ footer {
       <!-- ToneLab featured card -->
       <div class="product-card featured" onclick="window.location='/tonelab.html'" style="cursor:pointer;">
         <div class="product-status">
-          <div class="status-dot coming" style="background:var(--mint);box-shadow:0 0 8px var(--mint);"></div>
+          <div class="status-dot live" style="background:var(--mint);box-shadow:0 0 8px var(--mint);"></div>
           <span style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:15px;letter-spacing:0.25em;text-transform:uppercase;color:var(--mint);">Available Now</span>
         </div>
 
@@ -1070,16 +1146,26 @@ footer {
         <a class="product-link" href="/tonelab.html">Get ToneLab <span>→</span></a>
       </div>
 
-      <!-- Coming soon slot -->
-      <div class="product-card coming-soon-card" style="opacity:0.4; pointer-events:none;">
+      <!-- Next product teaser — category only, no name until clearance -->
+      <div class="product-card coming-soon-card" style="opacity:0.55; pointer-events:none;">
         <div class="product-status">
           <div class="status-dot" style="background:var(--muted); width:6px;height:6px;border-radius:50%;"></div>
           <span style="color:var(--muted);font-size:14px;letter-spacing:0.25em;">In Development</span>
         </div>
-        <div class="product-name" style="font-size:30px; color:var(--muted);"></div>
-        <div class="product-type">Next Vector DSP Product</div>
+
+        <!-- placeholder mark: waveform driving a light cone -->
+        <div class="tl-mark-inline">
+          <svg width="56" height="56" viewBox="0 0 44 44" fill="none">
+            <rect x="2" y="2" width="40" height="40" rx="5" fill="rgba(155,109,255,0.05)" stroke="rgba(155,109,255,0.18)" stroke-width="1.5"/>
+            <polyline points="6,22 9,22 11,15 13,29 15,18 17,22 20,22" stroke="#5A6070" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            <path d="M23 22 L37 13 L37 31 Z" stroke="#5A6070" stroke-width="1.5" stroke-linejoin="round" fill="rgba(155,109,255,0.06)"/>
+          </svg>
+        </div>
+
+        <div class="product-name" style="font-size:30px; color:var(--muted);">Audio-Reactive Visuals</div>
+        <div class="product-type">Offline Renderer · In Development</div>
         <p class="product-desc" style="margin-top:auto;">
-          The next instrument in our precision audio toolkit. Details coming soon.
+          Visuals driven by the audio itself, rendered offline rather than captured off a screen — linear light, 16-bit float, no banding. Name and date when it's ready.
         </p>
       </div>
     </div>
@@ -1131,10 +1217,30 @@ footer {
     <div class="reveal">
       <h2 class="about-heading">The Science<br>Behind the <span class="hl">Sound.</span></h2>
       <p class="about-body">
-      <p class="about-body">
         Vector DSP is built on a straightforward idea: audio software should give you more control, not more complexity. We build DSP tools using industry-standard architecture — each one designed around a specific problem that existing plugins don't solve well.
       </p>
     </div>
+    <!-- FOUNDER BLOCK -->
+    <div class="founder reveal">
+      <img class="founder-photo" src="/kai-hansen.jpg" width="900" height="900" loading="lazy"
+           alt="Kai Hansen, founder of Vector DSP, wearing studio headphones">
+      <div class="founder-text">
+        <div class="founder-name">Kai Hansen</div>
+        <div class="founder-role">Founder &amp; Developer, Vector DSP</div>
+        <p class="founder-quote">
+          I wanted something that didn't exist, so I spent a year building it. ToneLab is five parallel
+          DSP lanes in C++ on JUCE, every one of them on a microsecond budget. I'm also the only person
+          on the support email — which means the brain that wrote the bug has to explain it too.
+        </p>
+        <div class="founder-links">
+          <a href="https://www.linkedin.com/in/kai-hansen0/" target="_blank" rel="noopener">LinkedIn</a>
+          <a href="https://www.instagram.com/kaihansen0/" target="_blank" rel="noopener">Instagram</a>
+          <a href="/about.html">Read more</a>
+          <a href="mailto:support@vector-dsp.com">support@vector-dsp.com</a>
+        </div>
+      </div>
+    </div>
+
     <div class="about-stats reveal">
       <div class="stat-block">
         <div class="stat-val">AU</div>
@@ -1167,8 +1273,9 @@ footer {
     <div class="footer-links">
       <a class="footer-link" href="/blog/">Blog</a>
       <a class="footer-link" href="/tonelab.html">ToneLab</a>
+      <a class="footer-link" href="/pricing.html">Pricing</a>
+      <a class="footer-link" href="/about.html">About</a>
       <a class="footer-link" href="/cdn-cgi/l/email-protection#3e4d4b4e4e514c4a7e485b5d4a514c135a4d4e105d5153">Contact</a>
-      <span class="footer-link">Press</span>
       <a class="footer-link" href="/terms.html">Terms</a>
       <a class="footer-link" href="/privacy.html">Privacy</a>
       <a class="footer-link" href="/refunds.html">Refunds</a>

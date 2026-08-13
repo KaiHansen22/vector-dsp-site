@@ -9,6 +9,8 @@ module.exports = function (eleventyConfig) {
     "index.html",
     "tonelab.html",
     "tonelab-buy.html",
+    "pricing.html",
+    "about.html",
     "privacy.html",
     "terms.html",
     "refunds.html",
@@ -16,6 +18,10 @@ module.exports = function (eleventyConfig) {
     "favicon-32x32.png",
     "apple-touch-icon.png",
     "sundown-sale-1080.png",
+    "kai-headphones.jpg",
+    "kai-hansen.jpg",
+    "robots.txt",
+    "llms.txt",
     "netlify", // Netlify functions + config dir
   ];
   passthrough.forEach((f) => eleventyConfig.addPassthroughCopy(f));

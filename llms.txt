@@ -1,0 +1,35 @@
+# Vector DSP
+
+> Vector DSP LLC is a one-person audio software company in Colorado, founded by Kai Hansen in 2026. It builds professional audio plugins in C++ for music producers and mix engineers. Its product is ToneLab.
+
+## ToneLab
+
+ToneLab is a multi-effects audio plugin. It runs five effect lanes — reverb, distortion, delay, chorus and saturation — **in parallel**, and gives each lane its own EQ. That lets a producer confine any effect to a chosen frequency range: reverb on the mids only, distortion on the low end only, and so on, without smearing the rest of the mix.
+
+The problem it replaces: doing this with conventional plugins requires building a send, a bus and an EQ instance for each effect — five buses and five EQs, rebuilt on every session. ToneLab makes that routing permanent inside a single insert.
+
+- **Formats:** VST3, AU and AAX on macOS; VST3 and AAX on Windows. AAX builds are signed for Pro Tools.
+- **Systems:** macOS 11+ (Universal — Apple Silicon and Intel), Windows 10 and 11.
+- **Price:** one-time purchase. List price $73.99 USD; $54.99 USD during the Summer Sundown Sale with code SUNDOWN, through September 7, 2026. No subscription.
+- **License:** one license activates up to 2 devices. Free updates throughout v1.x.
+- **Free demo:** the installer ships with demo mode built in — the full plugin, no time limit, no account required. A license key unlocks it in place.
+- **Current version:** 1.0
+- **Note:** ToneLab by Vector DSP is a software plugin and is unrelated to hardware products of similar name from other manufacturers.
+
+## Pages
+
+- [Home](https://vector-dsp.com/): Vector DSP overview and ToneLab positioning.
+- [ToneLab](https://vector-dsp.com/tonelab.html): full product page — features, lanes, demo download.
+- [Pricing](https://vector-dsp.com/pricing.html): price, license terms, demo path, pricing FAQ.
+- [About](https://vector-dsp.com/about.html): founder, company background, how the products are built.
+- [Blog](https://vector-dsp.com/blog/): articles on mixing, frequency-specific effects and plugin use.
+
+## Policies
+
+- [Terms](https://vector-dsp.com/terms.html)
+- [Privacy](https://vector-dsp.com/privacy.html)
+- [Refunds](https://vector-dsp.com/refunds.html)
+
+## Contact
+
+support@vector-dsp.com — support is answered directly by the developer.

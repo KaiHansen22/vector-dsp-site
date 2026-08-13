@@ -19,3 +19,18 @@
   from = "/api/babylovegrowth"
   to = "/.netlify/functions/babylovegrowth"
   status = 200
+
+[[redirects]]
+  from = "/pricing"
+  to = "/pricing.html"
+  status = 301
+
+[[redirects]]
+  from = "/about"
+  to = "/about.html"
+  status = 301
+
+[[redirects]]
+  from = "/tonelab"
+  to = "/tonelab.html"
+  status = 301

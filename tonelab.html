@@ -34,6 +34,62 @@
   }
 }
 </script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Why buy this if I already own an EQ and a reverb?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Because ToneLab isn't selling you five more effects — it's selling you the routing. Each of the five lanes runs in parallel with its own EQ, so you decide exactly where in the spectrum each effect lands. Building that with the plugins you already own means a send, a bus and an EQ instance per effect — five buses and five EQs — reconstructed on every session. ToneLab makes that chain permanent inside one insert."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Will five parallel lanes tax my CPU?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Latency and CPU efficiency are the constraints every processing decision was made against, not an optimisation pass at the end. ToneLab is written in C++ and runs the five lanes in parallel rather than in series, so the signal isn't queueing through five plugins. The honest answer is that it depends on your buffer size, sample rate and how many instances you run — which is exactly why the demo is the full plugin with no time limit. Load it into your real session and watch your own meters before you pay."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does licensing and activation work?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "One license activates up to 2 devices — a studio machine and a laptop, for example. You can deactivate a device to move that activation elsewhere. It's a one-time purchase, not a subscription, and every v1.x update is free. Full terms are on the pricing page."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Which formats and systems does it run in?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "VST3, AU and AAX on macOS — Universal, so Apple Silicon and Intel both run natively. VST3 and AAX on Windows 10 and 11. The AAX builds are signed for Pro Tools, and the macOS installer is notarized with Apple."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is the demo limited?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No time limit and no account required. The installer ships with demo mode built in — it's the full plugin, running in your DAW on your own sessions, for as long as you want. Entering a license key unlocks it in place; you don't reinstall anything."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What if I buy it and it isn't for me?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Try the demo first — it exists so you can be certain before you pay. If you've bought and it still isn't right, the refund policy covers it. Support is answered by the person who wrote the code."
+      }
+    }
+  ]
+}
+</script>
 <title>ToneLab — Multi-FX Plugin with Per-Lane EQ (VST3/AU/AAX) | Vector DSP</title>
 <link rel="icon" type="image/x-icon" href="/favicon.ico">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -1150,6 +1206,41 @@ body {
   background: radial-gradient(ellipse 60% 50% at 50% 30%, rgba(155,109,255,0.06), transparent 70%);
   pointer-events: none;
 }
+/* ── FAQ ── */
+.tl-faq {
+  padding: clamp(60px,7vw,100px) clamp(16px,5vw,56px);
+  max-width: 900px; margin: 0 auto;
+}
+.tl-faq-list { margin-top: 40px; border-top: 1px solid var(--line); }
+.tl-faq-item { border-bottom: 1px solid var(--line); }
+.tl-faq-item summary {
+  list-style: none; cursor: pointer;
+  padding: 22px 44px 22px 0; position: relative;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700; font-size: clamp(19px,2.2vw,23px);
+  line-height: 1.3; color: var(--white);
+  transition: color 0.2s;
+}
+.tl-faq-item summary::-webkit-details-marker { display: none; }
+.tl-faq-item summary:hover { color: var(--cyan); }
+.tl-faq-item summary::after {
+  content: ''; position: absolute; right: 6px; top: 50%;
+  width: 11px; height: 11px; margin-top: -7px;
+  border-right: 2px solid var(--purple); border-bottom: 2px solid var(--purple);
+  transform: rotate(45deg); transition: transform 0.25s ease;
+}
+.tl-faq-item[open] summary::after { transform: rotate(-135deg); margin-top: -3px; }
+.tl-faq-a {
+  font-family: 'Barlow', sans-serif;
+  font-size: 18px; font-weight: 300; line-height: 1.85;
+  color: rgba(237,240,244,0.55);
+  padding: 0 40px 26px 0; max-width: 76ch;
+}
+.tl-faq-a em { color: var(--white); font-style: italic; }
+.tl-faq-a a { color: var(--purple); text-decoration: none; }
+.tl-faq-a a:hover { text-decoration: underline; }
+@media (max-width: 640px) { .tl-faq-a { padding-right: 0; font-size: 17px; } }
+
 .ig-eyebrow {
   position: relative; z-index: 1;
   font-size: 15px; letter-spacing: 0.35em; text-transform: uppercase;
@@ -1384,9 +1475,6 @@ body {
       <div class="preorder-fineprint" style="display:flex;flex-direction:column;gap:6px;align-items:center;">
         <span>Secure Checkout</span>
         <a href="/refunds.html" style="color:inherit;text-decoration:underline;text-decoration-color:rgba(255,255,255,0.25);text-underline-offset:3px;">Refund Policy</a>
-      </div>
-      <div style="margin-top:14px;font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:14px;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted);text-align:center;">
-        On the waitlist? Check your email for your discount code.
       </div>
     </div>
   </div><!-- end content -->
@@ -1630,7 +1718,41 @@ body {
   </div>
 </section>
 
+
 <div style="height:1px;background:var(--line);margin:0 clamp(16px,5vw,56px);"></div>
+
+<!-- ── FAQ ── -->
+<section class="tl-faq reveal" id="faq">
+  <div class="ig-eyebrow">Before You Buy</div>
+  <h2 class="ig-heading">The questions <span class="hl">worth asking.</span></h2>
+
+  <div class="tl-faq-list">
+      <details class="tl-faq-item">
+        <summary>Why buy this if I already own an EQ and a reverb?</summary>
+        <div class="tl-faq-a">Because ToneLab isn't selling you five more effects — it's selling you the routing. Each of the five lanes runs <em>in parallel</em> with its own EQ, so you decide exactly where in the spectrum each effect lands. Building that with the plugins you already own means a send, a bus and an EQ instance per effect — five buses and five EQs — reconstructed on every session. ToneLab makes that chain permanent inside one insert.</div>
+      </details>
+      <details class="tl-faq-item">
+        <summary>Will five parallel lanes tax my CPU?</summary>
+        <div class="tl-faq-a">Latency and CPU efficiency are the constraints every processing decision was made against, not an optimisation pass at the end. ToneLab is written in C++ and runs the five lanes in parallel rather than in series, so the signal isn't queueing through five plugins. The honest answer is that it depends on your buffer size, sample rate and how many instances you run — which is exactly why the demo is the full plugin with no time limit. Load it into your real session and watch your own meters before you pay.</div>
+      </details>
+      <details class="tl-faq-item">
+        <summary>How does licensing and activation work?</summary>
+        <div class="tl-faq-a">One license activates up to 2 devices — a studio machine and a laptop, for example. You can deactivate a device to move that activation elsewhere. It's a one-time purchase, not a subscription, and every v1.x update is free. Full terms are on the <a href="/pricing.html">pricing page</a>.</div>
+      </details>
+      <details class="tl-faq-item">
+        <summary>Which formats and systems does it run in?</summary>
+        <div class="tl-faq-a">VST3, AU and AAX on macOS — Universal, so Apple Silicon and Intel both run natively. VST3 and AAX on Windows 10 and 11. The AAX builds are signed for Pro Tools, and the macOS installer is notarized with Apple.</div>
+      </details>
+      <details class="tl-faq-item">
+        <summary>Is the demo limited?</summary>
+        <div class="tl-faq-a">No time limit and no account required. The installer ships with demo mode built in — it's the full plugin, running in your DAW on your own sessions, for as long as you want. Entering a license key unlocks it in place; you don't reinstall anything.</div>
+      </details>
+      <details class="tl-faq-item">
+        <summary>What if I buy it and it isn't for me?</summary>
+        <div class="tl-faq-a">Try the demo first — it exists so you can be certain before you pay. If you've bought and it still isn't right, the <a href="/refunds.html">refund policy</a> covers it. Support is answered by the person who wrote the code.</div>
+      </details>
+  </div>
+</section>
 
 <!-- ── BOTTOM CTA ── -->
 <section style="padding:clamp(60px,7vw,100px) clamp(16px,5vw,56px);display:flex;flex-direction:column;align-items:center;text-align:center;position:relative;overflow:hidden;">

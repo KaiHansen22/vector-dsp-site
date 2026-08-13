@@ -183,9 +183,9 @@ nav {
 
 /* HERO */
 .hero {
-  min-height: 100vh;
+  min-height: calc(100vh - 124px);
   display: flex; flex-direction: column; justify-content: center;
-  padding: 64px 56px 80px;
+  padding: 56px 56px 64px;
   position: relative; overflow: hidden;
 }
 
@@ -198,13 +198,40 @@ nav {
   mask-image: radial-gradient(ellipse 90% 90% at 60% 50%, black 20%, transparent 75%);
 }
 
-.hero-schematic {
+.hero-media {
   position: absolute;
-  right: 120px; top: 50%;
-  transform: translateY(-50%);
-  width: 520px; height: 520px;
-  opacity: 0.15;
-  animation: rotateSlow 60s linear infinite;
+  right: clamp(16px, 3vw, 56px);
+  top: 50%; transform: translateY(-50%);
+  width: min(52vw, 780px);
+  z-index: 1;
+}
+.hero-loop, .hero-still {
+  width: 100%; height: auto; display: block;
+  border: 1px solid rgba(155,109,255,0.22);
+  border-radius: 8px;
+  box-shadow: 0 0 0 6px rgba(155,109,255,0.04), 0 24px 60px rgba(0,0,0,0.65);
+}
+.hero-still { display: none; }
+.hero-media-cap {
+  margin-top: 12px; text-align: right;
+  font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--muted);
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-loop { display: none; }
+  .hero-still { display: block; }
+}
+
+@media (max-width: 1100px) {
+  .hero { min-height: auto; padding-top: 96px; padding-bottom: 56px; }
+  .hero-media {
+    position: static; transform: none;
+    width: 100%; margin-top: 36px;
+    order: 5;
+  }
+  .hero-media-cap { text-align: left; }
+  .hero-headline { max-width: none; }
+  .hero-scroll { display: none; }
 }
 
 @keyframes rotateSlow {
@@ -224,9 +251,10 @@ nav {
 
 .hero-headline {
   font-family: 'Barlow Condensed', sans-serif;
+  max-width: 9ch;
   font-weight: 800;
-  font-size: clamp(56px, 8.5vw, 108px);
-  line-height: 0.92;
+  font-size: clamp(48px, 6.6vw, 88px);
+  line-height: 0.94;
   letter-spacing: -0.01em;
   text-transform: uppercase;
   margin-bottom: 36px;
@@ -242,9 +270,9 @@ nav {
 
 .hero-body {
   font-family: 'Barlow', sans-serif;
-  font-size: 21px; font-weight: 300; line-height: 1.8;
+  font-size: 19px; font-weight: 300; line-height: 1.7;
   color: rgba(237,240,244,0.5);
-  max-width: 480px; margin-bottom: 52px;
+  max-width: 470px; margin-bottom: 24px;
   animation: fadeUp 0.7s 0.2s ease both;
 }
 
@@ -467,9 +495,12 @@ nav {
 
 .pillar-title {
   font-family: 'Barlow Condensed', sans-serif;
-  font-weight: 700; font-size: 24px;
-  text-transform: uppercase; letter-spacing: 0.05em;
-  margin-bottom: 12px;
+  font-weight: 700; font-size: 23px;
+  line-height: 1.18;
+  text-transform: none; letter-spacing: 0.005em;
+  color: var(--white);
+  margin-bottom: 14px;
+  max-width: 22ch;
 }
 
 .pillar-desc {
@@ -542,6 +573,32 @@ footer {
   letter-spacing: 0.1em; text-transform: uppercase;
 }
 .footer-wordmark em { color: var(--purple); font-style: normal; }
+
+/* ── TESTIMONIAL WALL (hidden until real quotes land) ── */
+.wall-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px; margin-top: 44px;
+}
+.wall-card {
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: 6px; padding: 28px 26px;
+  display: flex; flex-direction: column; gap: 18px;
+}
+.wall-quote {
+  font-family: 'Barlow', sans-serif; font-size: 18px; font-weight: 300;
+  line-height: 1.75; color: rgba(237,240,244,0.72); flex: 1;
+}
+.wall-quote::before { content: '\201C'; color: var(--purple); font-size: 30px; line-height: 0; vertical-align: -8px; margin-right: 4px; }
+.wall-attr { display: flex; align-items: center; gap: 13px; }
+.wall-face {
+  width: 42px; height: 42px; flex: 0 0 42px; border-radius: 50%;
+  object-fit: cover; border: 1px solid rgba(155,109,255,0.28);
+}
+.wall-name {
+  font-family: 'Barlow Condensed', sans-serif; font-weight: 700;
+  font-size: 17px; letter-spacing: 0.05em; color: var(--white);
+}
+.wall-role { font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); margin-top: 2px; }
 
 /* FOUNDER BLOCK */
 .founder {
@@ -1055,18 +1112,16 @@ footer {
   <!-- HERO -->
   <section class="hero">
     <div class="hero-grid"></div>
-    <svg class="hero-schematic" viewBox="0 0 520 520" fill="none">
-      <circle cx="260" cy="260" r="240" stroke="#9B6DFF" stroke-width="0.5" stroke-dasharray="4 6"/>
-      <circle cx="260" cy="260" r="180" stroke="#9B6DFF" stroke-width="0.5"/>
-      <circle cx="260" cy="260" r="120" stroke="#9B6DFF" stroke-width="0.5" stroke-dasharray="2 5"/>
-      <circle cx="260" cy="260" r="60"  stroke="#9B6DFF" stroke-width="0.5"/>
-      <line x1="260" y1="20"  x2="260" y2="500" stroke="#9B6DFF" stroke-width="0.5"/>
-      <line x1="20"  y1="260" x2="500" y2="260" stroke="#9B6DFF" stroke-width="0.5"/>
-      <line x1="90"  y1="90"  x2="430" y2="430" stroke="#9B6DFF" stroke-width="0.5" opacity="0.4"/>
-      <line x1="430" y1="90"  x2="90"  y2="430" stroke="#9B6DFF" stroke-width="0.5" opacity="0.4"/>
-      <circle cx="260" cy="260" r="5" fill="#9B6DFF"/>
-      <polygon points="260,60 290,80 280,110 240,110 230,80" fill="none" stroke="#9B6DFF" stroke-width="0.5"/>
-    </svg>
+    <div class="hero-media" aria-hidden="false">
+      <video class="hero-loop" autoplay muted loop playsinline preload="metadata"
+             poster="/tonelab-loop-poster.jpg"
+             aria-label="ToneLab with a chorus lane selected: dragging the EQ node narrows the band and sweeps it up the spectrum, confining the effect to those frequencies.">
+        <source src="/tonelab-loop.webm" type="video/webm">
+        <source src="/tonelab-loop.mp4" type="video/mp4">
+      </video>
+      <img class="hero-still" src="/tonelab-loop-poster.jpg" width="1600" height="703" alt="ToneLab plugin interface showing a chorus lane with its EQ band confined to the upper mids">
+      <div class="hero-media-cap">Chorus confined to the upper mids — lane 1 of 5</div>
+    </div>
 
     <div style="position:relative;z-index:2;">
       <div class="hero-eyebrow">Multi-FX Plugin · AU / VST3 / AAX</div>
@@ -1078,7 +1133,7 @@ footer {
       <p class="hero-body">
         ToneLab confines reverb, distortion, delay, chorus and saturation to the frequency ranges you choose — the parallel send chain you'd hand-build from five buses and five EQs, in a single VST3 / AU / AAX insert.
       </p>
-      <p class="hero-body" style="font-size:17px;color:rgba(237,240,244,0.45);margin-top:-18px;">
+      <p class="hero-body" style="font-size:16px;color:rgba(237,240,244,0.42);margin-top:-8px;margin-bottom:32px;">
         For producers and mix engineers who want their FX surgical, not smeared. A Vector DSP product for macOS and Windows.
       </p>
       <div class="hero-actions">
@@ -1171,12 +1226,68 @@ footer {
     </div>
   </section>
 
+  <!-- ═══════════════════════════════════════
+       TESTIMONIAL WALL — audit item #9
+       DO NOT PUBLISH WITH INVENTED QUOTES.
+       Every card below must be a real, verbatim quote from a named
+       person who has given permission to be shown here. Replace the
+       three placeholders, add faces at /wall/<name>.jpg, then delete
+       the comment wrapper to make the section live.
+  ════════════════════════════════════════ -->
+  <!--
+  <section class="section" id="users">
+    <div class="reveal">
+      <div class="section-label">In Use</div>
+      <h2 class="section-heading">What It Fixed</h2>
+      <p class="section-sub">Producers and engineers who ran ToneLab on real material before launch. All beta testers received a free license.</p>
+    </div>
+
+    <div class="wall-grid reveal">
+
+      PENDING PAUL'S WRITTEN OK ON QUOTE + NAME + PHOTO:
+      <div class="wall-card">
+        <p class="wall-quote">It lets you get so accurate with what signal is actually getting delayed.</p>
+        <div class="wall-attr">
+          <img class="wall-face" src="/wall/paul.jpg" width="84" height="84" loading="lazy" alt="Paul Clasen">
+          <div>
+            <div class="wall-name">Paul Clasen</div>
+            <div class="wall-role">Designed ToneLab's factory presets</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="wall-card">
+        <p class="wall-quote">REAL VERBATIM QUOTE</p>
+        <div class="wall-attr">
+          <img class="wall-face" src="/wall/PERSON.jpg" width="84" height="84" loading="lazy" alt="PERSON NAME">
+          <div>
+            <div class="wall-name">FIRST NAME</div>
+            <div class="wall-role">ROLE · GENRE</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="wall-card">
+        <p class="wall-quote">REAL VERBATIM QUOTE</p>
+        <div class="wall-attr">
+          <img class="wall-face" src="/wall/PERSON.jpg" width="84" height="84" loading="lazy" alt="PERSON NAME">
+          <div>
+            <div class="wall-name">FIRST NAME</div>
+            <div class="wall-role">ROLE · GENRE</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+  -->
+
   <!-- TECHNOLOGY PILLARS -->
   <section class="section section-alt" id="technology">
     <div class="reveal">
       <div class="section-label">Technology</div>
       <h2 class="section-heading">How We Build</h2>
-      <p class="section-sub">Precision DSP built on industry-standard architecture. Three principles that guide every product decision.</p>
+      <p class="section-sub">Three things ToneLab lets you stop doing by hand — and the engineering underneath each one.</p>
     </div>
 
     <div class="pillars reveal">
@@ -1185,8 +1296,8 @@ footer {
         <svg class="pillar-icon" width="32" height="32" viewBox="0 0 32 32" fill="none">
           <polyline points="2,16 7,10 11,18 15,8 19,20 23,13 30,16" stroke="#9B6DFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
-        <div class="pillar-title">Low-Latency</div>
-        <p class="pillar-desc">We design with real-time performance in mind. Every signal processing decision is made with latency and CPU efficiency as primary constraints, not afterthoughts.</p>
+        <div class="pillar-title">Keep your low end tight while the reverb sits in the mids</div>
+        <p class="pillar-desc">Each lane's EQ decides where its effect lands, so a long reverb never washes into your 808. Real-time performance is the constraint every processing decision is made against — latency and CPU efficiency first, not as an afterthought.</p>
       </div>
       <div class="pillar">
         <div class="pillar-num">02</div>
@@ -1195,8 +1306,8 @@ footer {
           <circle cx="16" cy="16" r="7" stroke="#9B6DFF" stroke-width="1.5"/>
           <circle cx="16" cy="16" r="2" fill="#9B6DFF"/>
         </svg>
-        <div class="pillar-title">Intentional Design</div>
-        <p class="pillar-desc">Every processing choice has a reason. We don't add features for the sake of it. Each parameter, algorithm, and interface decision is deliberate and serves the sound.</p>
+        <div class="pillar-title">Replace a five-bus parallel chain with one insert</div>
+        <p class="pillar-desc">Five sends, five buses, five EQ instances — rebuilt every session. ToneLab makes that routing permanent. Every parameter, algorithm and interface decision is deliberate; nothing is added for the sake of it.</p>
       </div>
       <div class="pillar">
         <div class="pillar-num">03</div>
@@ -1206,8 +1317,8 @@ footer {
           <line x1="12" y1="3" x2="12" y2="29" stroke="#9B6DFF" stroke-width="1" opacity="0.4"/>
           <circle cx="20" cy="20" r="3" stroke="#9B6DFF" stroke-width="1.5"/>
         </svg>
-        <div class="pillar-title">Industry-Standard Stack</div>
-        <p class="pillar-desc">Built on industry-standard architecture used by professional audio companies worldwide. VST3 and AU formats, done right.</p>
+        <div class="pillar-title">Sculpt band-specific textures in a single pass</div>
+        <p class="pillar-desc">Saturate the low mids, chorus the air, leave the vocal range untouched — without leaving the channel. Built in C++ on the same architecture professional audio companies use, and shipped in the formats you actually run: AU, VST3 and AAX.</p>
       </div>
     </div>
   </section>

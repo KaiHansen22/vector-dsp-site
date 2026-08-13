@@ -20,6 +20,9 @@ module.exports = function (eleventyConfig) {
     "sundown-sale-1080.png",
     "kai-headphones.jpg",
     "kai-hansen.jpg",
+    "tonelab-loop.mp4",
+    "tonelab-loop.webm",
+    "tonelab-loop-poster.jpg",
     "robots.txt",
     "llms.txt",
     "netlify", // Netlify functions + config dir
@@ -48,6 +51,7 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.ignores.add("_site");
   eleventyConfig.ignores.add("README.md");
   eleventyConfig.ignores.add("SETUP.md");
+  eleventyConfig.ignores.add("TESTIMONIAL-OUTREACH.md");
 
   return {
     dir: {

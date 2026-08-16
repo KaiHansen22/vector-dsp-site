@@ -25,6 +25,7 @@ module.exports = function (eleventyConfig) {
     "tonelab-loop-poster.jpg",
     "robots.txt",
     "llms.txt",
+    "wall", // testimonial portraits
     "netlify", // Netlify functions + config dir
   ];
   passthrough.forEach((f) => eleventyConfig.addPassthroughCopy(f));

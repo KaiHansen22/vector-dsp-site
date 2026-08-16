@@ -600,6 +600,58 @@ footer {
 }
 .wall-role { font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); margin-top: 2px; }
 
+/* single featured quote (used while there is one confirmed testimonial) */
+.wall-feature {
+  display: flex; align-items: center; gap: clamp(28px, 4vw, 56px);
+  margin-top: 44px; padding: clamp(32px, 4vw, 48px);
+  max-width: 920px;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 8px;
+  position: relative; overflow: hidden;
+}
+.wall-feature::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(ellipse 60% 120% at 8% 50%, rgba(155,109,255,0.10), transparent 60%);
+}
+.wall-feature > * { position: relative; z-index: 2; }
+.wall-face-lg {
+  width: 168px; height: 168px; flex: 0 0 168px;
+  border-radius: 50%; object-fit: cover; object-position: 50% 38%;
+  border: 1px solid rgba(155,109,255,0.28);
+  box-shadow: 0 0 0 6px rgba(155,109,255,0.05), 0 10px 30px rgba(0,0,0,0.5);
+}
+.wall-quote-lg {
+  font-family: 'Barlow', sans-serif;
+  font-size: clamp(21px, 2.6vw, 30px); font-weight: 300; line-height: 1.55;
+  color: rgba(237,240,244,0.9); margin-bottom: 22px; max-width: 26ch;
+}
+.wall-quote-lg::before {
+  content: '\201C'; color: var(--purple);
+  font-size: 1.6em; line-height: 0; vertical-align: -0.28em; margin-right: 0.1em;
+}
+.wall-name-lg {
+  font-family: 'Barlow Condensed', sans-serif; font-weight: 700;
+  font-size: 21px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--white);
+}
+.wall-role-lg {
+  font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--muted); margin-top: 5px;
+}
+.wall-role-lg a { color: var(--purple); text-decoration: none; }
+.wall-role-lg a:hover { text-decoration: underline; }
+@media (max-width: 760px) {
+  .wall-feature { flex-direction: column; text-align: center; }
+  .wall-quote-lg { max-width: none; }
+  .wall-face-lg { width: 132px; height: 132px; flex-basis: 132px; }
+}
+
+.wall-watch {
+  display: inline-flex; align-items: center; gap: 8px; margin-top: 18px;
+  font-family: 'Barlow Condensed', sans-serif; font-weight: 700;
+  font-size: 15px; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--cyan); text-decoration: none; transition: gap 0.2s, color 0.2s;
+}
+.wall-watch:hover { gap: 13px; color: #33CEFF; }
+
 /* FOUNDER BLOCK */
 .founder {
   display: flex; gap: 26px; align-items: flex-start;
@@ -1228,14 +1280,11 @@ footer {
   </section>
 
   <!-- ═══════════════════════════════════════
-       TESTIMONIAL WALL — audit item #9
-       DO NOT PUBLISH WITH INVENTED QUOTES.
-       Every card below must be a real, verbatim quote from a named
-       person who has given permission to be shown here. Replace the
-       three placeholders, add faces at /wall/<name>.jpg, then delete
-       the comment wrapper to make the section live.
+       IN USE — real quotes only. See TESTIMONIAL-OUTREACH.md.
+       Currently one confirmed quote, so this renders as a single
+       featured quote. When 3+ land, swap .wall-feature for .wall-grid
+       and use .wall-card children (CSS for both is already below).
   ════════════════════════════════════════ -->
-  <!--
   <section class="section" id="users">
     <div class="reveal">
       <div class="section-label">In Use</div>
@@ -1243,45 +1292,22 @@ footer {
       <p class="section-sub">Producers and engineers who ran ToneLab on real material before launch. All beta testers received a free license.</p>
     </div>
 
-    <div class="wall-grid reveal">
-
-      PENDING PAUL'S WRITTEN OK ON QUOTE + NAME + PHOTO:
-      <div class="wall-card">
-        <p class="wall-quote">It lets you get so accurate with what signal is actually getting delayed.</p>
-        <div class="wall-attr">
-          <img class="wall-face" src="/wall/paul.jpg" width="84" height="84" loading="lazy" alt="Paul Clasen">
-          <div>
-            <div class="wall-name">Paul Clasen</div>
-            <div class="wall-role">Designed ToneLab's factory presets</div>
+    <div class="wall-feature reveal">
+      <img class="wall-face-lg" src="/wall/paul.jpg" width="480" height="480" loading="lazy"
+           alt="Paul Clasen, who designed ToneLab's factory presets">
+      <div>
+        <blockquote class="wall-quote-lg">It lets you get so accurate with what signal is actually getting delayed.</blockquote>
+        <div class="wall-attr-lg">
+          <div class="wall-name-lg">Paul Clasen</div>
+          <div class="wall-role-lg">
+            Designed ToneLab's factory presets ·
+            <a href="https://www.instagram.com/poi_sounds/" target="_blank" rel="noopener">@poi_sounds</a>
           </div>
+          <a class="wall-watch" href="/tonelab.html#demo">Watch Paul's walkthrough <span>→</span></a>
         </div>
       </div>
-
-      <div class="wall-card">
-        <p class="wall-quote">REAL VERBATIM QUOTE</p>
-        <div class="wall-attr">
-          <img class="wall-face" src="/wall/PERSON.jpg" width="84" height="84" loading="lazy" alt="PERSON NAME">
-          <div>
-            <div class="wall-name">FIRST NAME</div>
-            <div class="wall-role">ROLE · GENRE</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="wall-card">
-        <p class="wall-quote">REAL VERBATIM QUOTE</p>
-        <div class="wall-attr">
-          <img class="wall-face" src="/wall/PERSON.jpg" width="84" height="84" loading="lazy" alt="PERSON NAME">
-          <div>
-            <div class="wall-name">FIRST NAME</div>
-            <div class="wall-role">ROLE · GENRE</div>
-          </div>
-        </div>
-      </div>
-
     </div>
   </section>
-  -->
 
   <!-- TECHNOLOGY PILLARS -->
   <section class="section section-alt" id="technology">

@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Tracker — Vector DSP</title>
+<link rel="icon" href="/favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0B0D11;--surface:#12151C;--surface2:#1C2029;--line:rgba(237,240,244,0.08);
+  --purple:#9B6DFF;--cyan:#00C2FF;--mint:#4DFFEC;--white:#EDF0F4;--muted:#5A6070;
+  --warn:#FFB454;--bad:#FF6B6B;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--white);font-family:'Barlow',sans-serif;
+     -webkit-font-smoothing:antialiased;padding:clamp(20px,4vw,44px)}
+.wrap{max-width:1080px;margin:0 auto}
+
+header{display:flex;align-items:baseline;justify-content:space-between;gap:16px;
+       flex-wrap:wrap;margin-bottom:30px}
+h1{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:clamp(28px,4vw,40px);
+   text-transform:uppercase;letter-spacing:0.02em;margin:0}
+h1 em{color:var(--purple);font-style:normal}
+.stamp{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted);
+       letter-spacing:0.1em}
+.stamp button{background:none;border:1px solid var(--line);color:var(--muted);
+  border-radius:4px;padding:5px 11px;font:inherit;cursor:pointer;margin-left:10px}
+.stamp button:hover{border-color:var(--purple);color:var(--purple)}
+
+h2{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:500;
+   letter-spacing:0.3em;text-transform:uppercase;color:var(--purple);
+   margin:38px 0 14px}
+
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(190px,1fr))}
+.tile{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:20px 22px}
+.tile .label{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.16em;
+  text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.tile .value{font-family:'Barlow Condensed',sans-serif;font-weight:800;
+  font-size:38px;line-height:1;letter-spacing:0.01em}
+.tile .sub{font-size:13px;font-weight:300;color:var(--muted);margin-top:8px;line-height:1.5}
+.v-cyan{color:var(--cyan)} .v-mint{color:var(--mint)} .v-purple{color:var(--purple)}
+.v-muted{color:var(--muted)}
+
+table{width:100%;border-collapse:collapse;background:var(--surface);
+      border:1px solid var(--line);border-radius:8px;overflow:hidden}
+th,td{text-align:left;padding:12px 16px;font-size:14px;font-weight:300;
+      border-top:1px solid var(--line)}
+th{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.14em;
+   text-transform:uppercase;color:var(--muted);font-weight:500;border-top:0}
+td.num{text-align:right;font-family:'IBM Plex Mono',monospace}
+.scroll{overflow-x:auto}
+
+.inputs{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+.field label{display:block;font-family:'IBM Plex Mono',monospace;font-size:11px;
+  letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-bottom:7px}
+.field input{width:100%;padding:11px 13px;background:var(--surface);color:var(--white);
+  border:1px solid var(--line);border-radius:5px;font-family:'IBM Plex Mono',monospace;font-size:15px}
+.field input:focus{outline:none;border-color:var(--purple)}
+
+.note{font-size:13px;font-weight:300;line-height:1.65;color:var(--muted);margin:12px 0 0}
+.err{background:rgba(255,107,107,0.07);border:1px solid rgba(255,107,107,0.3);
+     color:#FFB3B3;border-radius:6px;padding:13px 16px;font-size:14px;margin-bottom:14px}
+.spark{display:flex;align-items:flex-end;gap:3px;height:56px;margin-top:14px}
+.spark i{flex:1;background:var(--cyan);opacity:0.75;border-radius:1px;min-height:2px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1>ToneLab <em>Tracker</em></h1>
+    <div class="stamp"><span id="stamp">Loading…</span><button id="refresh" type="button">Refresh</button></div>
+  </header>
+
+  <div id="errors"></div>
+
+  <h2>Sales</h2>
+  <div class="grid">
+    <div class="tile"><div class="label">Net revenue</div><div class="value v-mint" id="net">—</div><div class="sub" id="netSub">&nbsp;</div></div>
+    <div class="tile"><div class="label">Paid orders</div><div class="value" id="paid">—</div><div class="sub" id="paidSub">&nbsp;</div><div id="orderSpark"></div></div>
+    <div class="tile"><div class="label">Last 7 days</div><div class="value v-cyan" id="last7">—</div><div class="sub" id="last30Sub">&nbsp;</div></div>
+    <div class="tile"><div class="label">Discounts given</div><div class="value v-purple" id="disc">—</div><div class="sub">SUNDOWN and any other codes</div></div>
+  </div>
+
+  <h2>Demo downloads</h2>
+  <div class="grid">
+    <div class="tile"><div class="label">Total</div><div class="value v-cyan" id="dlTotal">—</div><div class="sub">All installer assets, every release</div></div>
+    <div class="tile"><div class="label">macOS</div><div class="value" id="dlMac">—</div></div>
+    <div class="tile"><div class="label">Windows</div><div class="value" id="dlWin">—</div></div>
+    <div class="tile"><div class="label">Download → sale</div><div class="value v-mint" id="conv">—</div><div class="sub">Share of demo downloads that became a paid order</div></div>
+  </div>
+
+  <div class="scroll" style="margin-top:14px">
+    <table><thead><tr><th>Release</th><th>Asset</th><th style="text-align:right">Downloads</th></tr></thead>
+    <tbody id="assets"><tr><td colspan="3" style="color:var(--muted)">Loading…</td></tr></tbody></table>
+  </div>
+
+  <h2>Ads</h2>
+  <div class="inputs">
+    <div class="field"><label for="spend">Spend $</label><input id="spend" type="number" step="0.01" min="0" placeholder="0.00"></div>
+    <div class="field"><label for="impr">Impressions</label><input id="impr" type="number" min="0" placeholder="0"></div>
+    <div class="field"><label for="clicks">Clicks</label><input id="clicks" type="number" min="0" placeholder="0"></div>
+    <div class="field"><label for="convs">Conversions</label><input id="convs" type="number" min="0" placeholder="0"></div>
+  </div>
+
+  <div class="grid" style="margin-top:14px">
+    <div class="tile"><div class="label">CTR</div><div class="value" id="ctr">—</div></div>
+    <div class="tile"><div class="label">Avg CPC</div><div class="value" id="cpc">—</div></div>
+    <div class="tile"><div class="label">Cost per conversion</div><div class="value" id="cpa">—</div></div>
+    <div class="tile"><div class="label">Spend vs revenue</div><div class="value" id="roas">—</div><div class="sub">Net revenue for every dollar spent</div></div>
+  </div>
+
+  <p class="note">
+    Ad figures are typed in by hand — OpenAI has no reporting API to read them from yet — and are
+    stored in this browser only. They never reach the server. Everything above them is live:
+    sales come from the Lemon Squeezy API, downloads from GitHub release asset counts.
+  </p>
+  <p class="note">
+    One caveat on <em>download → sale</em>: GitHub counts every download of the installer, including
+    repeat downloads and your own. Treat it as a direction, not a precise rate.
+  </p>
+
+</div>
+
+<script>
+/* ── formatting ─────────────────────────────────────────────────────────── */
+const usd = (n) => n === null || n === undefined || isNaN(n)
+  ? "—"
+  : "$" + Number(n).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const num = (n) => n === null || n === undefined || isNaN(n) ? "—" : Number(n).toLocaleString("en-US");
+const pct = (n) => n === null || n === undefined || isNaN(n) ? "—" : (n * 100).toFixed(1) + "%";
+const $ = (id) => document.getElementById(id);
+
+let netRevenue = null;
+
+/* ── live data ──────────────────────────────────────────────────────────── */
+async function load() {
+  $("stamp").textContent = "Loading…";
+  $("errors").innerHTML = "";
+  try {
+    const res = await fetch("/api/metrics", { credentials: "same-origin" });
+    if (res.status === 401) {
+      // The gate session expired. Reloading lands on the password form.
+      location.reload();
+      return;
+    }
+    if (!res.ok) throw new Error("HTTP " + res.status);
+    render(await res.json());
+  } catch (e) {
+    $("errors").innerHTML = '<div class="err">Could not load metrics: ' + e.message + "</div>";
+    $("stamp").textContent = "Failed";
+  }
+}
+
+function render(d) {
+  (d.errors || []).forEach((msg) => {
+    $("errors").insertAdjacentHTML("beforeend", '<div class="err">' + msg + "</div>");
+  });
+
+  if (d.sales) {
+    const s = d.sales;
+    netRevenue = s.grossUsd - s.refundedUsd;
+    $("net").textContent = usd(netRevenue);
+    $("netSub").textContent = usd(s.grossUsd) + " gross · " + usd(s.refundedUsd) + " refunded";
+    $("paid").textContent = num(s.paid);
+    $("paidSub").textContent = s.refunded + " refunded · avg " +
+      usd(s.paid ? s.grossUsd / s.paid : 0);
+    $("last7").textContent = num(s.last7);
+    $("last30Sub").textContent = num(s.last30) + " in the last 30";
+    $("disc").textContent = usd(s.discountUsd);
+
+    /* Orders per day over the last 30 — belongs beside the order count, not
+       beside downloads, which it has nothing to do with. */
+    const days = (s.daily || []).slice(-30);
+    if (days.length) {
+      const max = Math.max.apply(null, days.map((x) => x.orders));
+      $("orderSpark").innerHTML = '<div class="spark">' + days.map((x) =>
+        '<i style="height:' + Math.round((x.orders / max) * 100) + '%" title="' +
+        x.date + ": " + x.orders + '"></i>').join("") + "</div>";
+    }
+  }
+
+  if (d.downloads) {
+    $("dlTotal").textContent = num(d.downloads.total);
+    $("dlMac").textContent = num(d.downloads.mac);
+    $("dlWin").textContent = num(d.downloads.windows);
+    const rows = d.downloads.assets || [];
+    $("assets").innerHTML = rows.length
+      ? rows.map((a) => "<tr><td>" + a.release + "</td><td>" + a.name +
+          '</td><td class="num">' + num(a.downloads) + "</td></tr>").join("")
+      : '<tr><td colspan="3" style="color:var(--muted)">No release assets found</td></tr>';
+  }
+
+  $("conv").textContent = d.conversionRate === undefined ? "—" : pct(d.conversionRate);
+  $("stamp").textContent = "Updated " + new Date(d.generatedAt).toLocaleTimeString();
+  computeAds();
+}
+
+/* ── hand-entered ad figures ────────────────────────────────────────────── */
+const AD_FIELDS = ["spend", "impr", "clicks", "convs"];
+
+function computeAds() {
+  const v = {};
+  AD_FIELDS.forEach((f) => { v[f] = parseFloat($(f).value); });
+
+  $("ctr").textContent = v.impr > 0 ? pct(v.clicks / v.impr) : "—";
+  $("cpc").textContent = v.clicks > 0 ? usd(v.spend / v.clicks) : "—";
+  $("cpa").textContent = v.convs > 0 ? usd(v.spend / v.convs) : "—";
+  $("roas").textContent =
+    v.spend > 0 && netRevenue !== null ? (netRevenue / v.spend).toFixed(2) + "×" : "—";
+}
+
+/* Per-browser convenience only, so a wrapped read/write is enough. */
+AD_FIELDS.forEach((f) => {
+  try {
+    const saved = localStorage.getItem("vdsp_ad_" + f);
+    if (saved !== null) $(f).value = saved;
+  } catch (e) {}
+  $(f).addEventListener("input", () => {
+    try { localStorage.setItem("vdsp_ad_" + f, $(f).value); } catch (e) {}
+    computeAds();
+  });
+});
+
+$("refresh").addEventListener("click", load);
+load();
+</script>
+</body>
+</html>

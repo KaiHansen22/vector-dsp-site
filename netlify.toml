@@ -39,3 +39,23 @@
   from = "/thank-you"
   to = "/thank-you.html"
   status = 301
+
+# Private metrics dashboard. The gate covers the API endpoint as well as the
+# page — gating only the page would leave /api/metrics curl-able.
+[[redirects]]
+  from = "/api/metrics"
+  to = "/.netlify/functions/metrics"
+  status = 200
+
+[[redirects]]
+  from = "/dashboard"
+  to = "/dashboard.html"
+  status = 301
+
+[[edge_functions]]
+  path = "/dashboard.html"
+  function = "dashboard-gate"
+
+[[edge_functions]]
+  path = "/api/metrics"
+  function = "dashboard-gate"

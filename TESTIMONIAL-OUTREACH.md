@@ -17,8 +17,15 @@ So the ask has to hand them the shape of the answer. Every message below does th
 
 ## Already in hand
 
-**Paul Clasen** — *"This is my new favorite delay plugin! It lets you get so accurate with what signal is actually getting delayed."*
-Use the second sentence only; "favorite delay plugin" is the interchangeable half. Credit as "Designed ToneLab's factory presets" — that's the strongest attribution of anyone on this list. His card is pre-filled in `index.html` but the section stays commented out until he confirms in writing. **Still needed from Paul:** written OK on the quote, on being named, on the photo, and separately on the demo video.
+**Paul Clasen — LIVE.** *"This is my new favorite delay plugin! It lets you get so accurate with what signal is actually getting delayed."*
+Credited "Designed ToneLab's factory presets · @poi_sounds" — the strongest attribution of anyone on this list. Card also links to his walkthrough at `/tonelab.html#demo`.
+*Aug 13:* shipped with the **second sentence only** — as the page's only quote, "favorite delay plugin" would have miscategorised a five-lane multi-FX as a delay plugin.
+*Aug 21:* **first sentence restored.** Jason's quote now carries the multi-FX framing, so the miscategorisation risk is gone and Paul's line reads warmer at full length.
+
+**Jason Shablik — LIVE (Aug 21 2026).** *"A little chorus in the mids, distortion at the top, delay in a couple of different frequency bands. Something like that used to take multiple sends, EQs, and plugins. Vector DSP lets me do it all in a single plugin. Simplifying execution without compromising my ideas."*
+All four sentences kept — every one is load-bearing. Note he says **"Vector DSP" where he means ToneLab**; left verbatim, correcting it would need his sign-off. Credited "Sound designer & audio post engineer · jasonsound.com" (role from his own LinkedIn headline; linked to his site rather than @jasonsound on Instagram because the site was verifiable). Photo `wall/jason.jpg`, cropped from the half-body shot he sent.
+
+**Wall layout:** `#users` on `index.html` has three modes in CSS — `.wall-feature` (1 quote), `.wall-duo` (2 quotes, current), `.wall-grid` + `.wall-card` (3+). One more lands and it moves to `.wall-grid`.
 
 ---
 

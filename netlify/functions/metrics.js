@@ -123,7 +123,8 @@ async function githubDownloads() {
 function summariseOrders(rows) {
   const now = Date.now();
   const day = 86400000;
-  let paid = 0, refunded = 0, grossCents = 0, refundedCents = 0, discountCents = 0;
+  let paid = 0, comped = 0, refunded = 0;
+  let grossCents = 0, refundedCents = 0, discountCents = 0;
   let last7 = 0, last30 = 0;
   const series = {};
 
@@ -137,21 +138,33 @@ function summariseOrders(rows) {
     if (a.refunded) {
       refunded++;
       refundedCents += cents;
-    } else {
-      paid++;
-      grossCents += cents;
-      discountCents += Number(a.discount_total_usd || a.discount_total || 0);
-      if (now - created < 7 * day) last7++;
-      if (now - created < 30 * day) last30++;
-      const key = new Date(created).toISOString().slice(0, 10);
-      series[key] = (series[key] || 0) + 1;
+      continue;
     }
+
+    /* A fully discounted order is a comped licence, not a sale. Lemon Squeezy
+       records it as an order like any other, so counting rows would overstate
+       both revenue and the download-to-sale rate. Beta testers were given free
+       licences, so these are expected — they are just not customers. */
+    if (cents === 0) {
+      comped++;
+      continue;
+    }
+
+    paid++;
+    grossCents += cents;
+    discountCents += Number(a.discount_total_usd || a.discount_total || 0);
+    if (now - created < 7 * day) last7++;
+    if (now - created < 30 * day) last30++;
+    const key = new Date(created).toISOString().slice(0, 10);
+    series[key] = (series[key] || 0) + 1;
   }
 
   return {
-    paid, refunded,
+    paid, comped, refunded,
     grossUsd: grossCents / 100,
     refundedUsd: refundedCents / 100,
+    /* Discounts on paying orders only. Rolling the 100%-off comps in here
+       would report the full list price of every free licence as a "discount". */
     discountUsd: discountCents / 100,
     last7, last30,
     daily: Object.keys(series).sort().map((d) => ({ date: d, orders: series[d] }))

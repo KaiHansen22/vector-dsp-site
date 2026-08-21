@@ -112,7 +112,8 @@ td.num{text-align:right;font-family:'IBM Plex Mono',ui-monospace,monospace}
     <div class="tile t-rev"><div class="label">Net revenue</div><div class="value v-mint" id="net">—</div><div class="sub" id="netSub">&nbsp;</div></div>
     <div class="tile t-cho"><div class="label">Paid orders</div><div class="value" id="paid">—</div><div class="sub" id="paidSub">&nbsp;</div><div id="orderSpark"></div></div>
     <div class="tile t-cho"><div class="label">Last 7 days</div><div class="value v-cyan" id="last7">—</div><div class="sub" id="last30Sub">&nbsp;</div></div>
-    <div class="tile t-dly"><div class="label">Discounts given</div><div class="value v-purple" id="disc">—</div><div class="sub">SUNDOWN and any other codes</div></div>
+    <div class="tile t-dly"><div class="label">Discounts given</div><div class="value v-purple" id="disc">—</div><div class="sub">On paying orders only — SUNDOWN and any other codes</div></div>
+    <div class="tile t-sat"><div class="label">Comped</div><div class="value v-muted" id="comped">—</div><div class="sub">Fully discounted licences. Not sales, and excluded from everything above.</div></div>
   </div>
 
   <h2>Demo downloads</h2>
@@ -147,6 +148,12 @@ td.num{text-align:right;font-family:'IBM Plex Mono',ui-monospace,monospace}
     Ad figures are typed in by hand — OpenAI has no reporting API to read them from yet — and are
     stored in this browser only. They never reach the server. Everything above them is live:
     sales come from the Lemon Squeezy API, downloads from GitHub release asset counts.
+  </p>
+  <p class="note">
+    <strong>Paid orders</strong> counts orders that actually took money. Fully discounted
+    licences — beta testers, gifts, 100% codes — are counted separately as <em>comped</em> and
+    kept out of revenue, averages, the 7/30-day counts and the conversion rate. Lemon Squeezy
+    records them as ordinary orders, so counting rows would overstate all of it.
   </p>
   <p class="note">
     One caveat on <em>download → sale</em>: GitHub counts every download of the installer, including
@@ -205,8 +212,9 @@ function render(d) {
     $("net").textContent = usd(netRevenue);
     $("netSub").textContent = usd(s.grossUsd) + " gross · " + usd(s.refundedUsd) + " refunded";
     $("paid").textContent = num(s.paid);
-    $("paidSub").textContent = s.refunded + " refunded · avg " +
+    $("paidSub").textContent = s.refunded + " refunded · " + s.comped + " comped · avg " +
       usd(s.paid ? s.grossUsd / s.paid : 0);
+    $("comped").textContent = num(s.comped);
     $("last7").textContent = num(s.last7);
     $("last30Sub").textContent = num(s.last30) + " in the last 30";
     $("disc").textContent = usd(s.discountUsd);

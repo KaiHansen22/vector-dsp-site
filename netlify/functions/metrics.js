@@ -129,7 +129,13 @@ async function githubDownloads() {
    identifies it. Only impressions/clicks/spend are requested — CTR and CPC are
    derived here rather than trusting field names that were not verified. */
 async function adsInsights(key) {
-  const end = Math.floor(Date.now() / 1000);
+  /* The API rejects anything that is not a full-hour unix timestamp in the ad
+     account's timezone (America/Denver): "minute and second must be 0".
+     Denver is a whole-hour offset from UTC, so flooring to the hour in UTC
+     lands on a full hour there too. A half-hour-offset account timezone —
+     India, Newfoundland — would need the offset applied first. */
+  const HOUR = 3600;
+  const end = Math.floor(Date.now() / 1000 / HOUR) * HOUR;
   const start = end - ADS_WINDOW_DAYS * 86400;
   const range = JSON.stringify({ type: "unix_range", start: start, end: end });
 

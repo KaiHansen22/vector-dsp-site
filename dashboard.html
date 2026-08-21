@@ -141,8 +141,8 @@ td.num{text-align:right;font-family:'IBM Plex Mono',ui-monospace,monospace}
   </div>
 
   <div id="adsManual">
-  <p class="note" style="margin:0 0 12px">
-    No <code>OPENAI_ADS_API_KEY</code> set, so these are entered by hand and kept in this browser.
+  <p class="note" style="margin:0 0 12px" id="adsManualWhy">
+    Live ad data unavailable, so these are entered by hand and kept in this browser.
   </p>
   <div class="inputs">
     <div class="field"><label for="spend">Spend $</label><input id="spend" type="number" step="0.01" min="0" placeholder="0.00"></div>
@@ -223,6 +223,16 @@ function render(d) {
   (d.errors || []).forEach((msg) => {
     $("errors").insertAdjacentHTML("beforeend", '<div class="err">' + msg + "</div>");
   });
+
+  /* Two very different reasons land on the manual inputs — no key configured,
+     or a key that is configured and failing. Saying the wrong one sends you
+     looking in the wrong place. */
+  if (!d.ads) {
+    const failed = (d.errors || []).some((m) => m.indexOf("OpenAI Ads") === 0);
+    $("adsManualWhy").innerHTML = failed
+      ? "The OpenAI Ads API returned an error (above), so these are entered by hand for now."
+      : "No <code>OPENAI_ADS_API_KEY</code> set, so these are entered by hand and kept in this browser.";
+  }
 
   if (d.sales) {
     const s = d.sales;

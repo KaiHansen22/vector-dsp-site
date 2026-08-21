@@ -70,32 +70,40 @@ async function tokenValid(token, password) {
 function loginPage(message) {
   return `<!DOCTYPE html><html lang="en"><head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="robots" content="noindex,nofollow"><title>Vector DSP</title>
+<meta name="robots" content="noindex,nofollow"><title>ToneLab Tracker</title>
+<link rel="icon" href="/favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&family=Barlow:wght@300;400&display=swap" rel="stylesheet">
 <style>
-  :root{--bg:#0B0D11;--surface:#12151C;--line:rgba(237,240,244,0.08);
+  /* Same values as index.html so the gate is unmistakably the same site. */
+  :root{--bg:#0B0D11;--surface:#13161D;--line:rgba(255,255,255,0.07);
         --purple:#9B6DFF;--cyan:#00C2FF;--white:#EDF0F4;--muted:#5A6070}
   *{box-sizing:border-box}
   body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;
-       background:var(--bg);color:var(--white);font-family:system-ui,-apple-system,sans-serif;padding:24px}
+       background:var(--bg);color:var(--white);font-family:'Barlow','Segoe UI',Arial,sans-serif;padding:24px}
   form{background:var(--surface);border:1px solid var(--line);border-radius:8px;
        padding:34px;width:100%;max-width:360px}
-  h1{font-size:13px;letter-spacing:0.3em;text-transform:uppercase;color:var(--purple);
-     margin:0 0 22px;font-weight:600}
+  h1{font-family:'Barlow Condensed','Arial Narrow',sans-serif;font-weight:800;font-size:30px;
+     letter-spacing:0.03em;text-transform:uppercase;margin:0 0 20px;line-height:1}
+  h1 .tone{color:#EDF0F4} h1 .lab{color:var(--cyan)}
   input{width:100%;padding:13px 14px;background:#0B0D11;color:var(--white);
         border:1px solid var(--line);border-radius:5px;font-size:16px;margin-bottom:14px}
   input:focus{outline:none;border-color:var(--purple)}
   button{width:100%;padding:13px;background:var(--cyan);color:#06080B;border:0;
-         border-radius:5px;font-size:14px;font-weight:700;letter-spacing:0.12em;
+         border-radius:5px;font-family:'Barlow Condensed','Arial Narrow',sans-serif;
+         font-size:16px;font-weight:700;letter-spacing:0.14em;
          text-transform:uppercase;cursor:pointer}
+  button:hover{background:#33CEFF}
   .err{color:#FF6B6B;font-size:13px;margin:0 0 14px}
   .note{color:var(--muted);font-size:12px;margin:16px 0 0;line-height:1.6}
 </style></head><body>
 <form method="POST">
-  <h1>Vector DSP — Private</h1>
+  <h1><span class="tone">Tone</span><span class="lab">Lab</span></h1>
   ${message ? `<p class="err">${message}</p>` : ""}
   <input type="password" name="password" placeholder="Password" autofocus autocomplete="current-password" required>
   <button type="submit">Enter</button>
-  <p class="note">Internal metrics. Nothing here is public.</p>
+  <p class="note">Vector DSP internal metrics. Nothing here is public.</p>
 </form></body></html>`;
 }
 

@@ -6,7 +6,17 @@
    pixel on vector-dsp.com cannot see it. Opening the checkout as a Lemon.js
    overlay keeps the buyer on our page, which means Lemon.js can hand us a
    Checkout.Success event with the real order total the moment payment clears.
-   That is the only place `purchase` is measured.
+   That is the only place `order_created` is measured.
+
+   Three details the OpenAI pixel is strict about, all easy to get wrong:
+     · Event names must come from the standard taxonomy. It is `order_created`,
+       NOT `purchase` — a non-standard name cannot be selected as a base event
+       when building a custom conversion.
+     · Commerce events take `type: "contents"`. `customer_action` is for
+       lead/registration events and `plan_enrollment` is for trials/subs.
+     · `amount` is in MINOR UNITS — $54.99 is 5499, not 54.99. Lemon Squeezy
+       also reports money in cents, so order totals pass straight through with
+       no division. Getting this wrong misreports revenue by 100×.
 
    Hard rule: measurement must never break a buy button. Every path below
    falls through to a plain navigation if anything is missing or throws.
@@ -15,16 +25,12 @@
   "use strict";
 
   var CHECKOUT_MATCH = "lemonsqueezy.com/checkout";
+  var LS_PRODUCT_ID = "913987";
+  var PRODUCT_NAME = "ToneLab";
 
-  function measure(name, amount) {
+  function measure(name, payload) {
     try {
-      if (window.oaiq) {
-        window.oaiq("measure", name, {
-          type: "customer_action",
-          amount: amount || 0,
-          currency: "USD"
-        });
-      }
+      if (window.oaiq) window.oaiq("measure", name, payload);
     } catch (e) {}
   }
 
@@ -53,7 +59,20 @@
     var href = a.getAttribute("href") || "";
     if (href.indexOf(CHECKOUT_MATCH) === -1) return;
 
-    measure("checkout_started", 0);
+    /* No `amount` on purpose. The discounted total is not known until the
+       checkout renders, and a hardcoded price here would silently go stale
+       the moment a sale starts or ends. Revenue is reported on order_created,
+       where it is exact. `amount` is optional; `currency` is only required
+       when `amount` is present. */
+    measure("checkout_started", {
+      type: "contents",
+      contents: [{
+        id: LS_PRODUCT_ID,
+        name: PRODUCT_NAME,
+        content_type: "product",
+        quantity: 1
+      }]
+    });
 
     if (openOverlay(href)) {
       e.preventDefault();
@@ -61,22 +80,34 @@
     // else: no preventDefault — the link navigates to the hosted checkout as before.
   });
 
-  /* ── Purchase ─────────────────────────────────────────────────────────────
+  /* ── Order created ────────────────────────────────────────────────────────
      Checkout.Success carries an Order object. Lemon Squeezy sends money as
-     integer cents, so totals are divided by 100. total_usd is preferred over
-     total in case the store ever sells in another currency. */
+     integer cents and the pixel wants minor units, so totals are passed
+     through unchanged. total_usd is preferred over total in case the store
+     ever sells in another currency. */
   function orderAmount(attrs) {
-    var cents = null;
-    if (attrs && typeof attrs.total_usd === "number") cents = attrs.total_usd;
-    else if (attrs && typeof attrs.total === "number") cents = attrs.total;
+    if (!attrs) return null;
+    var cents = typeof attrs.total_usd === "number" ? attrs.total_usd
+              : typeof attrs.total === "number" ? attrs.total
+              : null;
     if (cents === null || isNaN(cents)) return null;
-    return Math.round(cents) / 100;
+    return Math.round(cents);
+  }
+
+  function orderContents(attrs) {
+    var item = (attrs && attrs.first_order_item) || {};
+    return [{
+      id: String(item.product_id || LS_PRODUCT_ID),
+      name: item.product_name || PRODUCT_NAME,
+      content_type: "product",
+      quantity: 1
+    }];
   }
 
   function alreadyCounted(orderId) {
     if (!orderId) return false;
     try {
-      var key = "vdsp_purchase_" + orderId;
+      var key = "vdsp_order_" + orderId;
       if (localStorage.getItem(key) === "1") return true;
       localStorage.setItem(key, "1");
     } catch (e) {}
@@ -90,11 +121,20 @@
       var attrs = data.attributes || {};
       if (alreadyCounted(data.id)) return;
 
+      var payload = {
+        type: "contents",
+        contents: orderContents(attrs)
+      };
+
+      /* Only send amount when we actually have one — currency is required
+         alongside it. A sale with an unknown value still beats a lost sale. */
       var amount = orderAmount(attrs);
-      /* If Lemon Squeezy ever stops sending a total, count the conversion
-         rather than dropping it — a sale with an unknown value still beats
-         a missing sale. */
-      measure("purchase", amount === null ? 0 : amount);
+      if (amount !== null) {
+        payload.amount = amount;
+        payload.currency = attrs.currency || "USD";
+      }
+
+      measure("order_created", payload);
     } catch (e) {}
   }
 

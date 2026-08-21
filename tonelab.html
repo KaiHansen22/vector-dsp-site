@@ -8,15 +8,24 @@
      debug:true logs to the console — remove it once you've verified delivery. -->
 <script>!function(w,d,s,u){if(w.oaiq)return;var q=function(){q.q.push(arguments)};q.q=[];w.oaiq=q;var j=d.createElement(s);j.async=1;j.src=u;var f=d.getElementsByTagName(s)[0];f.parentNode.insertBefore(j,f)}(window,document,"script","https://bzrcdn.openai.com/sdk/oaiq.min.js");oaiq("init",{pixelId:"2BakZUrkYv9y8C9eridtRh",debug:true});</script>
 <script>
-/* Demo-download event, attached by delegation so new buttons are picked up for
-   free. Checkout and purchase events live in /checkout-tracking.js, which also
-   opens the Lemon Squeezy overlay. */
+/* Demo download, attached by delegation so new buttons are picked up for free.
+   Mapped to the standard `trial_started` event rather than a custom name: the
+   ToneLab demo is a full-feature build with no time limit and an intermittent
+   watermark, which is a trial in everything but name, and standard events can
+   be picked as a base event when building a custom conversion. Trial/
+   subscription events take type "plan_enrollment".
+   Checkout and order events live in /checkout-tracking.js. */
 document.addEventListener("click", function (e) {
   var a = e.target.closest && e.target.closest("a[href]");
   if (!a || !window.oaiq) return;
   var href = a.getAttribute("href") || "";
   if (/\/releases\/download\//.test(href)) {
-    oaiq("measure", "demo_downloaded", { type: "customer_action", amount: 0, currency: "USD" });
+    oaiq("measure", "trial_started", {
+      type: "plan_enrollment",
+      plan_id: "tonelab-demo",
+      amount: 0,
+      currency: "USD"
+    });
   }
 }, true);
 </script>

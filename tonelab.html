@@ -2273,6 +2273,36 @@ document.addEventListener('keydown', (e) => {
     closeDemoModal();
   }
 });
+
+/* ── Deep link: /tonelab.html?demo=1 opens the download modal on arrival ──
+   Paid traffic is optimised for demo downloads, so the ad should land people
+   on the download itself rather than on a page where they still have to find
+   the button. #demo-download works too, for links written by hand.
+
+   The trigger is stripped from the URL afterwards so that closing the modal
+   and reloading (or pressing back) doesn't spring it open again. Every other
+   query parameter survives — the utm_* and oppref values the ad appends are
+   what attribution is read from, so they must not be touched. */
+(function () {
+  try {
+    var params = new URLSearchParams(window.location.search);
+    var wanted = params.get('demo') === '1' || window.location.hash === '#demo-download';
+    if (!wanted) return;
+
+    openDemoModal();
+
+    // Send focus to the first installer link — for a visitor who arrived
+    // specifically to download, that is the thing they came for.
+    var first = document.querySelector('#demoModal a[download]');
+    if (first && first.focus) first.focus();
+
+    params.delete('demo');
+    var qs = params.toString();
+    history.replaceState(null, '', window.location.pathname + (qs ? '?' + qs : ''));
+  } catch (e) {
+    /* A broken deep link must never take the page down with it. */
+  }
+})();
 </script>
 
 </body>

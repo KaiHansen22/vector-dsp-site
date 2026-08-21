@@ -3,6 +3,24 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- ── OpenAI pixel ── sitewide base tag. This must be the only oaiq("init") on
+     the page; conversion events fire from where the action actually happens.
+     debug:true logs to the console — remove it once you've verified delivery. -->
+<script>!function(w,d,s,u){if(w.oaiq)return;var q=function(){q.q.push(arguments)};q.q=[];w.oaiq=q;var j=d.createElement(s);j.async=1;j.src=u;var f=d.getElementsByTagName(s)[0];f.parentNode.insertBefore(j,f)}(window,document,"script","https://bzrcdn.openai.com/sdk/oaiq.min.js");oaiq("init",{pixelId:"2BakZUrkYv9y8C9eridtRh",debug:true});</script>
+<script>
+/* Demo-download event, attached by delegation so new buttons are picked up for
+   free. Checkout and purchase events live in /checkout-tracking.js, which also
+   opens the Lemon Squeezy overlay. */
+document.addEventListener("click", function (e) {
+  var a = e.target.closest && e.target.closest("a[href]");
+  if (!a || !window.oaiq) return;
+  var href = a.getAttribute("href") || "";
+  if (/\/releases\/download\//.test(href)) {
+    oaiq("measure", "demo_downloaded", { type: "customer_action", amount: 0, currency: "USD" });
+  }
+}, true);
+</script>
+
 <meta name="description" content="ToneLab confines reverb, distortion, delay, chorus and saturation to the frequency ranges you choose — five parallel FX lanes, each with its own EQ, in one VST3 / AU / AAX insert. From $54.99.">
 <link rel="canonical" href="https://vector-dsp.com/">
 <meta property="og:type" content="website">
@@ -262,9 +280,20 @@ nav {
   animation: fadeUp 0.7s 0.1s ease both;
 }
 
+/* Outlined word. Stroke is drawn centred on the glyph edge, so it has to be
+   thick enough to survive a dark background but not so thick it closes the
+   counters on condensed uppercase. Width steps up with the viewport because
+   the headline itself is clamp(48px, 6.6vw, 88px). */
 .hero-headline .ghost {
-  -webkit-text-stroke: 1px rgba(237,240,244,0.15);
+  -webkit-text-stroke: 2px rgba(237,240,244,0.5);
+  text-stroke: 2px rgba(237,240,244,0.5);
   color: transparent;
+}
+@media (min-width: 1100px) {
+  .hero-headline .ghost {
+    -webkit-text-stroke-width: 2.5px;
+    text-stroke-width: 2.5px;
+  }
 }
 .hero-headline .hl { color: var(--purple); }
 
@@ -1149,6 +1178,12 @@ footer {
   footer { padding: 24px 16px; }
 }
 </style>
+
+<!-- Lemon Squeezy overlay checkout + purchase measurement. Order matters:
+     lemon.js must define window.LemonSqueezy before checkout-tracking.js runs.
+     Both deferred, so neither blocks render. -->
+<script src="https://app.lemonsqueezy.com/js/lemon.js" defer></script>
+<script src="/checkout-tracking.js" defer></script>
 </head>
 <body>
 

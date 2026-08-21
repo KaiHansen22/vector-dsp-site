@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- ── OpenAI pixel ── sitewide base tag. This must be the only oaiq("init") on
+     the page; conversion events fire from where the action actually happens.
+     debug:true logs to the console — remove it once you've verified delivery. -->
+<script>!function(w,d,s,u){if(w.oaiq)return;var q=function(){q.q.push(arguments)};q.q=[];w.oaiq=q;var j=d.createElement(s);j.async=1;j.src=u;var f=d.getElementsByTagName(s)[0];f.parentNode.insertBefore(j,f)}(window,document,"script","https://bzrcdn.openai.com/sdk/oaiq.min.js");oaiq("init",{pixelId:"2BakZUrkYv9y8C9eridtRh",debug:true});</script>
+
+<title>Thank you — ToneLab · Vector DSP</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="Your ToneLab purchase is complete. Your license key is on its way by email.">
+<link rel="icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg: #0B0D11; --surface: #12151C; --surface2: #1C2029; --line: rgba(237,240,244,0.08);
+  --purple: #9B6DFF; --cyan: #00C2FF; --mint: #4DFFEC;
+  --white: #EDF0F4; --muted: #5A6070;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; min-height: 100vh; background: var(--bg); color: var(--white);
+  font-family: 'Barlow', sans-serif; -webkit-font-smoothing: antialiased;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: clamp(32px, 6vw, 80px) clamp(16px, 5vw, 56px); text-align: center;
+  position: relative; overflow-x: hidden;
+}
+body::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(ellipse 70% 60% at 50% 0%, rgba(155,109,255,0.10), transparent 65%);
+}
+.wrap { position: relative; z-index: 2; max-width: 560px; width: 100%; }
+.eyebrow {
+  font-family: 'IBM Plex Mono', monospace; font-size: 13px; font-weight: 500;
+  letter-spacing: 0.3em; text-transform: uppercase; color: var(--mint); margin-bottom: 22px;
+}
+h1 {
+  font-family: 'Barlow Condensed', sans-serif; font-weight: 800;
+  font-size: clamp(38px, 6vw, 64px); text-transform: uppercase; line-height: 1;
+  margin: 0 0 20px;
+}
+h1 .ghost {
+  -webkit-text-stroke: 2px rgba(237,240,244,0.5);
+  text-stroke: 2px rgba(237,240,244,0.5);
+  color: transparent;
+}
+.lede {
+  font-size: 20px; font-weight: 300; line-height: 1.7;
+  color: rgba(237,240,244,0.62); margin: 0 0 36px;
+}
+.steps {
+  text-align: left; background: var(--surface); border: 1px solid var(--line);
+  border-radius: 8px; padding: clamp(24px, 4vw, 34px); margin-bottom: 32px;
+}
+.step { display: flex; gap: 16px; padding: 14px 0; border-top: 1px solid var(--line); }
+.step:first-child { border-top: 0; padding-top: 0; }
+.step:last-child { padding-bottom: 0; }
+.step-num {
+  font-family: 'IBM Plex Mono', monospace; font-size: 13px; font-weight: 500;
+  color: var(--purple); flex: 0 0 auto; padding-top: 3px;
+}
+.step-body { font-size: 17px; font-weight: 300; line-height: 1.65; color: rgba(237,240,244,0.72); }
+.step-body strong { color: var(--white); font-weight: 500; }
+.step-body a { color: var(--cyan); text-decoration: none; }
+.step-body a:hover { text-decoration: underline; }
+.actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+.btn-primary, .btn-ghost {
+  font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 16px;
+  letter-spacing: 0.14em; text-transform: uppercase; text-decoration: none;
+  padding: 14px 28px; border-radius: 4px; transition: 0.2s;
+}
+.btn-primary { background: var(--cyan); color: #06080B; }
+.btn-primary:hover { background: #33CEFF; }
+.btn-ghost { border: 1px solid var(--line); color: rgba(237,240,244,0.72); }
+.btn-ghost:hover { border-color: var(--purple); color: var(--purple); }
+.footnote {
+  margin-top: 36px; font-size: 14px; font-weight: 300; line-height: 1.7; color: var(--muted);
+}
+.footnote a { color: var(--muted); }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <div class="eyebrow">Order Complete</div>
+  <h1>Thank you.<br><span class="ghost">Check your email.</span></h1>
+  <p class="lede">Your ToneLab license key is on its way. It usually lands within a minute or two.</p>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">01</div>
+      <div class="step-body">Lemon Squeezy emails your <strong>license key and receipt</strong>. If it hasn't arrived in ten minutes, check spam before anything else — that's where it goes nine times out of ten.</div>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <div class="step-body">Install ToneLab, open it in your DAW, and paste the key into the activation panel. Your license <strong>activates on two machines</strong> — a desktop and a laptop, say.</div>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <div class="step-body">All <strong>v1.x updates are included</strong>. Stuck on anything at all, reply to the receipt or write to <a href="mailto:support@vector-dsp.com">support@vector-dsp.com</a> — it reaches me directly.</div>
+    </div>
+  </div>
+
+  <div class="actions">
+    <!-- Points at the product page rather than a release asset on purpose: the
+         installer URL is maintained in one place (the demo download modal on
+         tonelab.html) so this page can never drift to a stale version. -->
+    <a class="btn-primary" href="/tonelab.html">Download ToneLab</a>
+    <a class="btn-ghost" href="/">Back to Vector DSP</a>
+  </div>
+
+  <p class="footnote">
+    Kai Hansen · Vector DSP · <a href="/refunds.html">Refund policy</a>
+  </p>
+</div>
+
+<!-- No purchase event fires here, on purpose.
+
+     The sale is measured in /checkout-tracking.js off Lemon.js's
+     Checkout.Success event, which carries the real order total and fires
+     whether or not the buyer clicks anything afterwards. This page is reached
+     from the Confirmation modal "Button link" in Lemon Squeezy, which only
+     some buyers click — measuring here too would both double-count those who
+     do and miss those who don't. Leave it as next-steps content. -->
+
+</body>
+</html>

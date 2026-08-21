@@ -9,6 +9,8 @@ module.exports = function (eleventyConfig) {
     "index.html",
     "tonelab.html",
     "tonelab-buy.html",
+    "thank-you.html", // post-purchase landing; Lemon Squeezy confirmation-modal button link
+    "checkout-tracking.js", // Lemon.js overlay + purchase measurement
     "pricing.html",
     "about.html",
     "privacy.html",

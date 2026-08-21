@@ -3,6 +3,24 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<!-- ── OpenAI pixel ── sitewide base tag. This must be the only oaiq("init") on
+     the page; conversion events fire from where the action actually happens.
+     debug:true logs to the console — remove it once you've verified delivery. -->
+<script>!function(w,d,s,u){if(w.oaiq)return;var q=function(){q.q.push(arguments)};q.q=[];w.oaiq=q;var j=d.createElement(s);j.async=1;j.src=u;var f=d.getElementsByTagName(s)[0];f.parentNode.insertBefore(j,f)}(window,document,"script","https://bzrcdn.openai.com/sdk/oaiq.min.js");oaiq("init",{pixelId:"2BakZUrkYv9y8C9eridtRh",debug:true});</script>
+<script>
+/* Demo-download event, attached by delegation so new buttons are picked up for
+   free. Checkout and purchase events live in /checkout-tracking.js, which also
+   opens the Lemon Squeezy overlay. */
+document.addEventListener("click", function (e) {
+  var a = e.target.closest && e.target.closest("a[href]");
+  if (!a || !window.oaiq) return;
+  var href = a.getAttribute("href") || "";
+  if (/\/releases\/download\//.test(href)) {
+    oaiq("measure", "demo_downloaded", { type: "customer_action", amount: 0, currency: "USD" });
+  }
+}, true);
+</script>
+
 <meta name="description" content="How Vector DSP collects, uses, and protects personal data on our plugins and website. Privacy policy for Vector DSP customers.">
 <link rel="canonical" href="https://vector-dsp.com/privacy.html">
 <meta property="og:type" content="website">

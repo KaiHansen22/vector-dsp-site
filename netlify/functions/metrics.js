@@ -16,6 +16,8 @@ const crypto = require("crypto");
 const COOKIE = "vdsp_dash";
 const REPO = "KaiHansen22/vector-dsp-site";
 const LS_API = "https://api.lemonsqueezy.com/v1";
+const ADS_API = "https://api.ads.openai.com/v1";
+const ADS_WINDOW_DAYS = 30;
 const PAGE_SIZE = 100;   // Lemon Squeezy's maximum
 const MAX_PAGES = 20;    // 2000 orders; far beyond current volume, bounded anyway
 
@@ -120,6 +122,82 @@ async function githubDownloads() {
   return { total, mac, windows, assets };
 }
 
+/* ── OpenAI Ads ───────────────────────────────────────────────────────────
+   Two calls. GET /ad_account/insights gives spend and delivery per campaign;
+   conversions live on a separate POST endpoint and have to be merged back in
+   by campaign id. The ad account is implicit in the key, so nothing else
+   identifies it. Only impressions/clicks/spend are requested — CTR and CPC are
+   derived here rather than trusting field names that were not verified. */
+async function adsInsights(key) {
+  const end = Math.floor(Date.now() / 1000);
+  const start = end - ADS_WINDOW_DAYS * 86400;
+  const range = JSON.stringify({ type: "unix_range", start: start, end: end });
+
+  const params = new URLSearchParams();
+  params.append("time_granularity", "none");     // one row per campaign, whole window
+  params.append("aggregation_level", "campaign");
+  ["campaign.id", "campaign.name", "campaign.impressions", "campaign.clicks", "campaign.spend"]
+    .forEach((f) => params.append("fields[]", f));
+  params.append("time_ranges[]", range);
+
+  const res = await fetch(ADS_API + "/ad_account/insights?" + params.toString(), {
+    headers: { Authorization: "Bearer " + key }
+  });
+  if (!res.ok) throw new Error("insights " + res.status + " " + (await res.text()).slice(0, 200));
+  const rows = (await res.json()).data || [];
+
+  const byId = {};
+  let impressions = 0, clicks = 0, spend = 0;
+  for (const r of rows) {
+    const id = r.campaign_id || r.id;
+    const row = byId[id] || (byId[id] = {
+      id: id, name: r.campaign_name || id, impressions: 0, clicks: 0, spend: 0, conversions: null
+    });
+    row.impressions += Number(r.impressions || 0);
+    row.clicks += Number(r.clicks || 0);
+    row.spend += Number(r.spend || 0);
+    impressions += Number(r.impressions || 0);
+    clicks += Number(r.clicks || 0);
+    spend += Number(r.spend || 0);
+  }
+
+  /* Conversions are a separate endpoint. If it fails, delivery numbers are
+     still worth showing — conversions stay null and the page says so. */
+  let conversions = null;
+  const ids = Object.keys(byId);
+  if (ids.length) {
+    try {
+      const cres = await fetch(ADS_API + "/conversions/insights", {
+        method: "POST",
+        headers: { Authorization: "Bearer " + key, "Content-Type": "application/json" },
+        body: JSON.stringify({
+          aggregation_level: "campaign",
+          time_ranges: [range],
+          entity_ids: ids
+        })
+      });
+      if (cres.ok) {
+        conversions = 0;
+        for (const c of (await cres.json()).data || []) {
+          const row = byId[c.entity_id];
+          const n = Number(c.conversions || 0);
+          if (row) row.conversions = (row.conversions || 0) + n;
+          conversions += n;
+        }
+      }
+    } catch (e) { /* delivery data still renders */ }
+  }
+
+  return {
+    windowDays: ADS_WINDOW_DAYS,
+    impressions: impressions,
+    clicks: clicks,
+    spend: spend,
+    conversions: conversions,
+    campaigns: Object.keys(byId).map((k) => byId[k]).sort((a, b) => b.spend - a.spend)
+  };
+}
+
 function summariseOrders(rows) {
   const now = Date.now();
   const day = 86400000;
@@ -198,6 +276,15 @@ exports.handler = async (event) => {
     result.downloads = await githubDownloads();
   } catch (e) {
     result.errors.push("GitHub: " + e.message);
+  }
+
+  /* Optional. Without the key the page falls back to hand-entered ad figures. */
+  if (process.env.OPENAI_ADS_API_KEY) {
+    try {
+      result.ads = await adsInsights(process.env.OPENAI_ADS_API_KEY);
+    } catch (e) {
+      result.errors.push("OpenAI Ads: " + e.message);
+    }
   }
 
   if (result.sales && result.downloads && result.downloads.total > 0) {

@@ -130,14 +130,30 @@ td.num{text-align:right;font-family:'IBM Plex Mono',ui-monospace,monospace}
   </div>
 
   <h2>Ads</h2>
+
+  <div id="adsLive" style="display:none">
+    <div class="scroll" style="margin-bottom:14px">
+      <table><thead><tr><th>Campaign</th><th style="text-align:right">Impressions</th>
+      <th style="text-align:right">Clicks</th><th style="text-align:right">Spend</th>
+      <th style="text-align:right">Conv.</th></tr></thead>
+      <tbody id="campaigns"></tbody></table>
+    </div>
+  </div>
+
+  <div id="adsManual">
+  <p class="note" style="margin:0 0 12px">
+    No <code>OPENAI_ADS_API_KEY</code> set, so these are entered by hand and kept in this browser.
+  </p>
   <div class="inputs">
     <div class="field"><label for="spend">Spend $</label><input id="spend" type="number" step="0.01" min="0" placeholder="0.00"></div>
     <div class="field"><label for="impr">Impressions</label><input id="impr" type="number" min="0" placeholder="0"></div>
     <div class="field"><label for="clicks">Clicks</label><input id="clicks" type="number" min="0" placeholder="0"></div>
     <div class="field"><label for="convs">Conversions</label><input id="convs" type="number" min="0" placeholder="0"></div>
   </div>
+  </div>
 
   <div class="grid" style="margin-top:14px">
+    <div class="tile t-dst"><div class="label">Spend</div><div class="value" id="spendTile">—</div><div class="sub" id="adWindow">&nbsp;</div></div>
     <div class="tile t-dst"><div class="label">CTR</div><div class="value" id="ctr">—</div></div>
     <div class="tile t-dst"><div class="label">Avg CPC</div><div class="value" id="cpc">—</div></div>
     <div class="tile t-dst"><div class="label">Cost per conversion</div><div class="value" id="cpa">—</div></div>
@@ -145,9 +161,11 @@ td.num{text-align:right;font-family:'IBM Plex Mono',ui-monospace,monospace}
   </div>
 
   <p class="note">
-    Ad figures are typed in by hand — OpenAI has no reporting API to read them from yet — and are
-    stored in this browser only. They never reach the server. Everything above them is live:
-    sales come from the Lemon Squeezy API, downloads from GitHub release asset counts.
+    Ad figures come from the OpenAI Ads Insights API over the last 30 days — delivery from
+    <code>/ad_account/insights</code>, conversions from <code>/conversions/insights</code>, merged by
+    campaign. Conversions read as <em>—</em> if that second call fails; spend and delivery still render.
+    Note OpenAI attributes a conversion to the ad, while <strong>net revenue</strong> above counts every
+    sale however it arrived, so <em>spend vs revenue</em> is a business-wide ratio, not ad ROAS.
   </p>
   <p class="note">
     <strong>Paid orders</strong> counts orders that actually took money. Fully discounted
@@ -241,21 +259,46 @@ function render(d) {
       : '<tr><td colspan="3" style="color:var(--muted)">No release assets found</td></tr>';
   }
 
+  if (d.ads) {
+    renderAds(d.ads);
+    $("adWindow").textContent = "Last " + d.ads.windowDays + " days";
+  }
+
   $("conv").textContent = d.conversionRate === undefined ? "—" : pct(d.conversionRate);
   $("stamp").textContent = "Updated " + new Date(d.generatedAt).toLocaleTimeString();
   computeAds();
 }
 
-/* ── hand-entered ad figures ────────────────────────────────────────────── */
+/* ── ads ────────────────────────────────────────────────────────────────────
+   Live figures from the OpenAI Ads Insights API when the key is set, otherwise
+   whatever was typed in. Both paths feed the same derived tiles. */
 const AD_FIELDS = ["spend", "impr", "clicks", "convs"];
+let liveAds = null;
+
+function renderAds(a) {
+  liveAds = a;
+  $("adsLive").style.display = "";
+  $("adsManual").style.display = "none";
+  $("campaigns").innerHTML = (a.campaigns || []).map((c) =>
+    "<tr><td>" + c.name + '</td><td class="num">' + num(c.impressions) +
+    '</td><td class="num">' + num(c.clicks) + '</td><td class="num">' + usd(c.spend) +
+    '</td><td class="num">' + (c.conversions === null ? "—" : num(c.conversions)) +
+    "</td></tr>").join("") ||
+    '<tr><td colspan="5" style="color:var(--muted)">No delivery in the last ' +
+      a.windowDays + " days</td></tr>";
+}
 
 function computeAds() {
-  const v = {};
-  AD_FIELDS.forEach((f) => { v[f] = parseFloat($(f).value); });
+  const v = liveAds
+    ? { spend: liveAds.spend, impr: liveAds.impressions,
+        clicks: liveAds.clicks, convs: liveAds.conversions }
+    : {};
+  if (!liveAds) AD_FIELDS.forEach((f) => { v[f] = parseFloat($(f).value); });
 
   $("ctr").textContent = v.impr > 0 ? pct(v.clicks / v.impr) : "—";
   $("cpc").textContent = v.clicks > 0 ? usd(v.spend / v.clicks) : "—";
   $("cpa").textContent = v.convs > 0 ? usd(v.spend / v.convs) : "—";
+  $("spendTile").textContent = v.spend > 0 ? usd(v.spend) : "—";
   $("roas").textContent =
     v.spend > 0 && netRevenue !== null ? (netRevenue / v.spend).toFixed(2) + "×" : "—";
 }

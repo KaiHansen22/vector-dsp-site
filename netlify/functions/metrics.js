@@ -31,27 +31,36 @@ function json(body, status) {
   };
 }
 
-function authorised(event) {
+/* Returns null when the request is good, or a {status, error} to send back.
+   Distinguishing "not configured" from "bad session" matters: the first is a
+   setup problem the dashboard should name out loud, the second is normal. */
+function refuse(event) {
   const password = process.env.DASHBOARD_PASSWORD;
-  if (!password) return false;
+  if (!password) {
+    return { status: 503, error: "DASHBOARD_PASSWORD is not set for functions on this site" };
+  }
 
   const raw = (event.headers.cookie || event.headers.Cookie || "")
     .split(";").map((c) => c.trim())
     .find((c) => c.startsWith(COOKIE + "="));
-  if (!raw) return false;
+  if (!raw) return { status: 401, error: "no session cookie reached the function" };
 
   const token = raw.slice(COOKIE.length + 1);
   const dot = token.indexOf(".");
-  if (dot === -1) return false;
+  if (dot === -1) return { status: 401, error: "malformed session cookie" };
 
   const exp = token.slice(0, dot);
   const sig = token.slice(dot + 1);
-  if (!/^\d+$/.test(exp) || Number(exp) < Date.now()) return false;
+  if (!/^\d+$/.test(exp)) return { status: 401, error: "malformed session cookie" };
+  if (Number(exp) < Date.now()) return { status: 401, error: "session expired" };
 
   const expected = crypto.createHmac("sha256", password).update(exp).digest("hex");
   const a = Buffer.from(sig, "utf8");
   const b = Buffer.from(expected, "utf8");
-  return a.length === b.length && crypto.timingSafeEqual(a, b);
+  if (a.length !== b.length || !crypto.timingSafeEqual(a, b)) {
+    return { status: 401, error: "session signature did not verify — DASHBOARD_PASSWORD may differ between the edge function and this function" };
+  }
+  return null;
 }
 
 async function ls(path, key) {
@@ -150,7 +159,8 @@ function summariseOrders(rows) {
 }
 
 exports.handler = async (event) => {
-  if (!authorised(event)) return json({ error: "unauthorized" }, 401);
+  const denied = refuse(event);
+  if (denied) return json({ error: denied.error }, denied.status);
 
   const key = process.env.LEMONSQUEEZY_API_KEY;
   const result = { generatedAt: new Date().toISOString(), errors: [] };

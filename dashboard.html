@@ -10,62 +10,86 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
+/* Palette copied verbatim from index.html so the tracker and the site can
+   never drift. The five accent colours below are ToneLab's own lane colours,
+   read off the plugin UI: CHO cyan, DLY violet, SAT lime, REV green, DST pink. */
 :root{
-  --bg:#0B0D11;--surface:#12151C;--surface2:#1C2029;--line:rgba(237,240,244,0.08);
-  --purple:#9B6DFF;--cyan:#00C2FF;--mint:#4DFFEC;--white:#EDF0F4;--muted:#5A6070;
-  --warn:#FFB454;--bad:#FF6B6B;
+  --bg:        #0B0D11;
+  --surface:   #13161D;
+  --surface2:  #1C2029;
+  --line:      rgba(255,255,255,0.07);
+  --purple:    #9B6DFF;
+  --purple-lt: #C4A8FF;
+  --purple-dim:rgba(155,109,255,0.12);
+  --cyan:      #00C2FF;
+  --mint:      #4DFFEC;
+  --white:     #EDF0F4;
+  --muted:     #5A6070;
+  --muted2:    #383D4A;
+  --lane-cho:  #00C2FF;
+  --lane-dly:  #9B6DFF;
+  --lane-sat:  #A8E10C;
+  --lane-rev:  #2BD96B;
+  --lane-dst:  #FF3D8B;
+  --bad:       #FF6B6B;
 }
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--white);font-family:'Barlow',sans-serif;
+body{margin:0;background:var(--bg);color:var(--white);font-family:'Barlow','Segoe UI',Arial,sans-serif;
      -webkit-font-smoothing:antialiased;padding:clamp(20px,4vw,44px)}
 .wrap{max-width:1080px;margin:0 auto}
 
 header{display:flex;align-items:baseline;justify-content:space-between;gap:16px;
        flex-wrap:wrap;margin-bottom:30px}
-h1{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:clamp(28px,4vw,40px);
+h1{font-family:'Barlow Condensed','Arial Narrow',sans-serif;font-weight:800;font-size:clamp(28px,4vw,40px);
    text-transform:uppercase;letter-spacing:0.02em;margin:0}
 h1 em{color:var(--purple);font-style:normal}
-.stamp{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted);
+.stamp{font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;color:var(--muted);
        letter-spacing:0.1em}
 .stamp button{background:none;border:1px solid var(--line);color:var(--muted);
   border-radius:4px;padding:5px 11px;font:inherit;cursor:pointer;margin-left:10px}
 .stamp button:hover{border-color:var(--purple);color:var(--purple)}
 
-h2{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:500;
+h2{font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;font-weight:500;
    letter-spacing:0.3em;text-transform:uppercase;color:var(--purple);
    margin:38px 0 14px}
 
 .grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(190px,1fr))}
-.tile{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:20px 22px}
-.tile .label{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.16em;
+.tile{background:var(--surface);border:1px solid var(--line);border-radius:8px;
+      padding:20px 22px;position:relative;overflow:hidden}
+.tile::after{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--line)}
+.tile.t-cho::after{background:var(--lane-cho)} .tile.t-dly::after{background:var(--lane-dly)}
+.tile.t-sat::after{background:var(--lane-sat)} .tile.t-rev::after{background:var(--lane-rev)}
+.tile.t-dst::after{background:var(--lane-dst)}
+.tile .label{font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:11px;letter-spacing:0.16em;
   text-transform:uppercase;color:var(--muted);margin-bottom:10px}
-.tile .value{font-family:'Barlow Condensed',sans-serif;font-weight:800;
+.tile .value{font-family:'Barlow Condensed','Arial Narrow',sans-serif;font-weight:800;
   font-size:38px;line-height:1;letter-spacing:0.01em}
 .tile .sub{font-size:13px;font-weight:300;color:var(--muted);margin-top:8px;line-height:1.5}
 .v-cyan{color:var(--cyan)} .v-mint{color:var(--mint)} .v-purple{color:var(--purple)}
+.v-sat{color:var(--lane-sat)} .v-dst{color:var(--lane-dst)}
 .v-muted{color:var(--muted)}
 
 table{width:100%;border-collapse:collapse;background:var(--surface);
       border:1px solid var(--line);border-radius:8px;overflow:hidden}
 th,td{text-align:left;padding:12px 16px;font-size:14px;font-weight:300;
       border-top:1px solid var(--line)}
-th{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.14em;
+th{font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:11px;letter-spacing:0.14em;
    text-transform:uppercase;color:var(--muted);font-weight:500;border-top:0}
-td.num{text-align:right;font-family:'IBM Plex Mono',monospace}
+td.num{text-align:right;font-family:'IBM Plex Mono',ui-monospace,monospace}
 .scroll{overflow-x:auto}
 
 .inputs{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
-.field label{display:block;font-family:'IBM Plex Mono',monospace;font-size:11px;
+.field label{display:block;font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:11px;
   letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-bottom:7px}
 .field input{width:100%;padding:11px 13px;background:var(--surface);color:var(--white);
-  border:1px solid var(--line);border-radius:5px;font-family:'IBM Plex Mono',monospace;font-size:15px}
+  border:1px solid var(--line);border-radius:5px;font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:15px}
 .field input:focus{outline:none;border-color:var(--purple)}
 
 .note{font-size:13px;font-weight:300;line-height:1.65;color:var(--muted);margin:12px 0 0}
 .err{background:rgba(255,107,107,0.07);border:1px solid rgba(255,107,107,0.3);
      color:#FFB3B3;border-radius:6px;padding:13px 16px;font-size:14px;margin-bottom:14px}
 .spark{display:flex;align-items:flex-end;gap:3px;height:56px;margin-top:14px}
-.spark i{flex:1;background:var(--cyan);opacity:0.75;border-radius:1px;min-height:2px}
+.spark i{flex:1;background:var(--lane-dly);opacity:0.8;border-radius:1px;min-height:2px}
 </style>
 </head>
 <body>
@@ -80,18 +104,18 @@ td.num{text-align:right;font-family:'IBM Plex Mono',monospace}
 
   <h2>Sales</h2>
   <div class="grid">
-    <div class="tile"><div class="label">Net revenue</div><div class="value v-mint" id="net">—</div><div class="sub" id="netSub">&nbsp;</div></div>
-    <div class="tile"><div class="label">Paid orders</div><div class="value" id="paid">—</div><div class="sub" id="paidSub">&nbsp;</div><div id="orderSpark"></div></div>
-    <div class="tile"><div class="label">Last 7 days</div><div class="value v-cyan" id="last7">—</div><div class="sub" id="last30Sub">&nbsp;</div></div>
-    <div class="tile"><div class="label">Discounts given</div><div class="value v-purple" id="disc">—</div><div class="sub">SUNDOWN and any other codes</div></div>
+    <div class="tile t-rev"><div class="label">Net revenue</div><div class="value v-mint" id="net">—</div><div class="sub" id="netSub">&nbsp;</div></div>
+    <div class="tile t-cho"><div class="label">Paid orders</div><div class="value" id="paid">—</div><div class="sub" id="paidSub">&nbsp;</div><div id="orderSpark"></div></div>
+    <div class="tile t-cho"><div class="label">Last 7 days</div><div class="value v-cyan" id="last7">—</div><div class="sub" id="last30Sub">&nbsp;</div></div>
+    <div class="tile t-dly"><div class="label">Discounts given</div><div class="value v-purple" id="disc">—</div><div class="sub">SUNDOWN and any other codes</div></div>
   </div>
 
   <h2>Demo downloads</h2>
   <div class="grid">
-    <div class="tile"><div class="label">Total</div><div class="value v-cyan" id="dlTotal">—</div><div class="sub">All installer assets, every release</div></div>
-    <div class="tile"><div class="label">macOS</div><div class="value" id="dlMac">—</div></div>
-    <div class="tile"><div class="label">Windows</div><div class="value" id="dlWin">—</div></div>
-    <div class="tile"><div class="label">Download → sale</div><div class="value v-mint" id="conv">—</div><div class="sub">Share of demo downloads that became a paid order</div></div>
+    <div class="tile t-cho"><div class="label">Total</div><div class="value v-cyan" id="dlTotal">—</div><div class="sub">All installer assets, every release</div></div>
+    <div class="tile t-sat"><div class="label">macOS</div><div class="value" id="dlMac">—</div></div>
+    <div class="tile t-sat"><div class="label">Windows</div><div class="value" id="dlWin">—</div></div>
+    <div class="tile t-rev"><div class="label">Download → sale</div><div class="value v-mint" id="conv">—</div><div class="sub">Share of demo downloads that became a paid order</div></div>
   </div>
 
   <div class="scroll" style="margin-top:14px">
@@ -108,10 +132,10 @@ td.num{text-align:right;font-family:'IBM Plex Mono',monospace}
   </div>
 
   <div class="grid" style="margin-top:14px">
-    <div class="tile"><div class="label">CTR</div><div class="value" id="ctr">—</div></div>
-    <div class="tile"><div class="label">Avg CPC</div><div class="value" id="cpc">—</div></div>
-    <div class="tile"><div class="label">Cost per conversion</div><div class="value" id="cpa">—</div></div>
-    <div class="tile"><div class="label">Spend vs revenue</div><div class="value" id="roas">—</div><div class="sub">Net revenue for every dollar spent</div></div>
+    <div class="tile t-dst"><div class="label">CTR</div><div class="value" id="ctr">—</div></div>
+    <div class="tile t-dst"><div class="label">Avg CPC</div><div class="value" id="cpc">—</div></div>
+    <div class="tile t-dst"><div class="label">Cost per conversion</div><div class="value" id="cpa">—</div></div>
+    <div class="tile t-rev"><div class="label">Spend vs revenue</div><div class="value" id="roas">—</div><div class="sub">Net revenue for every dollar spent</div></div>
   </div>
 
   <p class="note">
@@ -143,9 +167,18 @@ async function load() {
   $("errors").innerHTML = "";
   try {
     const res = await fetch("/api/metrics", { credentials: "same-origin" });
-    if (res.status === 401) {
-      // The gate session expired. Reloading lands on the password form.
-      location.reload();
+
+    /* Never auto-reload on 401. If the endpoint rejects while the page itself
+       loaded fine, reloading just re-renders this page and fires the same
+       failing request — an infinite refresh that hides the actual problem. */
+    if (res.status === 401 || res.status === 503) {
+      let detail = "";
+      try { detail = (await res.json()).error || ""; } catch (e) {}
+      $("errors").innerHTML =
+        '<div class="err"><strong>' + (res.status === 503 ? "Not configured" : "Session rejected") +
+        "</strong> — " + (detail || "the metrics endpoint refused this request") +
+        '. <a href="/dashboard" style="color:var(--cyan)">Sign in again</a></div>';
+      $("stamp").textContent = "Not loaded";
       return;
     }
     if (!res.ok) throw new Error("HTTP " + res.status);

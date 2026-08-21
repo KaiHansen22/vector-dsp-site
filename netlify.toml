@@ -47,10 +47,17 @@
   to = "/.netlify/functions/metrics"
   status = 200
 
+# Rewrite, not a 301. The login form POSTs back to whatever URL you are on,
+# and a 301 turns a POST into a GET — you would log in and land straight back
+# on the password form.
 [[redirects]]
   from = "/dashboard"
   to = "/dashboard.html"
-  status = 301
+  status = 200
+
+[[edge_functions]]
+  path = "/dashboard"
+  function = "dashboard-gate"
 
 [[edge_functions]]
   path = "/dashboard.html"

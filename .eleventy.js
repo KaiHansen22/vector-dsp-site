@@ -26,6 +26,7 @@ module.exports = function (eleventyConfig) {
     "tonelab-loop.mp4",
     "tonelab-loop.webm",
     "tonelab-loop-poster.jpg",
+    "tonelab-walkthrough-poster.jpg", // click-to-load poster for the walkthrough embed
     "robots.txt",
     "llms.txt",
     "wall", // testimonial portraits

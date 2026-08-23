@@ -64,6 +64,24 @@ document.addEventListener("click", function (e) {
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
+  "@type": "VideoObject",
+  "name": "Mixing a Full Session With One Plugin (ToneLab Walkthrough)",
+  "description": "A full walkthrough of ToneLab: the five parallel effect lanes, the EQ node system that decides which frequencies reach each effect, the mix console, and a complete A/B of a session mixed with ToneLab as the only plugin. Filmed in Pro Tools.",
+  "thumbnailUrl": "https://vector-dsp.com/tonelab-walkthrough-poster.jpg",
+  "uploadDate": "2026-08-23",
+  "duration": "PT11M43S",
+  "embedUrl": "https://www.youtube-nocookie.com/embed/31v26sNm1Us",
+  "contentUrl": "https://www.youtube.com/watch?v=31v26sNm1Us",
+  "publisher": {
+    "@type": "Organization",
+    "name": "Vector DSP",
+    "url": "https://vector-dsp.com"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
   "@type": "FAQPage",
   "mainEntity": [
     {
@@ -1445,6 +1463,63 @@ body {
 }
 .footer-ig:hover { color: var(--purple-lt); }
 .footer-ig svg { display: block; }
+
+/* ═══ WALKTHROUGH: click-to-load YouTube facade ═══ */
+/* Fixed 64px nav would otherwise cover the heading on a direct #walkthrough link. */
+#walkthrough { scroll-margin-top: 84px; }
+.wt-frame {
+  position: relative; z-index: 1;
+  width: 100%; max-width: 960px; margin: 8px auto 0;
+  aspect-ratio: 16 / 9;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  overflow: hidden;
+  box-shadow: 0 30px 80px -30px rgba(0,0,0,0.9);
+}
+.wt-frame::after {
+  content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 3;
+  background: linear-gradient(135deg, rgba(0,194,255,0.18), transparent 38%,
+                              transparent 62%, rgba(155,109,255,0.18));
+  mix-blend-mode: screen;
+}
+.wt-btn {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  padding: 0; margin: 0; border: 0; background: none; cursor: pointer;
+  -webkit-appearance: none; appearance: none;
+}
+.wt-btn img {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; display: block;
+}
+.wt-play {
+  position: relative; z-index: 2;
+  width: clamp(64px, 8vw, 92px); aspect-ratio: 1; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(11,13,17,0.55);
+  border: 1px solid rgba(237,240,244,0.35);
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+  transition: transform .25s ease, background .25s ease, border-color .25s ease;
+}
+.wt-btn:hover .wt-play,
+.wt-btn:focus-visible .wt-play {
+  transform: scale(1.08);
+  background: rgba(0,194,255,0.18);
+  border-color: var(--cyan);
+}
+.wt-btn:focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; }
+.wt-play svg { margin-left: 4px; width: 28%; height: auto; }
+.wt-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; z-index: 2; }
+.wt-meta {
+  position: relative; z-index: 1;
+  margin-top: 18px; text-align: center;
+  font-family: 'Barlow', sans-serif; font-size: 15px; font-weight: 300;
+  letter-spacing: 0.02em; color: var(--muted);
+}
+@media (prefers-reduced-motion: reduce) {
+  .wt-play { transition: none; }
+  .wt-btn:hover .wt-play, .wt-btn:focus-visible .wt-play { transform: none; }
+}
 </style>
 <script src="https://assets.lemonsqueezy.com/lemon.js" defer></script>
 <style>
@@ -1770,6 +1845,65 @@ body {
     </div><!-- end lane-diagram-wrap -->
   </div>
 </section>
+
+<!-- ── WALKTHROUGH ── The full tutorial. YouTube is not loaded until the
+     viewer clicks: the facade is a static poster, so the page costs nothing
+     extra and sets no third-party cookies for people who never press play. -->
+<section class="ig-section reveal" id="walkthrough">
+  <div class="ig-eyebrow">The Walkthrough</div>
+  <h2 class="ig-heading">Eleven minutes. <span class="hl">Every control.</span></h2>
+  <p class="ig-sub">A full session mixed with ToneLab on every track and nothing else in the chain — the lanes, the nodes, the mix console, then a straight A/B of the whole mix.</p>
+
+  <div class="wt-frame" id="wt-frame">
+    <button type="button" class="wt-btn" id="wt-btn" aria-label="Play the ToneLab walkthrough video">
+      <img src="/tonelab-walkthrough-poster.jpg" width="1280" height="720"
+           alt="ToneLab open over a Pro Tools session, showing the reverb lane and mix console"
+           loading="lazy" decoding="async">
+      <span class="wt-play" aria-hidden="true">
+        <svg viewBox="0 0 26 30" fill="#EDF0F4" aria-hidden="true"><path d="M25 13.27 2.5.42A2 2 0 0 0 0 2.15v25.7a2 2 0 0 0 2.5 1.73L25 16.73a2 2 0 0 0 0-3.46z"/></svg>
+      </span>
+    </button>
+  </div>
+
+  <p class="wt-meta">11:43 &middot; Filmed in Pro Tools &middot; AAX, AU and VST3</p>
+</section>
+
+<script>
+/* ─── WALKTHROUGH: swap the poster for the real player on click ─── */
+(function () {
+  /* The only value that needs changing when the video goes live. */
+  var VIDEO_ID = '31v26sNm1Us';
+
+  var btn = document.getElementById('wt-btn');
+  var frame = document.getElementById('wt-frame');
+  if (!btn || !frame) return;
+
+  /* Warm the connection on intent, so the click itself feels instant. */
+  var warmed = false;
+  function warm() {
+    if (warmed) return; warmed = true;
+    ['https://www.youtube-nocookie.com', 'https://i.ytimg.com'].forEach(function (h) {
+      var l = document.createElement('link');
+      l.rel = 'preconnect'; l.href = h; l.crossOrigin = '';
+      document.head.appendChild(l);
+    });
+  }
+  btn.addEventListener('pointerenter', warm, { once: true });
+  btn.addEventListener('focus', warm, { once: true });
+
+  btn.addEventListener('click', function () {
+    var f = document.createElement('iframe');
+    f.src = 'https://www.youtube-nocookie.com/embed/' + VIDEO_ID +
+            '?autoplay=1&rel=0&modestbranding=1&playsinline=1';
+    f.title = 'How to use ToneLab — full walkthrough';
+    f.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+    f.setAttribute('allowfullscreen', '');
+    f.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
+    frame.replaceChild(f, btn);
+    f.focus();
+  });
+})();
+</script>
 
 <div style="height:1px;background:var(--line);margin:0 clamp(16px,5vw,56px);"></div>
 <section style="padding:clamp(48px,7vw,100px) clamp(16px,5vw,56px);background:var(--surface);" id="tl-features-section">

@@ -920,70 +920,6 @@ body {
 .tlp-eq-dot { position: absolute; top: 50%; transform: translate(-50%,-50%); width: 6px; height: 6px; border-radius: 50%; background: var(--lc); box-shadow: 0 0 6px var(--lc); }
 .tlp-tag { font-size: 14px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); text-align: right; }
 
-/* ── LANE ROW (diagram) ── */
-.tl-lane-row {
-  display: grid;
-  grid-template-columns: 100px 1fr 160px 80px;
-  gap: 2px;
-  align-items: stretch;
-}
-.tlr-id {
-  padding: 22px 28px;
-  background: color-mix(in srgb, var(--lc) 12%, var(--bg));
-  border-left: 2px solid var(--lc);
-  font-family: 'Barlow Condensed', sans-serif;
-  font-weight: 700; font-size: 26px;
-  letter-spacing: 0.1em;
-  color: var(--lc);
-  display: flex; align-items: center;
-}
-.tlr-eq {
-  padding: 16px 20px;
-  background: var(--surface);
-  display: flex; flex-direction: column; gap: 4px;
-}
-.tlr-eq svg {
-  width: 100%;
-  height: 48px;
-  display: block;
-}
-.tlr-eq-bar {
-  position: relative; height: 32px;
-  background: rgba(255,255,255,0.04); border-radius: 2px;
-}
-.tlr-eq-range {
-  position: absolute; top: 0; bottom: 0;
-  background: color-mix(in srgb, var(--lc) 25%, transparent);
-  border-radius: 2px;
-}
-.tlr-eq-node {
-  position: absolute; top: 50%;
-  transform: translate(-50%, -50%);
-  width: 7px; height: 7px; border-radius: 50%;
-  background: var(--lc);
-  box-shadow: 0 0 8px color-mix(in srgb, var(--lc) 60%, transparent);
-}
-.tlr-eq-label { font-size: 16px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); }
-.tlr-fx {
-  padding: 16px 20px;
-  background: var(--surface2);
-  font-size: 19px; letter-spacing: 0.15em; text-transform: uppercase;
-  color: rgba(237,240,244,0.65);
-  border: 1px dashed rgba(255,255,255,0.1);
-  text-align: center;
-  display: flex; align-items: center; justify-content: center;
-}
-.tlr-mix {
-  padding: 16px 16px;
-  background: var(--surface);
-  display: flex; align-items: center;
-}
-.tlr-mix-bar {
-  height: 4px; width: var(--mw);
-  background: linear-gradient(90deg, var(--lc), color-mix(in srgb, var(--lc) 40%, transparent));
-  border-radius: 2px;
-}
-
 /* ── HOW IT WORKS CARD HOVER ── */
 .hiw-card { transition: background 0.2s ease; }
 .hiw-card .hiw-num { transition: color 0.2s ease, text-shadow 0.2s ease; }
@@ -998,39 +934,6 @@ body {
   opacity: 0; transform: translateY(18px);
 }
 .reveal.anim.vis { opacity: 1; transform: none; }
-
-/* ── LANE SCROLL HINT (mobile only) ── */
-.lane-scroll-hint {
-  display: none;
-}
-.lane-diagram-wrap {
-  padding: 0 clamp(0px, 10vw, 200px);
-}
-@media (max-width: 768px) {
-  .lane-scroll-hint {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 16px;
-    color: rgba(237,240,244,0.35);
-    font-size: 12px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-  }
-  .lane-scroll-hint svg {
-    flex-shrink: 0;
-  }
-  .lane-diagram-wrap {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    padding: 0;
-  }
-  .lane-diagram-wrap::-webkit-scrollbar { display: none; }
-  .lane-diagram-inner {
-    min-width: 520px;
-  }
-}
 
 /* ═══════════════════════════════════════
    MOBILE
@@ -1066,23 +969,6 @@ body {
   /* How It Works — match features section padding exactly */
   #tl-how { padding: clamp(40px,5vw,56px) clamp(16px,5vw,56px) clamp(60px,8vw,100px) !important; }
   #tl-how .section-heading { font-size: clamp(28px, 7vw, 48px); }
-
-  /* Lane diagram scroll */
-  .lane-diagram-wrap {
-    overflow-x: scroll;
-    -webkit-overflow-scrolling: touch;
-    touch-action: pan-x pan-y;
-    overscroll-behavior-x: contain;
-    width: 100vw;
-    margin-left: -24px;
-    padding-left: 24px;
-    box-sizing: border-box;
-  }
-  .lane-diagram-inner { min-width: 620px; padding-right: 24px; }
-  .tl-lane-row { grid-template-columns: 70px 1fr 100px; }
-  .tlr-mix { display: none; }
-  .tlr-id { padding: 18px 14px; font-size: 22px; }
-  .tlr-fx { font-size: 15px; padding: 14px 12px; }
 
   /* Footer */
   footer {
@@ -1712,7 +1598,7 @@ body {
   </div>
 
   <!-- Step cards -->
-  <div class="reveal" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr));gap:2px;margin-bottom:64px;">
+  <div class="reveal" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr));gap:2px;">
     <div class="hiw-card" style="padding:40px;background:var(--surface);border-left:2px solid #9B6DFF;">
       <div class="hiw-num hiw-num-purple" style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:66px;color:rgba(155,109,255,0.18);line-height:1;margin-bottom:16px;">01</div>
       <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:26px;text-transform:uppercase;letter-spacing:0.02em;margin-bottom:14px;">Five Dedicated Lanes</div>
@@ -1730,120 +1616,6 @@ body {
     </div>
   </div>
 
-  <!-- Lane diagram -->
-  <div class="reveal">
-    <div style="font-size:16px;letter-spacing:0.3em;text-transform:uppercase;color:rgba(237,240,244,0.5);margin-bottom:16px;">Lane Architecture</div>
-
-    <!-- Mobile scroll hint — only visible on small screens -->
-    <div class="lane-scroll-hint">
-      <svg width="36" height="16" viewBox="0 0 36 16" fill="none">
-        <rect x="0.5" y="0.5" width="35" height="15" rx="7.5" stroke="rgba(237,240,244,0.2)"/>
-        <circle cx="10" cy="8" r="3" fill="rgba(237,240,244,0.25)"/>
-        <path d="M18 8 L26 8 M22 5 L26 8 L22 11" stroke="rgba(237,240,244,0.35)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-      Scroll to explore
-    </div>
-
-    <div class="lane-diagram-wrap">
-    <div class="lane-diagram-inner" style="display:flex;flex-direction:column;gap:3px;">
-
-      <!-- header row -->
-      <div style="display:grid;grid-template-columns:100px 1fr 160px 80px;gap:2px;padding:0 0 8px;">
-        <div style="font-size:16px;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);">Lane</div>
-        <div style="font-size:16px;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);">EQ Shape</div>
-        <div style="font-size:16px;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);">Effect</div>
-        <div style="font-size:16px;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);">Mix</div>
-      </div>
-
-      <!-- Lane 01 — low shelf boost -->
-      <div class="tl-lane-row" style="--lc:#FF6B6B;">
-        <div class="tlr-id">01</div>
-        <div class="tlr-eq">
-          <svg viewBox="0 0 300 48" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style="width:100%;height:48px;">
-            <!-- frequency axis -->
-            <line x1="0" y1="40" x2="300" y2="40" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
-            <!-- filled region under curve -->
-            <path d="M0,10 C20,10 40,10 60,12 C80,14 90,36 110,38 C130,40 300,40 300,40 L300,40 L0,40 Z" fill="rgba(255,107,107,0.12)"/>
-            <path d="M0,10 C20,10 40,10 60,12 C80,14 90,36 110,38 C130,40 300,40 300,40" stroke="#FF6B6B" stroke-width="1.8" stroke-linecap="round"/>
-          </svg>
-        </div>
-        <div class="tlr-fx">Distortion</div>
-        <div class="tlr-mix"><div class="tlr-mix-bar" style="--mw:70%;"></div></div>
-      </div>
-
-      <!-- Lane 02 — mid bell boost -->
-      <div class="tl-lane-row" style="--lc:#FFB347;">
-        <div class="tlr-id">02</div>
-        <div class="tlr-eq">
-          <svg viewBox="0 0 300 48" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style="width:100%;height:48px;">
-            <line x1="0" y1="40" x2="300" y2="40" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
-            <path d="M0,40 C40,40 80,40 110,38 C130,36 140,14 150,10 C160,14 170,36 190,38 C220,40 260,40 300,40 L300,40 L0,40 Z" fill="rgba(255,179,71,0.12)"/>
-            <path d="M0,40 C40,40 80,40 110,38 C130,36 140,14 150,10 C160,14 170,36 190,38 C220,40 260,40 300,40" stroke="#FFB347" stroke-width="1.8" stroke-linecap="round"/>
-          </svg>
-        </div>
-        <div class="tlr-fx">Chorus</div>
-        <div class="tlr-mix"><div class="tlr-mix-bar" style="--mw:50%;"></div></div>
-      </div>
-
-      <!-- Lane 03 — LOWS + HIGHS simultaneously (the key concept) -->
-      <div class="tl-lane-row" style="--lc:#00C2FF;">
-        <div class="tlr-id">03</div>
-        <div class="tlr-eq" style="position:relative;">
-          <svg viewBox="0 0 300 48" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style="width:100%;height:48px;">
-            <line x1="0" y1="40" x2="300" y2="40" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
-            <!-- low shelf fill -->
-            <path d="M0,10 C15,10 30,10 50,14 C65,18 75,36 90,39 C100,40 300,40 300,40 L0,40 Z" fill="rgba(0,194,255,0.1)"/>
-            <!-- high shelf fill -->
-            <path d="M0,40 C100,40 200,40 210,39 C225,36 235,18 250,14 C270,10 285,10 300,10 L300,40 Z" fill="rgba(0,194,255,0.1)"/>
-            <path d="M0,10 C15,10 30,10 50,14 C65,18 75,36 90,39 C100,40 180,40 180,40" stroke="#00C2FF" stroke-width="1.8" stroke-linecap="round"/>
-            <path d="M120,40 C180,40 200,40 210,39 C225,36 235,18 250,14 C270,10 285,10 300,10" stroke="#00C2FF" stroke-width="1.8" stroke-linecap="round"/>
-          </svg>
-        </div>
-        <div class="tlr-fx">Reverb</div>
-        <div class="tlr-mix"><div class="tlr-mix-bar" style="--mw:85%;"></div></div>
-      </div>
-
-      <!-- Lane 04 — high shelf boost -->
-      <div class="tl-lane-row" style="--lc:#9B6DFF;">
-        <div class="tlr-id">04</div>
-        <div class="tlr-eq">
-          <svg viewBox="0 0 300 48" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style="width:100%;height:48px;">
-            <line x1="0" y1="40" x2="300" y2="40" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
-            <path d="M0,40 C100,40 160,40 190,38 C210,36 220,14 240,12 C260,10 280,10 300,10 L300,40 L0,40 Z" fill="rgba(155,109,255,0.12)"/>
-            <path d="M0,40 C100,40 160,40 190,38 C210,36 220,14 240,12 C260,10 280,10 300,10" stroke="#9B6DFF" stroke-width="1.8" stroke-linecap="round"/>
-          </svg>
-        </div>
-        <div class="tlr-fx">Delay</div>
-        <div class="tlr-mix"><div class="tlr-mix-bar" style="--mw:40%;"></div></div>
-      </div>
-
-      <!-- Lane 05 — two narrow peaks (upper mid + air) -->
-      <div class="tl-lane-row" style="--lc:#4DFFEC;">
-        <div class="tlr-id">05</div>
-        <div class="tlr-eq">
-          <svg viewBox="0 0 300 48" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style="width:100%;height:48px;">
-            <line x1="0" y1="40" x2="300" y2="40" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
-            <!-- first peak fill -->
-            <path d="M0,40 C60,40 150,40 165,36 C175,30 180,14 190,10 C200,14 205,30 215,36 C225,40 300,40 300,40 L0,40 Z" fill="rgba(77,255,236,0.08)"/>
-            <!-- second peak fill -->
-            <path d="M220,40 C235,40 245,40 252,35 C258,28 262,16 268,12 C274,16 278,28 284,35 C290,40 300,40 300,40 L220,40 Z" fill="rgba(77,255,236,0.08)"/>
-            <path d="M0,40 C60,40 150,40 165,36 C175,30 180,14 190,10 C200,14 205,30 215,36 C225,40 245,40 252,35 C258,28 262,16 268,12 C274,16 278,28 284,35 C290,40 300,40" stroke="#4DFFEC" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </div>
-        <div class="tlr-fx">Saturation</div>
-        <div class="tlr-mix"><div class="tlr-mix-bar" style="--mw:60%;"></div></div>
-      </div>
-
-      <!-- Output row -->
-      <div style="margin-top:3px;display:grid;grid-template-columns:100px 1fr 160px 80px;gap:2px;padding:16px 20px;background:var(--surface2);border:1px solid rgba(255,255,255,0.05);">
-        <div style="font-size:16px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(237,240,244,0.5);">Output</div>
-        <div style="font-size:19px;color:rgba(237,240,244,0.55);font-family:'Barlow',sans-serif;font-weight:300;">All lanes summed to stereo output</div>
-        <div></div>
-        <div style="font-size:16px;letter-spacing:0.1em;color:var(--mint);">Master</div>
-      </div>
-    </div><!-- end lane-diagram-inner -->
-    </div><!-- end lane-diagram-wrap -->
-  </div>
 </section>
 
 <!-- ── WALKTHROUGH ── The full tutorial. YouTube is not loaded until the

@@ -5,3 +5,4 @@ _site/
 .env.*
 npm-debug.log*
 .cache/
+.survey-preview.html

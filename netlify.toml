@@ -16,6 +16,11 @@
   status = 200
 
 [[redirects]]
+  from = "/api/post-purchase"
+  to = "/.netlify/functions/post-purchase"
+  status = 200
+
+[[redirects]]
   from = "/api/babylovegrowth"
   to = "/.netlify/functions/babylovegrowth"
   status = 200

@@ -19,6 +19,7 @@
    ──────────────────────────────────────────────────────────────────────────── */
 
 const crypto = require("crypto");
+const { surveyUrl } = require("../lib/survey-token.js");
 
 const SUPPORT = "support@vector-dsp.com";
 
@@ -52,13 +53,16 @@ const QUESTIONS = [
   "What more would you like to see from Vector DSP in the future?"
 ];
 
-function textBody(firstName) {
+function textBody(firstName, url) {
   return [
     `Hi ${firstName || "there"},`,
     "",
-    "Thanks for picking up ToneLab. Vector DSP is a one-person studio, so hearing from you directly shapes what gets built next. If you have a minute, just hit reply and answer any of these:",
+    "Thanks for picking up ToneLab. Vector DSP is a one-person studio, so hearing from you directly shapes what gets built next. If you have a minute, I'd love your answers to these:",
     "",
     ...QUESTIONS.map((q, i) => `${i + 1}. ${q}`),
+    "",
+    `Answer here (takes about 30 seconds): ${url}`,
+    "Or just hit reply.",
     "",
     "Enjoy shaping your sound!",
     "",
@@ -68,7 +72,7 @@ function textBody(firstName) {
   ].join("\n");
 }
 
-function htmlBody(firstName) {
+function htmlBody(firstName, url) {
   const name = escapeHtml(firstName || "there");
   const questions = QUESTIONS.map((q, i) => `
           <tr><td style="padding:0 0 14px 0;">
@@ -93,13 +97,21 @@ function htmlBody(firstName) {
       </td></tr>
       <tr><td style="padding:22px 34px 6px 34px;font-family:'Barlow','Segoe UI',Arial,sans-serif;font-size:16px;color:#EDF0F4;line-height:26px;">
         Hi ${name},<br><br>
-        Thanks for picking up ToneLab. Vector DSP is a one-person studio, so hearing from you directly shapes what gets built next. If you have a minute, just <strong style="color:#A78BFA;">hit reply</strong> and answer any of these:
+        Thanks for picking up ToneLab. Vector DSP is a one-person studio, so hearing from you directly shapes what gets built next. If you have a minute, I'd love your answers to these:
       </td></tr>
       <tr><td style="padding:20px 34px 6px 34px;">
         <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">${questions}
         </table>
       </td></tr>
-      <tr><td style="padding:10px 34px 30px 34px;font-family:'Barlow','Segoe UI',Arial,sans-serif;font-size:16px;color:#EDF0F4;line-height:26px;">
+      <tr><td style="padding:8px 34px 8px 34px;">
+        <table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr>
+          <td style="background:#00C2FF;border-radius:4px;">
+            <a href="${escapeHtml(url)}" style="display:inline-block;padding:14px 28px;font-family:'Barlow Condensed','Arial Narrow',Arial,sans-serif;font-size:16px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#06080B;text-decoration:none;">Answer in 30 seconds</a>
+          </td>
+        </tr></table>
+        <div style="font-family:'Barlow','Segoe UI',Arial,sans-serif;font-size:14px;color:#5A6070;line-height:22px;padding-top:12px;">Or just hit reply &mdash; it reaches me directly.</div>
+      </td></tr>
+      <tr><td style="padding:22px 34px 30px 34px;font-family:'Barlow','Segoe UI',Arial,sans-serif;font-size:16px;color:#EDF0F4;line-height:26px;">
         <span style="font-family:'Barlow Condensed','Arial Narrow',Arial,sans-serif;font-size:22px;font-weight:700;letter-spacing:0.02em;color:#A78BFA;">Enjoy shaping your sound!</span><br><br>
         Kai<br>
         <span style="color:#5A6070;">Vector DSP</span><br>
@@ -113,6 +125,11 @@ function htmlBody(firstName) {
 </table>
 </body></html>`;
 }
+
+/* Exported so scripts/send-survey.js can send the same email by hand. */
+exports.htmlBody = htmlBody;
+exports.textBody = textBody;
+exports.SUPPORT = SUPPORT;
 
 exports.handler = async (event) => {
   if (event.httpMethod !== "POST") return reply(405, { error: "POST required" });
@@ -152,14 +169,15 @@ exports.handler = async (event) => {
   const email = String(a.user_email || "").trim();
   if (!email.includes("@")) return reply(200, { ok: true, skipped: "no email" });
   const firstName = String(a.user_name || "").trim().split(/\s+/)[0] || "";
+  const url = surveyUrl(email, firstName);
 
   const message = {
     sender: { name: "Kai at Vector DSP", email: process.env.SURVEY_SENDER_EMAIL || SUPPORT },
     to: [{ email, ...(a.user_name ? { name: a.user_name } : {}) }],
     replyTo: { email: SUPPORT, name: "Vector DSP Support" },
     subject: "Quick question from Vector DSP",
-    htmlContent: htmlBody(firstName),
-    textContent: textBody(firstName),
+    htmlContent: htmlBody(firstName, url),
+    textContent: textBody(firstName, url),
     tags: ["post-purchase-survey"]
   };
 

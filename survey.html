@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quick questions — ToneLab · Vector DSP</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Barlow+Condensed:wght@700;800&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+/* Same values as thank-you.html — this is the page after that one. */
+:root {
+  --bg: #0B0D11; --surface: #12151C; --line: rgba(237,240,244,0.08);
+  --purple: #9B6DFF; --purple-lt: #C4A8FF; --cyan: #00C2FF; --mint: #4DFFEC;
+  --white: #EDF0F4; --muted: #5A6070; --bad: #FF6B6B;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; min-height: 100vh; background: var(--bg); color: var(--white);
+  font-family: 'Barlow', sans-serif; -webkit-font-smoothing: antialiased;
+  display: flex; justify-content: center;
+  padding: clamp(32px, 6vw, 80px) 16px; position: relative; overflow-x: hidden;
+}
+body::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(ellipse 70% 60% at 50% 0%, rgba(155,109,255,0.10), transparent 65%);
+}
+.wrap { position: relative; z-index: 2; max-width: 600px; width: 100%; }
+.eyebrow {
+  font-family: 'IBM Plex Mono', monospace; font-size: 13px; font-weight: 500;
+  letter-spacing: 0.3em; text-transform: uppercase; color: var(--mint); margin-bottom: 18px;
+}
+h1 {
+  font-family: 'Barlow Condensed', sans-serif; font-weight: 800;
+  font-size: clamp(36px, 6vw, 56px); text-transform: uppercase; line-height: 1; margin: 0 0 16px;
+}
+h1 .tone { color: var(--white); } h1 .lab { color: var(--cyan); }
+.lede { font-size: 18px; font-weight: 300; line-height: 1.7; color: rgba(237,240,244,0.66); margin: 0 0 30px; }
+form, .done {
+  background: var(--surface); border: 1px solid var(--line); border-radius: 8px;
+  padding: clamp(22px, 4vw, 34px);
+}
+.q { margin-bottom: 24px; }
+.q label { display: flex; gap: 14px; font-size: 17px; font-weight: 500; line-height: 1.5; margin-bottom: 10px; }
+.q .n { font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: var(--purple); padding-top: 3px; flex: 0 0 auto; }
+textarea {
+  width: 100%; min-height: 96px; resize: vertical; padding: 13px 14px;
+  background: var(--bg); color: var(--white); border: 1px solid var(--line); border-radius: 5px;
+  font: 300 16px/1.6 'Barlow', sans-serif;
+}
+textarea:focus { outline: none; border-color: var(--purple); }
+button {
+  width: 100%; padding: 15px; border: 0; border-radius: 4px; cursor: pointer;
+  background: var(--cyan); color: #06080B;
+  font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 17px;
+  letter-spacing: 0.14em; text-transform: uppercase; transition: 0.2s;
+}
+button:hover { background: #33CEFF; }
+button:disabled { opacity: 0.55; cursor: default; }
+.msg { color: var(--bad); font-size: 14px; line-height: 1.6; margin: 0 0 14px; }
+.done { display: none; text-align: center; }
+.done h2 { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 34px;
+  text-transform: uppercase; color: var(--purple-lt); margin: 0 0 10px; }
+.done p { font-size: 17px; font-weight: 300; line-height: 1.7; color: rgba(237,240,244,0.72); margin: 0; }
+.footnote { margin-top: 28px; font-size: 14px; font-weight: 300; line-height: 1.7; color: var(--muted); text-align: center; }
+.footnote a { color: var(--cyan); text-decoration: none; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="eyebrow">Three quick questions</div>
+  <h1><span class="tone">Tone</span><span class="lab">Lab</span></h1>
+  <p class="lede" id="lede">Thanks for picking up ToneLab. Vector DSP is a one-person studio, so what you write here directly shapes what gets built next. Answer as many as you like.</p>
+
+  <form id="f" novalidate>
+    <p class="msg" id="msg" hidden></p>
+    <div class="q">
+      <label for="found"><span class="n">01</span>How did you find out about ToneLab and Vector DSP?</label>
+      <textarea id="found" name="found" maxlength="2000"></textarea>
+    </div>
+    <div class="q">
+      <label for="interest"><span class="n">02</span>What interests you the most about ToneLab?</label>
+      <textarea id="interest" name="interest" maxlength="2000"></textarea>
+    </div>
+    <div class="q">
+      <label for="future"><span class="n">03</span>What more would you like to see from Vector DSP in the future?</label>
+      <textarea id="future" name="future" maxlength="2000"></textarea>
+    </div>
+    <button type="submit" id="go">Send answers</button>
+  </form>
+
+  <div class="done" id="done">
+    <h2>Enjoy shaping your sound!</h2>
+    <p>Got it — thank you. Kai reads every one of these.</p>
+  </div>
+
+  <p class="footnote">Rather write freely? <a href="mailto:support@vector-dsp.com">support@vector-dsp.com</a> reaches Kai directly.</p>
+</div>
+
+<script>
+(function () {
+  var params = new URLSearchParams(location.search);
+  var t = params.get("t");
+  var e = params.get("e");
+  var n = (params.get("n") || "").trim().slice(0, 40);
+  if (/[{}]/.test(n)) n = ""; // an unfilled mail-merge tag
+  var msg = document.getElementById("msg");
+  var go = document.getElementById("go");
+
+  function show(text) { msg.textContent = text; msg.hidden = false; }
+
+  if (n) {
+    document.getElementById("lede").textContent =
+      "Thanks for picking up ToneLab, " + n + ". Vector DSP is a one-person studio, so what you write here directly shapes what gets built next. Answer as many as you like.";
+  }
+  if (!t && !e) {
+    show("This page needs the link from your ToneLab email. You can also just reply to that email.");
+    go.disabled = true;
+  }
+
+  document.getElementById("f").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var body = {
+      t: t, e: e, n: n,
+      found: document.getElementById("found").value,
+      interest: document.getElementById("interest").value,
+      future: document.getElementById("future").value
+    };
+    if (!body.found.trim() && !body.interest.trim() && !body.future.trim()) {
+      show("Answer at least one question.");
+      return;
+    }
+    go.disabled = true; go.textContent = "Sending…"; msg.hidden = true;
+    fetch("/api/survey", {
+      method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body)
+    }).then(function (r) {
+      return r.json().catch(function () { return {}; }).then(function (d) {
+        if (!r.ok) throw new Error(d.error || "Something went wrong. Please try again.");
+      });
+    }).then(function () {
+      document.getElementById("f").style.display = "none";
+      document.getElementById("done").style.display = "block";
+    }).catch(function (err) {
+      show(err.message);
+      go.disabled = false; go.textContent = "Send answers";
+    });
+  });
+})();
+</script>
+</body>
+</html>

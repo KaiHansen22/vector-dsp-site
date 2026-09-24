@@ -16,6 +16,16 @@
   status = 200
 
 [[redirects]]
+  from = "/api/survey"
+  to = "/.netlify/functions/survey"
+  status = 200
+
+[[redirects]]
+  from = "/survey"
+  to = "/survey.html"
+  status = 200
+
+[[redirects]]
   from = "/api/post-purchase"
   to = "/.netlify/functions/post-purchase"
   status = 200

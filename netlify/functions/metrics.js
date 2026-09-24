@@ -12,6 +12,7 @@
    ──────────────────────────────────────────────────────────────────────────── */
 
 const crypto = require("crypto");
+const { getStore, connectLambda } = require("@netlify/blobs");
 
 const COOKIE = "vdsp_dash";
 const REPO = "KaiHansen22/vector-dsp-site";
@@ -204,6 +205,16 @@ async function adsInsights(key) {
   };
 }
 
+/* Post-purchase survey answers, written by /api/survey. Newest first. */
+async function surveyResponses(event) {
+  connectLambda(event);
+  const store = getStore("survey");
+  const { blobs } = await store.list();
+  const rows = await Promise.all(blobs.map((b) => store.get(b.key, { type: "json" })));
+  return rows.filter(Boolean)
+    .sort((a, b) => String(b.submittedAt).localeCompare(String(a.submittedAt)));
+}
+
 function summariseOrders(rows) {
   const now = Date.now();
   const day = 86400000;
@@ -291,6 +302,12 @@ exports.handler = async (event) => {
     } catch (e) {
       result.errors.push("OpenAI Ads: " + e.message);
     }
+  }
+
+  try {
+    result.survey = await surveyResponses(event);
+  } catch (e) {
+    result.errors.push("Survey: " + e.message);
   }
 
   if (result.sales && result.downloads && result.downloads.total > 0) {

@@ -94,6 +94,20 @@ td.num{text-align:right;font-family:'IBM Plex Mono',ui-monospace,monospace}
 .err{background:rgba(255,107,107,0.07);border:1px solid rgba(255,107,107,0.3);
      color:#FFB3B3;border-radius:6px;padding:13px 16px;font-size:14px;margin-bottom:14px}
 .spark{display:flex;align-items:flex-end;gap:3px;height:56px;margin-top:14px}
+.resp{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:20px 22px;
+      margin-top:14px;position:relative;overflow:hidden}
+.resp::after{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--lane-dly)}
+.resp .who{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.resp .who b{font-weight:500}
+.resp .who a{color:var(--cyan);text-decoration:none;font-size:14px;font-weight:300}
+.resp .who span{font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;color:var(--muted)}
+.resp .tag{font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:10px;letter-spacing:0.12em;
+  text-transform:uppercase;color:var(--muted);border:1px solid var(--line);border-radius:3px;padding:2px 6px;margin-left:8px}
+.resp .qa{padding:10px 0;border-top:1px solid var(--line)}
+.resp .qa .qq{font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:11px;letter-spacing:0.12em;
+  text-transform:uppercase;color:var(--purple);margin-bottom:5px}
+.resp .qa .aa{font-size:15px;font-weight:300;line-height:1.6;white-space:pre-wrap;overflow-wrap:anywhere}
+.resp .qa .aa.none{color:var(--muted2)}
 .spark i{flex:1;background:var(--lane-dly);opacity:0.8;border-radius:1px;min-height:2px}
 </style>
 </head>
@@ -128,6 +142,15 @@ td.num{text-align:right;font-family:'IBM Plex Mono',ui-monospace,monospace}
     <table><thead><tr><th>Release</th><th>Asset</th><th style="text-align:right">Downloads</th></tr></thead>
     <tbody id="assets"><tr><td colspan="3" style="color:var(--muted)">Loading…</td></tr></tbody></table>
   </div>
+
+  <h2>Survey</h2>
+  <div class="grid">
+    <div class="tile t-dly"><div class="label">Responses</div><div class="value v-purple" id="svCount">—</div><div class="sub">From the post-purchase email form</div></div>
+    <div class="tile t-dly"><div class="label">Response rate</div><div class="value" id="svRate">—</div><div class="sub">Responses per paid order</div></div>
+    <div class="tile t-dly"><div class="label">Latest</div><div class="value" id="svLatest" style="font-size:26px">—</div><div class="sub" id="svLatestSub">&nbsp;</div></div>
+  </div>
+  <div id="svList"></div>
+  <p class="note">Email replies to the survey land in support@vector-dsp.com and aren't counted here — only answers sent through the form.</p>
 
   <h2>Ads</h2>
 
@@ -274,9 +297,43 @@ function render(d) {
     $("adWindow").textContent = "Last " + d.ads.windowDays + " days";
   }
 
+  if (d.survey) renderSurvey(d.survey, d.sales);
+
   $("conv").textContent = d.conversionRate === undefined ? "—" : pct(d.conversionRate);
   $("stamp").textContent = "Updated " + new Date(d.generatedAt).toLocaleTimeString();
   computeAds();
+}
+
+/* ── survey ─────────────────────────────────────────────────────────────────
+   Answers are typed by customers, so every string is escaped before it
+   touches innerHTML. */
+const esc = (s) => String(s == null ? "" : s).replace(/[&<>"']/g, (c) =>
+  ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const SURVEY_Q = [
+  ["found", "How did you find ToneLab & Vector DSP?"],
+  ["interest", "Most interested in"],
+  ["future", "Wants to see next"]
+];
+
+function renderSurvey(rows, sales) {
+  $("svCount").textContent = num(rows.length);
+  $("svRate").textContent = sales && sales.paid ? pct(rows.length / sales.paid) : "—";
+  if (rows.length) {
+    const d = new Date(rows[0].submittedAt);
+    $("svLatest").textContent = d.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+    $("svLatestSub").textContent = rows[0].name || rows[0].email;
+  }
+  $("svList").innerHTML = rows.length ? rows.map((r) => {
+    const when = new Date(r.submittedAt).toLocaleString("en-US",
+      { month: "short", day: "numeric", year: "numeric", hour: "numeric", minute: "2-digit" });
+    return '<div class="resp"><div class="who"><div><b>' + esc(r.name || "—") + '</b> &nbsp;<a href="mailto:' +
+      esc(r.email) + '">' + esc(r.email) + '</a>' + (r.verified === false ? '<span class="tag">via campaign</span>' : "") + '</div><span>' + esc(when) + "</span></div>" +
+      SURVEY_Q.map(([k, label]) => {
+        const a = (r.answers || {})[k];
+        return '<div class="qa"><div class="qq">' + label + '</div><div class="aa' + (a ? "" : " none") + '">' +
+          (a ? esc(a) : "No answer") + "</div></div>";
+      }).join("") + "</div>";
+  }).join("") : '<p class="note">No responses yet.</p>';
 }
 
 /* ── ads ────────────────────────────────────────────────────────────────────

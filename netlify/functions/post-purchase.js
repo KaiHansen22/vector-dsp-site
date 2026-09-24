@@ -9,6 +9,10 @@
      BREVO_API_KEY                 already set (used by subscribe.js)
      LEMONSQUEEZY_WEBHOOK_SECRET   the signing secret entered on the webhook in
                                    Lemon Squeezy → Settings → Webhooks
+     BREVO_PURCHASES_LIST_ID       numeric ID of the "purchases" list in Brevo
+                                   (Contacts → Lists; the ID column). Every
+                                   buyer is added to it. If unset, the email
+                                   still sends and the step is skipped.
    Optional:
      SURVEY_SENDER_EMAIL   default support@vector-dsp.com (must be a verified
                            sender in Brevo)
@@ -132,6 +136,38 @@ exports.htmlBody = htmlBody;
 exports.textBody = textBody;
 exports.SUPPORT = SUPPORT;
 
+/* Adds the buyer to the Brevo "purchases" list. Runs before the email, and a
+   failure here is logged but never fails the webhook: a 502 would make Lemon
+   Squeezy retry, and a retry after a successful send would email the buyer
+   twice. The add itself is idempotent (updateEnabled), so retries caused by an
+   email failure are harmless. */
+async function addToPurchasesList(email, fullName) {
+  const listId = Number(process.env.BREVO_PURCHASES_LIST_ID);
+  if (!listId) {
+    console.warn("post-purchase: BREVO_PURCHASES_LIST_ID not set — skipping list add");
+    return;
+  }
+  const parts = String(fullName || "").trim().split(/\s+/).filter(Boolean);
+  const attributes = {};
+  if (parts[0]) attributes.FIRSTNAME = parts[0];
+  if (parts.length > 1) attributes.LASTNAME = parts.slice(1).join(" ");
+  try {
+    const res = await fetch("https://api.brevo.com/v3/contacts", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        accept: "application/json",
+        "api-key": process.env.BREVO_API_KEY
+      },
+      body: JSON.stringify({ email, attributes, listIds: [listId], updateEnabled: true })
+    });
+    if (!res.ok) throw new Error("Brevo " + res.status + " " + (await res.text()).slice(0, 300));
+    console.log("post-purchase: added to purchases list " + listId);
+  } catch (e) {
+    console.error("post-purchase: list add failed:", e.message);
+  }
+}
+
 exports.handler = async (event) => {
   if (event.httpMethod !== "POST") return reply(405, { error: "POST required" });
 
@@ -181,6 +217,8 @@ exports.handler = async (event) => {
     textContent: textBody(firstName, url),
     tags: ["post-purchase-survey"]
   };
+
+  await addToPurchasesList(email, a.user_name);
 
   const delayHours = Math.min(Math.max(Number(process.env.SURVEY_DELAY_HOURS || 0), 0), 72);
   if (delayHours > 0) {

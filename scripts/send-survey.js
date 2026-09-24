@@ -39,7 +39,7 @@ if (!dry && !process.env.BREVO_API_KEY) {
     const first = p.name.split(/\s+/)[0] || "";
     const url = surveyUrl(p.email, first);
     const message = {
-      sender: { name: "Kai at Vector DSP", email: process.env.SURVEY_SENDER_EMAIL || SUPPORT },
+      sender: { name: "Vector DSP", email: process.env.SURVEY_SENDER_EMAIL || SUPPORT },
       to: [{ email: p.email, ...(p.name ? { name: p.name } : {}) }],
       replyTo: { email: SUPPORT, name: "Vector DSP Support" },
       subject: "Quick question from Vector DSP",

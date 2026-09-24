@@ -57,7 +57,7 @@ function textBody(firstName, url) {
   return [
     `Hi ${firstName || "there"},`,
     "",
-    "Thanks for picking up ToneLab. Vector DSP is a one-person studio, so hearing from you directly shapes what gets built next. If you have a minute, I'd love your answers to these:",
+    "Thanks for picking up ToneLab. Vector DSP is a small design studio, so hearing from you directly shapes what we build next. If you have a minute, we'd love your answers to these:",
     "",
     ...QUESTIONS.map((q, i) => `${i + 1}. ${q}`),
     "",
@@ -66,8 +66,7 @@ function textBody(firstName, url) {
     "",
     "Enjoy shaping your sound!",
     "",
-    "Kai",
-    "Vector DSP",
+    "The Vector DSP team",
     SUPPORT
   ].join("\n");
 }
@@ -77,14 +76,17 @@ function htmlBody(firstName, url) {
   const questions = QUESTIONS.map((q, i) => `
           <tr><td style="padding:0 0 14px 0;">
             <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%"><tr>
-              <td valign="top" width="30" style="font-family:'Barlow Condensed','Arial Narrow',Arial,sans-serif;font-size:20px;font-weight:800;color:#00C2FF;line-height:24px;">${i + 1}</td>
-              <td valign="top" style="font-family:'Barlow','Segoe UI',Arial,sans-serif;font-size:16px;color:#EDF0F4;line-height:24px;">${escapeHtml(q)}</td>
+              <td valign="top" width="36" style="font-family:'IBM Plex Mono',Menlo,Consolas,monospace;font-size:13px;font-weight:500;color:#9B6DFF;line-height:26px;">${String(i + 1).padStart(2, "0")}</td>
+              <td valign="top" style="font-family:'Barlow','Segoe UI',Arial,sans-serif;font-size:17px;font-weight:500;color:#EDF0F4;line-height:26px;">${escapeHtml(q)}</td>
             </tr></table>
           </td></tr>`).join("");
 
   return `<!DOCTYPE html>
 <html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="color-scheme" content="dark"><title>Thanks for choosing ToneLab</title></head>
+<meta name="color-scheme" content="dark">
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;500&family=Barlow+Condensed:wght@700;800&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>@import url('https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;500&family=Barlow+Condensed:wght@700;800&family=IBM+Plex+Mono:wght@500&display=swap');</style>
+<title>Thanks for choosing ToneLab</title></head>
 <body style="margin:0;padding:0;background:#0B0D11;">
 <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background:#0B0D11;">
   <tr><td align="center" style="padding:32px 16px;">
@@ -95,9 +97,9 @@ function htmlBody(firstName, url) {
         </div>
         <div style="height:3px;width:48px;background:#9B6DFF;margin:14px 0 0 0;font-size:0;line-height:0;">&nbsp;</div>
       </td></tr>
-      <tr><td style="padding:22px 34px 6px 34px;font-family:'Barlow','Segoe UI',Arial,sans-serif;font-size:16px;color:#EDF0F4;line-height:26px;">
+      <tr><td style="padding:22px 34px 6px 34px;font-family:'Barlow','Segoe UI',Arial,sans-serif;font-size:17px;font-weight:300;color:#C9CDD4;line-height:28px;">
         Hi ${name},<br><br>
-        Thanks for picking up ToneLab. Vector DSP is a one-person studio, so hearing from you directly shapes what gets built next. If you have a minute, I'd love your answers to these:
+        Thanks for picking up ToneLab. Vector DSP is a small design studio, so hearing from you directly shapes what we build next. If you have a minute, we'd love your answers to these:
       </td></tr>
       <tr><td style="padding:20px 34px 6px 34px;">
         <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">${questions}
@@ -109,16 +111,15 @@ function htmlBody(firstName, url) {
             <a href="${escapeHtml(url)}" style="display:inline-block;padding:14px 28px;font-family:'Barlow Condensed','Arial Narrow',Arial,sans-serif;font-size:16px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#06080B;text-decoration:none;">Answer in 30 seconds</a>
           </td>
         </tr></table>
-        <div style="font-family:'Barlow','Segoe UI',Arial,sans-serif;font-size:14px;color:#5A6070;line-height:22px;padding-top:12px;">Or just hit reply &mdash; it reaches me directly.</div>
+        <div style="font-family:'Barlow','Segoe UI',Arial,sans-serif;font-size:14px;font-weight:300;color:#5A6070;line-height:22px;padding-top:12px;">Or just hit reply &mdash; it reaches us directly.</div>
       </td></tr>
-      <tr><td style="padding:22px 34px 30px 34px;font-family:'Barlow','Segoe UI',Arial,sans-serif;font-size:16px;color:#EDF0F4;line-height:26px;">
-        <span style="font-family:'Barlow Condensed','Arial Narrow',Arial,sans-serif;font-size:22px;font-weight:700;letter-spacing:0.02em;color:#A78BFA;">Enjoy shaping your sound!</span><br><br>
-        Kai<br>
-        <span style="color:#5A6070;">Vector DSP</span><br>
+      <tr><td style="padding:22px 34px 30px 34px;font-family:'Barlow','Segoe UI',Arial,sans-serif;font-size:15px;font-weight:300;color:#EDF0F4;line-height:24px;">
+        <span style="font-family:'Barlow Condensed','Arial Narrow',Arial,sans-serif;font-size:28px;font-weight:800;letter-spacing:0.02em;text-transform:uppercase;line-height:1.1;color:#C4A8FF;">Enjoy shaping your sound!</span><br><br>
+        <span style="color:#5A6070;">The Vector DSP team</span><br>
         <a href="mailto:${SUPPORT}" style="color:#00C2FF;text-decoration:none;">${SUPPORT}</a>
       </td></tr>
     </table>
-    <div style="font-family:'Barlow','Segoe UI',Arial,sans-serif;font-size:12px;color:#5A6070;line-height:18px;padding:18px 16px 0 16px;max-width:560px;">
+    <div style="font-family:'Barlow','Segoe UI',Arial,sans-serif;font-size:12px;font-weight:300;color:#5A6070;line-height:18px;padding:18px 16px 0 16px;max-width:560px;">
       You're receiving this because you purchased ToneLab from <a href="https://vector-dsp.com" style="color:#5A6070;">vector-dsp.com</a>. This is a one-time message.
     </div>
   </td></tr>
@@ -172,7 +173,7 @@ exports.handler = async (event) => {
   const url = surveyUrl(email, firstName);
 
   const message = {
-    sender: { name: "Kai at Vector DSP", email: process.env.SURVEY_SENDER_EMAIL || SUPPORT },
+    sender: { name: "Vector DSP", email: process.env.SURVEY_SENDER_EMAIL || SUPPORT },
     to: [{ email, ...(a.user_name ? { name: a.user_name } : {}) }],
     replyTo: { email: SUPPORT, name: "Vector DSP Support" },
     subject: "Quick question from Vector DSP",

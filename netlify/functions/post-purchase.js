@@ -13,6 +13,9 @@
                                    (Contacts → Lists; the ID column). Every
                                    buyer is added to it. If unset, the email
                                    still sends and the step is skipped.
+     BREVO_DEMO_LIST_ID            the "demo downloads" list (demo-signup.js).
+                                   Buyers are removed from it so the demo
+                                   follow-up never reaches someone who paid.
    Optional:
      SURVEY_SENDER_EMAIL   default support@vector-dsp.com (must be a verified
                            sender in Brevo)
@@ -168,6 +171,29 @@ async function addToPurchasesList(email, fullName) {
   }
 }
 
+/* Takes a buyer off the demo-downloads list. Brevo answers 400 when the
+   address was never on it (most buyers skip the demo), which is fine — that
+   is logged quietly and never fails the webhook. */
+async function removeFromDemoList(email) {
+  const listId = Number(process.env.BREVO_DEMO_LIST_ID);
+  if (!listId) return;
+  try {
+    const res = await fetch(`https://api.brevo.com/v3/contacts/lists/${listId}/contacts/remove`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        accept: "application/json",
+        "api-key": process.env.BREVO_API_KEY
+      },
+      body: JSON.stringify({ emails: [email] })
+    });
+    if (res.ok) console.log("post-purchase: removed from demo list " + listId);
+    else console.log("post-purchase: demo list remove skipped (" + res.status + ")");
+  } catch (e) {
+    console.error("post-purchase: demo list remove failed:", e.message);
+  }
+}
+
 exports.handler = async (event) => {
   if (event.httpMethod !== "POST") return reply(405, { error: "POST required" });
 
@@ -219,6 +245,7 @@ exports.handler = async (event) => {
   };
 
   await addToPurchasesList(email, a.user_name);
+  await removeFromDemoList(email);
 
   const delayHours = Math.min(Math.max(Number(process.env.SURVEY_DELAY_HOURS || 0), 0), 72);
   if (delayHours > 0) {

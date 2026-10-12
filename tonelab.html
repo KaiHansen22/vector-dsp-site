@@ -2056,8 +2056,40 @@ document.querySelectorAll('.tl-email-input').forEach(input => {
       The full installer ships with demo mode baked in. Every feature, no time limit, with an intermittent voiceover over the output — enter a license key any time to remove it.
     </p>
 
+    <!-- Email gate: demo users go to their own Brevo list (/api/demo-signup).
+         The downloads below stay hidden until this is submitted, then the form
+         is swapped out. Returning visitors who already gave an email skip it. -->
+    <form id="demoGate" novalidate style="margin-bottom:18px;">
+      <label for="demoEmail"
+             style="display:block;font-family:'IBM Plex Mono',monospace;font-size:11px;
+                    letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;">
+        Where should we send setup tips?
+      </label>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <input id="demoEmail" name="email" type="email" required autocomplete="email" inputmode="email"
+               placeholder="you@example.com"
+               style="flex:1 1 200px;min-width:0;padding:13px 14px;background:var(--surface2);
+                      border:1px solid var(--line);border-radius:6px;color:var(--white);
+                      font-family:'Barlow',sans-serif;font-size:15px;outline:none;">
+        <!-- honeypot: hidden from people, filled by bots -->
+        <input type="text" name="company" tabindex="-1" autocomplete="off" aria-hidden="true"
+               style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;">
+        <button id="demoGateBtn" type="submit"
+                style="flex:0 0 auto;padding:13px 20px;background:var(--cyan);border:none;border-radius:6px;
+                       color:#06080B;cursor:pointer;font-family:'Barlow Condensed',sans-serif;
+                       font-weight:700;font-size:15px;letter-spacing:0.14em;text-transform:uppercase;">
+          Get the demo
+        </button>
+      </div>
+      <div id="demoGateErr" role="alert"
+           style="display:none;font-family:'Barlow',sans-serif;font-size:13px;color:#FF6B8B;margin-top:8px;"></div>
+      <div style="font-family:'Barlow',sans-serif;font-size:12px;font-weight:300;color:var(--muted2);margin-top:10px;line-height:1.5;">
+        A few emails on getting the most out of ToneLab. Unsubscribe anytime &mdash; <a href="/privacy.html" style="color:var(--muted);">privacy</a>.
+      </div>
+    </form>
+
     <!-- Download buttons -->
-    <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:18px;">
+    <div id="demoDownloads" hidden style="flex-direction:column;gap:10px;margin-bottom:18px;">
 
       <!-- macOS -->
       <a href="https://github.com/KaiHansen22/vector-dsp-site/releases/download/v1.0.1/ToneLab-1.0.1.pkg" download
@@ -2118,7 +2150,7 @@ document.querySelectorAll('.tl-email-input').forEach(input => {
     <!-- Footnote -->
     <p style="font-family:'IBM Plex Mono',monospace;font-size:11px;
               color:var(--muted2);text-align:center;margin:0;letter-spacing:0.05em;">
-      Signed &amp; notarized · No account required · No card needed
+      Signed &amp; notarized · No account · No card needed
     </p>
 
   </div>
@@ -2127,6 +2159,9 @@ document.querySelectorAll('.tl-email-input').forEach(input => {
 <style>
 @keyframes demoFade { from { opacity: 0; } to { opacity: 1; } }
 #demoModal[data-open="true"] { display: flex !important; }
+#demoDownloads:not([hidden]) { display: flex; }
+#demoEmail:focus { border-color: var(--cyan) !important; }
+#demoGateBtn[disabled] { opacity: 0.6; cursor: wait; }
 body[data-modal-open="true"] { overflow: hidden; }
 </style>
 
@@ -2141,6 +2176,64 @@ function closeDemoModal() {
   m.removeAttribute('data-open');
   document.body.removeAttribute('data-modal-open');
 }
+/* ── Demo email gate ──
+   Posts to /api/demo-signup (Brevo "demo downloads" list), then reveals the
+   installers. The links are revealed even if Brevo errors — losing a download
+   costs more than losing an address. Only a malformed email blocks. */
+var DEMO_KEY = 'tl_demo_email';
+function revealDemoDownloads() {
+  var gate = document.getElementById('demoGate');
+  var dl = document.getElementById('demoDownloads');
+  if (gate) gate.style.display = 'none';
+  if (dl) dl.hidden = false;
+  var first = dl && dl.querySelector('a[download]');
+  if (first && first.focus) first.focus();
+}
+function demoGateDone() {
+  try { return !!localStorage.getItem(DEMO_KEY); } catch (e) { return false; }
+}
+(function () {
+  var form = document.getElementById('demoGate');
+  if (!form) return;
+  if (demoGateDone()) { revealDemoDownloads(); return; }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var input = document.getElementById('demoEmail');
+    var err = document.getElementById('demoGateErr');
+    var btn = document.getElementById('demoGateBtn');
+    var email = (input.value || '').trim();
+    err.style.display = 'none';
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      err.textContent = 'Please enter a valid email address.';
+      err.style.display = 'block';
+      input.focus();
+      return;
+    }
+    btn.disabled = true;
+    btn.textContent = 'One sec…';
+    var platform = /Win/i.test(navigator.platform || navigator.userAgent) ? 'windows' : 'mac';
+    fetch('/api/demo-signup', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: email, platform: platform, company: form.company.value })
+    }).then(function (res) {
+      if (res.status === 400) {
+        return res.json().then(function (d) {
+          err.textContent = (d && d.error) || 'Please enter a valid email address.';
+          err.style.display = 'block';
+          btn.disabled = false;
+          btn.textContent = 'Get the demo';
+        });
+      }
+      try { localStorage.setItem(DEMO_KEY, '1'); } catch (x) {}
+      revealDemoDownloads();
+    }).catch(function () {
+      revealDemoDownloads();
+    });
+  });
+})();
+
 // Click backdrop to close
 document.getElementById('demoModal').addEventListener('click', closeDemoModal);
 // Escape to close
@@ -2169,7 +2262,9 @@ document.addEventListener('keydown', (e) => {
 
     // Send focus to the first installer link — for a visitor who arrived
     // specifically to download, that is the thing they came for.
-    var first = document.querySelector('#demoModal a[download]');
+    var first = demoGateDone()
+      ? document.querySelector('#demoModal a[download]')
+      : document.getElementById('demoEmail');
     if (first && first.focus) first.focus();
 
     params.delete('demo');

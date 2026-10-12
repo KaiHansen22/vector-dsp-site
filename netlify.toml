@@ -11,6 +11,11 @@
   status = 200
 
 [[redirects]]
+  from = "/api/demo-signup"
+  to = "/.netlify/functions/demo-signup"
+  status = 200
+
+[[redirects]]
   from = "/api/unsubscribe"
   to = "/.netlify/functions/unsubscribe"
   status = 200

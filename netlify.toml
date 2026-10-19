@@ -86,3 +86,387 @@
 [[edge_functions]]
   path = "/api/metrics"
   function = "dashboard-gate"
+
+# ── Blog cleanup (2026-10-19) ──
+# Removed off-topic, competitor-alternative and duplicate format posts.
+# 301s keep any links/rankings they had pointing somewhere useful.
+[[redirects]]
+  from = "/blog/redditcom-alternatives/"
+  to = "/blog/"
+  status = 301
+
+[[redirects]]
+  from = "/blog/redditcom-alternatives"
+  to = "/blog/"
+  status = 301
+
+[[redirects]]
+  from = "/blog/ieeeorg-alternatives-5/"
+  to = "/blog/"
+  status = 301
+
+[[redirects]]
+  from = "/blog/ieeeorg-alternatives-5"
+  to = "/blog/"
+  status = 301
+
+[[redirects]]
+  from = "/blog/dsptonecom-alternatives/"
+  to = "/blog/"
+  status = 301
+
+[[redirects]]
+  from = "/blog/dsptonecom-alternatives"
+  to = "/blog/"
+  status = 301
+
+[[redirects]]
+  from = "/blog/edgeaudiolabscom-alternatives/"
+  to = "/blog/"
+  status = 301
+
+[[redirects]]
+  from = "/blog/edgeaudiolabscom-alternatives"
+  to = "/blog/"
+  status = 301
+
+[[redirects]]
+  from = "/blog/emberdsp-com-alternatives-5/"
+  to = "/blog/"
+  status = 301
+
+[[redirects]]
+  from = "/blog/emberdsp-com-alternatives-5"
+  to = "/blog/"
+  status = 301
+
+[[redirects]]
+  from = "/blog/ensodspcom-alternatives/"
+  to = "/blog/"
+  status = 301
+
+[[redirects]]
+  from = "/blog/ensodspcom-alternatives"
+  to = "/blog/"
+  status = 301
+
+[[redirects]]
+  from = "/blog/hartleydspcom-alternatives/"
+  to = "/blog/"
+  status = 301
+
+[[redirects]]
+  from = "/blog/hartleydspcom-alternatives"
+  to = "/blog/"
+  status = 301
+
+[[redirects]]
+  from = "/blog/overtonesoftwarecom-alternatives/"
+  to = "/blog/"
+  status = 301
+
+[[redirects]]
+  from = "/blog/overtonesoftwarecom-alternatives"
+  to = "/blog/"
+  status = 301
+
+[[redirects]]
+  from = "/blog/reactordspcom-alternatives-3/"
+  to = "/blog/"
+  status = 301
+
+[[redirects]]
+  from = "/blog/reactordspcom-alternatives-3"
+  to = "/blog/"
+  status = 301
+
+[[redirects]]
+  from = "/blog/smallsounddspcom-alternatives/"
+  to = "/blog/"
+  status = 301
+
+[[redirects]]
+  from = "/blog/smallsounddspcom-alternatives"
+  to = "/blog/"
+  status = 301
+
+[[redirects]]
+  from = "/blog/timeoff-audio-plugin-alternatives-4/"
+  to = "/blog/"
+  status = 301
+
+[[redirects]]
+  from = "/blog/timeoff-audio-plugin-alternatives-4"
+  to = "/blog/"
+  status = 301
+
+[[redirects]]
+  from = "/blog/wavdspcom-alternatives-5/"
+  to = "/blog/"
+  status = 301
+
+[[redirects]]
+  from = "/blog/wavdspcom-alternatives-5"
+  to = "/blog/"
+  status = 301
+
+[[redirects]]
+  from = "/blog/daudio-dev-alternatives-5-plugins/"
+  to = "/blog/"
+  status = 301
+
+[[redirects]]
+  from = "/blog/daudio-dev-alternatives-5-plugins"
+  to = "/blog/"
+  status = 301
+
+[[redirects]]
+  from = "/blog/frequency-splitting-techniques/"
+  to = "/blog/split-frequencies-in-daw/"
+  status = 301
+
+[[redirects]]
+  from = "/blog/frequency-splitting-techniques"
+  to = "/blog/split-frequencies-in-daw/"
+  status = 301
+
+[[redirects]]
+  from = "/blog/what-is-audio-forensics-processing-an-expert-guide/"
+  to = "/blog/"
+  status = 301
+
+[[redirects]]
+  from = "/blog/what-is-audio-forensics-processing-an-expert-guide"
+  to = "/blog/"
+  status = 301
+
+[[redirects]]
+  from = "/blog/loudspeaker-dsp-processing-examples-for-audio-pros/"
+  to = "/blog/"
+  status = 301
+
+[[redirects]]
+  from = "/blog/loudspeaker-dsp-processing-examples-for-audio-pros"
+  to = "/blog/"
+  status = 301
+
+[[redirects]]
+  from = "/blog/network-audio-technology-explained-for-sound-professionals/"
+  to = "/blog/"
+  status = 301
+
+[[redirects]]
+  from = "/blog/network-audio-technology-explained-for-sound-professionals"
+  to = "/blog/"
+  status = 301
+
+[[redirects]]
+  from = "/blog/ai-audio-enhancement-explained-for-sound-professionals/"
+  to = "/blog/"
+  status = 301
+
+[[redirects]]
+  from = "/blog/ai-audio-enhancement-explained-for-sound-professionals"
+  to = "/blog/"
+  status = 301
+
+[[redirects]]
+  from = "/blog/future-of-dsp-technology-explained-for-audio-pros/"
+  to = "/blog/"
+  status = 301
+
+[[redirects]]
+  from = "/blog/future-of-dsp-technology-explained-for-audio-pros"
+  to = "/blog/"
+  status = 301
+
+[[redirects]]
+  from = "/blog/open-source-audio-tools-list-for-music-creators/"
+  to = "/blog/"
+  status = 301
+
+[[redirects]]
+  from = "/blog/open-source-audio-tools-list-for-music-creators"
+  to = "/blog/"
+  status = 301
+
+[[redirects]]
+  from = "/blog/lo-fi-music-production-tools-list/"
+  to = "/blog/"
+  status = 301
+
+[[redirects]]
+  from = "/blog/lo-fi-music-production-tools-list"
+  to = "/blog/"
+  status = 301
+
+[[redirects]]
+  from = "/blog/types-of-synthesizers-music-creation/"
+  to = "/blog/"
+  status = 301
+
+[[redirects]]
+  from = "/blog/types-of-synthesizers-music-creation"
+  to = "/blog/"
+  status = 301
+
+[[redirects]]
+  from = "/blog/what-is-beat-making/"
+  to = "/blog/"
+  status = 301
+
+[[redirects]]
+  from = "/blog/what-is-beat-making"
+  to = "/blog/"
+  status = 301
+
+[[redirects]]
+  from = "/blog/audio-effects-vs-instruments-explained-for-producers/"
+  to = "/blog/"
+  status = 301
+
+[[redirects]]
+  from = "/blog/audio-effects-vs-instruments-explained-for-producers"
+  to = "/blog/"
+  status = 301
+
+[[redirects]]
+  from = "/blog/ci-audio-plugins-explained-a-guide-for-producers/"
+  to = "/blog/"
+  status = 301
+
+[[redirects]]
+  from = "/blog/ci-audio-plugins-explained-a-guide-for-producers"
+  to = "/blog/"
+  status = 301
+
+[[redirects]]
+  from = "/blog/why-use-audio-plugins-a-producers-2026-guide/"
+  to = "/blog/"
+  status = 301
+
+[[redirects]]
+  from = "/blog/why-use-audio-plugins-a-producers-2026-guide"
+  to = "/blog/"
+  status = 301
+
+[[redirects]]
+  from = "/blog/vst3-au-and-aax-format-differences-explained/"
+  to = "/blog/audio-plugin-formats-comparison-vst3-au-and-aax-explained/"
+  status = 301
+
+[[redirects]]
+  from = "/blog/vst3-au-and-aax-format-differences-explained"
+  to = "/blog/audio-plugin-formats-comparison-vst3-au-and-aax-explained/"
+  status = 301
+
+[[redirects]]
+  from = "/blog/what-is-the-audio-unit-au-format-for-producers/"
+  to = "/blog/audio-plugin-formats-comparison-vst3-au-and-aax-explained/"
+  status = 301
+
+[[redirects]]
+  from = "/blog/what-is-the-audio-unit-au-format-for-producers"
+  to = "/blog/audio-plugin-formats-comparison-vst3-au-and-aax-explained/"
+  status = 301
+
+[[redirects]]
+  from = "/blog/aax-plugin-format-for-pro-tools-a-pros-guide/"
+  to = "/blog/audio-plugin-formats-comparison-vst3-au-and-aax-explained/"
+  status = 301
+
+[[redirects]]
+  from = "/blog/aax-plugin-format-for-pro-tools-a-pros-guide"
+  to = "/blog/audio-plugin-formats-comparison-vst3-au-and-aax-explained/"
+  status = 301
+
+[[redirects]]
+  from = "/blog/why-use-vst3-plugins-a-producers-2026-guide/"
+  to = "/blog/audio-plugin-formats-comparison-vst3-au-and-aax-explained/"
+  status = 301
+
+[[redirects]]
+  from = "/blog/why-use-vst3-plugins-a-producers-2026-guide"
+  to = "/blog/audio-plugin-formats-comparison-vst3-au-and-aax-explained/"
+  status = 301
+
+[[redirects]]
+  from = "/blog/au-vs-vst/"
+  to = "/blog/audio-plugin-formats-comparison-vst3-au-and-aax-explained/"
+  status = 301
+
+[[redirects]]
+  from = "/blog/au-vs-vst"
+  to = "/blog/audio-plugin-formats-comparison-vst3-au-and-aax-explained/"
+  status = 301
+
+[[redirects]]
+  from = "/blog/audio-compressor-purpose-explained-for-music-perducers/"
+  to = "/blog/audio-compressor-purpose-explained-for-music-producers/"
+  status = 301
+
+[[redirects]]
+  from = "/blog/audio-compressor-purpose-explained-for-music-perducers"
+  to = "/blog/audio-compressor-purpose-explained-for-music-producers/"
+  status = 301
+
+[[redirects]]
+  from = "/blog/audio-compressor-purpose-explained-for-music-produsers/"
+  to = "/blog/audio-compressor-purpose-explained-for-music-producers/"
+  status = 301
+
+[[redirects]]
+  from = "/blog/audio-compressor-purpose-explained-for-music-produsers"
+  to = "/blog/audio-compressor-purpose-explained-for-music-producers/"
+  status = 301
+
+[[redirects]]
+  from = "/blog/audio-graph-architecture-explained-for-audio-profesionals/"
+  to = "/blog/audio-graph-architecture-explained-for-audio-professionals/"
+  status = 301
+
+[[redirects]]
+  from = "/blog/audio-graph-architecture-explained-for-audio-profesionals"
+  to = "/blog/audio-graph-architecture-explained-for-audio-professionals/"
+  status = 301
+
+[[redirects]]
+  from = "/blog/audio-plugin-formats-comparison-vst3-au-aax-explained/"
+  to = "/blog/audio-plugin-formats-comparison-vst3-au-and-aax-explained/"
+  status = 301
+
+[[redirects]]
+  from = "/blog/audio-plugin-formats-comparison-vst3-au-aax-explained"
+  to = "/blog/audio-plugin-formats-comparison-vst3-au-and-aax-explained/"
+  status = 301
+
+[[redirects]]
+  from = "/blog/audio-plugin-formats-comparison-vst3-au-aax-explained-/"
+  to = "/blog/audio-plugin-formats-comparison-vst3-au-and-aax-explained/"
+  status = 301
+
+[[redirects]]
+  from = "/blog/audio-plugin-formats-comparison-vst3-au-aax-explained-"
+  to = "/blog/audio-plugin-formats-comparison-vst3-au-and-aax-explained/"
+  status = 301
+
+[[redirects]]
+  from = "/blog/audio-plugin-formats-comparison-vst3-and-aax-explained/"
+  to = "/blog/audio-plugin-formats-comparison-vst3-au-and-aax-explained/"
+  status = 301
+
+[[redirects]]
+  from = "/blog/audio-plugin-formats-comparison-vst3-and-aax-explained"
+  to = "/blog/audio-plugin-formats-comparison-vst3-au-and-aax-explained/"
+  status = 301
+
+[[redirects]]
+  from = "/blog/buffer-stress-test/"
+  to = "/blog/buffer-size-for-recording/"
+  status = 301
+
+[[redirects]]
+  from = "/blog/buffer-stress-test"
+  to = "/blog/buffer-size-for-recording/"
+  status = 301
+

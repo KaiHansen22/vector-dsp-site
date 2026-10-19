@@ -30,27 +30,28 @@ document.addEventListener("click", function (e) {
 }, true);
 </script>
 
+{% set metaDesc = description | metaDescription(content) %}
 <title>{{ title }} — Vector DSP</title>
-<meta name="description" content="{{ description }}">
+<meta name="description" content="{{ metaDesc }}">
 <link rel="canonical" href="https://vector-dsp.com/blog/{{ page.fileSlug }}/">
 
 <meta property="og:type" content="article">
 <meta property="og:title" content="{{ title }}">
-<meta property="og:description" content="{{ description }}">
+<meta property="og:description" content="{{ metaDesc }}">
 <meta property="og:url" content="https://vector-dsp.com/blog/{{ page.fileSlug }}/">
 <meta property="og:site_name" content="Vector DSP">
 <meta property="article:published_time" content="{{ date | isoDate }}">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="{{ title }}">
-<meta name="twitter:description" content="{{ description }}">
+<meta name="twitter:description" content="{{ metaDesc }}">
 
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "Article",
   "headline": {{ title | dump | safe }},
-  "description": {{ description | dump | safe }},
+  "description": {{ metaDesc | dump | safe }},
   "datePublished": "{{ date | isoDate }}",
   "author": { "@type": "Organization", "name": "Vector DSP", "legalName": "Vector DSP LLC" },
   "publisher": {
@@ -317,7 +318,7 @@ footer {
   <h1>{{ title }}</h1>
   {% if description %}<div class="lede">{{ description }}</div>{% endif %}
   <div class="content">
-    {{ content | safe }}
+    {{ content | stripLeadingH1 | safe }}
   </div>
 </article>
 

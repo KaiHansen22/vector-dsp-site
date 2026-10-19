@@ -1,10 +1,10 @@
 ---
-title: "Audio Plugin Formats Comparison: VST3, AU, and AAX Explained"
-description: ""
+title: "VST3 vs AU vs AAX: Which Plugin Format Does Your DAW Use?"
+description: "VST3 vs AU vs AAX compared: which format Logic, Pro Tools, Ableton and other DAWs load, Mac vs Windows support, and where CLAP fits in."
 date: 2026-07-02
 ---
 
-# Audio Plugin Formats Comparison: VST3, AU, and AAX Explained
+# VST3 vs AU vs AAX: Which Plugin Format Does Your DAW Use?
 
 ![Audio engineer working with plugin formats](https://csuxjmfbwmkxiegfpljm.supabase.co/storage/v1/object/public/blog-images/organization-30746/1782708038762_Audio-engineer-working-with-plugin-formats.jpeg)
 

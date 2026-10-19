@@ -51,6 +51,30 @@ module.exports = function (eleventyConfig) {
 
   eleventyConfig.addFilter("isoDate", (d) => new Date(d).toISOString());
 
+
+  // ─── SEO helpers for BLG posts ───
+  // BLG bodies start with their own "# Title", and post.njk already prints <h1>,
+  // which gave every post two H1s. Strip the leading one from the body.
+  eleventyConfig.addFilter("stripLeadingH1", (html) =>
+    String(html || "").replace(/^\s*<h1[^>]*>[\s\S]*?<\/h1>\s*/i, "")
+  );
+
+  // BLG sends an empty description, so every post had a blank meta description.
+  // Fall back to the first real paragraph of the post, trimmed to ~155 chars.
+  eleventyConfig.addFilter("metaDescription", (desc, html) => {
+    if (desc && String(desc).trim()) return String(desc).trim();
+    const paras = String(html || "").match(/<p[^>]*>([\s\S]*?)<\/p>/gi) || [];
+    for (const para of paras) {
+      const text = para.replace(/<[^>]+>/g, "").replace(/&amp;/g, "&")
+        .replace(/&[a-z#0-9]+;/gi, " ").replace(/\s+/g, " ").trim();
+      if (text.length < 80) continue;
+      if (text.length <= 155) return text;
+      const cut = text.slice(0, 155);
+      return cut.slice(0, cut.lastIndexOf(" ")).replace(/[,;:.\-–—]+$/, "") + "…";
+    }
+    return "";
+  });
+
   // ─── Watch & ignore ───
   // Make sure node_modules and _site never get scanned as templates.
   eleventyConfig.ignores.add("node_modules");

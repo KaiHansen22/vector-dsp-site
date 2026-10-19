@@ -38,6 +38,22 @@ module.exports = function (eleventyConfig) {
   // ─── Markdown: allow raw HTML in posts (BabyLoveGrowth often mixes both) ───
   eleventyConfig.amendLibrary("md", (md) => {
     md.set({ html: true, linkify: true });
+    // Give h2–h4 an id so the tables of contents BLG writes (#some-heading)
+    // actually jump somewhere. Slug rule matches BLG's anchors.
+    const slug = (t) => t.toLowerCase().normalize("NFKD").replace(/[\u0300-\u036f]/g, "")
+      .replace(/[^a-z0-9\s-]/g, "").trim().replace(/\s+/g, "-").replace(/-+/g, "-");
+    md.core.ruler.push("heading_ids", (state) => {
+      const seen = {};
+      const t = state.tokens;
+      for (let i = 0; i < t.length; i++) {
+        if (t[i].type !== "heading_open" || !/^h[2-4]$/.test(t[i].tag) || t[i].attrGet("id")) continue;
+        const text = t[i + 1].children.filter((c) => c.type === "text" || c.type === "code_inline").map((c) => c.content).join("");
+        let id = slug(text);
+        if (!id) continue;
+        if (seen[id]) id += "-" + seen[id]++; else seen[id] = 1;
+        t[i].attrSet("id", id);
+      }
+    });
   });
 
   // ─── Filters for templates ───

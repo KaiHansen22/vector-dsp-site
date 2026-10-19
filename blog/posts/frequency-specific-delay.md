@@ -78,7 +78,7 @@ Unless you have a reason to rebuild the dry signal, use the parallel version. It
 
 ## Doing it in one insert
 
-Every method above needs a send, an EQ and a delay per sound, and that becomes a lot of routing across a session. We built [ToneLab](/tonelab) so that each effect lane has its own EQ nodes that decide which frequencies reach the effect, running in parallel with the dry signal. Shape the nodes into a band-pass on the delay lane and only that range gets repeats.
+Every method above needs a send, an EQ and a delay per sound, and that becomes a lot of routing across a session. We built [ToneLab](/tonelab) so that each effect lane has its own EQ nodes that decide which frequencies reach the effect, running in parallel with the dry signal. Shape the nodes into a band-pass on the delay lane and only that range gets repeats. The delay lane syncs to your session tempo, so rhythmic repeats stay locked to the grid.
 
 Here is the delay lane from our walkthrough (8:03–8:51):
 

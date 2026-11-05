@@ -44,21 +44,25 @@
   from = "/pricing"
   to = "/pricing.html"
   status = 301
+  force = true  # /pricing also serves the page with a 200; without force the 301 never fires and Google indexes both URLs
 
 [[redirects]]
   from = "/about"
   to = "/about.html"
   status = 301
+  force = true  # /about also serves the page with a 200; without force the 301 never fires and Google indexes both URLs
 
 [[redirects]]
   from = "/tonelab"
   to = "/tonelab.html"
   status = 301
+  force = true  # /tonelab also serves the page with a 200; without force the 301 never fires and Google indexes both URLs
 
 [[redirects]]
   from = "/thank-you"
   to = "/thank-you.html"
   status = 301
+  force = true  # /thank-you also serves the page with a 200; without force the 301 never fires and Google indexes both URLs
 
 # Private metrics dashboard. The gate covers the API endpoint as well as the
 # page — gating only the page would leave /api/metrics curl-able.

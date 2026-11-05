@@ -1,10 +1,10 @@
 ---
-title: "Pre Fader vs. Post Fader: Test Sends in Any DAW or Console"
-description: ""
+title: "Pre-Fader vs Post-Fader Sends: What's the Difference and When to Use Each"
+description: "A pre-fader send ignores the channel fader; a post-fader send follows it. When to use each for headphone mixes, reverb and parallel buses, plus a quick test that works in any DAW."
 date: 2026-10-13
 ---
 
-# Pre Fader vs. Post Fader: Test Sends in Any DAW or Console
+# Pre-Fader vs Post-Fader Sends: What's the Difference and When to Use Each
 
 ![Console fader beside aux send controls](https://media.babylovegrowth.ai/blog-images/organization-30746/1791705741553_Console-fader-beside-aux-send-controls.jpeg)
 

@@ -1,10 +1,10 @@
 ---
-title: "2–4 dB Test: When Engineers Should Use Saturation Before Compression"
-description: ""
+title: "Saturation Before or After Compression? A 2–4 dB Test to Decide"
+description: "Should saturation go before or after compression? Each order sounds different. Here's a quick 2–4 dB test that tells you which one your track needs."
 date: 2026-09-29
 ---
 
-# 2–4 dB Test: When Engineers Should Use Saturation Before Compression
+# Saturation Before or After Compression? A 2–4 dB Test to Decide
 
 ![Engineer comparing saturation and compression stages](https://media.babylovegrowth.ai/blog-images/organization-30746/1790717860019_Engineer-comparing-saturation-and-compression-stages.jpeg)
 

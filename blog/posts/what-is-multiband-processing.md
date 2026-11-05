@@ -1,6 +1,6 @@
 ---
 title: "Multiband Processing Explained: A Practical Engineer's Guide"
-description: ""
+description: "Multiband processing splits a signal into frequency bands and treats each one separately. How crossovers work, when to use multiband compression, saturation and effects, and the phase trade-offs."
 date: 2026-08-08
 ---
 

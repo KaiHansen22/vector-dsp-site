@@ -1,10 +1,10 @@
 ---
-title: "Parallel Processing Techniques for Music Production"
-description: ""
+title: "Parallel Processing in Music Production: Compression, Saturation, Reverb and EQ"
+description: "How parallel processing works and how to set it up: parallel compression, saturation, reverb and EQ on a send or bus, with level matching and phase checks so the blend stays clean."
 date: 2026-07-25
 ---
 
-# Parallel Processing Techniques for Music Production
+# Parallel Processing in Music Production: Compression, Saturation, Reverb and EQ
 
 ![Audio engineer working with compressor on mixing desk](https://csuxjmfbwmkxiegfpljm.supabase.co/storage/v1/object/public/blog-images/organization-30746/1784695616455_Audio-engineer-working-with-compressor-on-mixing-desk.jpeg)
 

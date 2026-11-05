@@ -1,10 +1,10 @@
 ---
-title: "Stop Glitches: Buffer Size for Recording with an Engineer Stress Test"
-description: ""
+title: "Best Buffer Size for Recording and Mixing (Stop Clicks and Glitches)"
+description: "For recording, start low (64–128 samples) to keep latency down; for mixing, go higher (512–1024). How to find the lowest glitch-free setting on your own system with a quick stress test."
 date: 2026-09-11
 ---
 
-# Stop Glitches: Buffer Size for Recording with an Engineer Stress Test
+# Best Buffer Size for Recording and Mixing (Stop Clicks and Glitches)
 
 ![Engineer monitoring a live recording take](https://csuxjmfbwmkxiegfpljm.supabase.co/storage/v1/object/public/blog-images/organization-30746/1789036601770_Engineer-monitoring-a-live-recording-take.jpeg)
 

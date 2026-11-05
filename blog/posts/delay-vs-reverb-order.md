@@ -140,7 +140,7 @@ Order decides how the effects interact. These habits decide whether the result i
 
 ## One way to do this in a single insert
 
-If you want per-range control without building a stack of buses and filters by hand, ToneLab is one way to do it. It is our plugin with multi-lane parallel effects and per-lane EQ targeting, so you can aim a delay or reverb at the range it belongs in, inside one insert. It runs on Windows and macOS in major DAWs, with real-time, low-latency processing, and a free demo is available. ToneLab is a one-off license at $73.99, with minor version updates included. You can see the details on the [ToneLab page](https://vector-dsp.com/pricing/).
+If you want per-range control without building a stack of buses and filters by hand, ToneLab is one way to do it. It is our plugin with multi-lane parallel effects and per-lane EQ targeting, so you can aim a delay or reverb at the range it belongs in, inside one insert. It runs on Windows and macOS in major DAWs, with real-time, low-latency processing, and a [free demo](https://vector-dsp.com/tonelab.html?demo=1) is available. ToneLab is a one-off license at $73.99, with minor version updates included. You can see the details on the [ToneLab page](https://vector-dsp.com/pricing/).
 
 ![Vector-dsp](https://csuxjmfbwmkxiegfpljm.supabase.co/storage/v1/object/public/blog-images/organization-30746/1778694946550_vector-dsp.jpg)
 

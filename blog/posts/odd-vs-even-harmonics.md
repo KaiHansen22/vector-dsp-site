@@ -123,7 +123,7 @@ We are a small design studio, and this is the thinking behind how we build: the 
 
 ## One way to do it: per-band saturation in a single insert
 
-If you would rather not build the split, the parallel path and the level match by hand in your DAW, ToneLab, [our $73.99 one-time plugin](https://vector-dsp.com/pricing), lets you run effects in separate lanes, each targeted at its own frequency range, inside one insert. You could, for example, put a gentle asymmetric curve on the low lane and keep the upper lanes clean or lightly odd. A free demo is available, so you can test it on your own material first. It is one route to the technique; the same result is possible with a manual split in any DAW.
+If you would rather not build the split, the parallel path and the level match by hand in your DAW, ToneLab, [our $73.99 one-time plugin](https://vector-dsp.com/pricing), lets you run effects in separate lanes, each targeted at its own frequency range, inside one insert. You could, for example, aim the saturation lane at the low end and keep the upper range clean, or give the distortion lane a narrow band of upper mids. A [free demo](https://vector-dsp.com/tonelab.html?demo=1) is available, so you can test it on your own material first. It is one route to the technique; the same result is possible with a manual split in any DAW.
 
 ## A practical workflow you can try today
 

@@ -140,7 +140,7 @@ What we would not do is use the word de-emphasis loosely. It means undoing a spe
 
 ## One way to do it without the wiring
 
-If you would rather not build mirrored EQ pairs by hand, ToneLab is one way to get frequency-targeted processing in a single insert. It runs parallel effect lanes with EQ aimed at each lane, so the effect only touches the range you choose. It is a one-time license at $73.99, and you can try the free demo first on [our pricing page](https://vector-dsp.com/pricing).
+If you would rather not build mirrored EQ pairs by hand, ToneLab is one way to get frequency-targeted processing in a single insert. It runs parallel effect lanes with EQ aimed at each lane, so the effect only touches the range you choose. It is a one-time license at $73.99, and you can try the [free demo](https://vector-dsp.com/tonelab.html?demo=1) first on [our pricing page](https://vector-dsp.com/pricing).
 
 ![Vector-dsp](https://csuxjmfbwmkxiegfpljm.supabase.co/storage/v1/object/public/blog-images/organization-30746/1778694946550_vector-dsp.jpg)
 

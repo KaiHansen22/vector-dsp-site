@@ -132,7 +132,7 @@ If you also want to put saturation in front of a compressor, our [2 to 4 dB test
 
 ## Try it in your own sessions
 
-ToneLab is our multi-lane parallel effects plugin with per-lane EQ targeting, available as VST3, AU and AAX for Windows and macOS. It is a one-time license at [$73.99](https://vector-dsp.com/pricing), and a free demo is available so you can test it in your own DAW before you buy. Minor version updates are included.
+ToneLab is our multi-lane parallel effects plugin with per-lane EQ targeting, available as VST3, AU and AAX for Windows and macOS. It is a one-time license at [$73.99](https://vector-dsp.com/pricing), and a [free demo](https://vector-dsp.com/tonelab.html?demo=1) is available so you can test it in your own DAW before you buy. Minor version updates are included.
 
 ## Common mistakes to avoid
 

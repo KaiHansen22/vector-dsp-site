@@ -161,7 +161,7 @@ If you want to combine this with a clean parallel path, our guide to [parallel E
 
 ## One way to do it in a single insert
 
-If you prefer to keep distortion inside a lane-based insert, ToneLab is one way to do the technique: parallel lanes in one plugin, each aimed at its own frequency range, so you can put distortion on the band you care about and leave the rest alone. It is a one-off [$73.99 license on our pricing page](https://vector-dsp.com/pricing), with a free demo so you can test it on your own material before buying.
+If you prefer to keep distortion inside a lane-based insert, ToneLab is one way to do the technique: parallel lanes in one plugin, each aimed at its own frequency range, so you can put distortion on the band you care about and leave the rest alone. It is a one-off [$73.99 license on our pricing page](https://vector-dsp.com/pricing), with a [free demo](https://vector-dsp.com/tonelab.html?demo=1) so you can test it on your own material before buying.
 
 ## FAQ
 

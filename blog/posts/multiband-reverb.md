@@ -154,7 +154,7 @@ If you take one habit from us, make it this: set the crossover by ear on the rev
 
 ## One way to do it with a single insert
 
-If you prefer not to build aux routing for every track, ToneLab, our multi-effects plugin, runs parallel effects in lanes within a single insert, with EQ targeting per lane, so you can aim a reverb at the band you choose and keep the rest of the signal clean. It is a one-time purchase at [$73.99 on our pricing page](https://vector-dsp.com/pricing), and a free demo is available.
+If you prefer not to build aux routing for every track, ToneLab, our multi-effects plugin, runs parallel effects in lanes within a single insert, with EQ targeting per lane, so you can aim a reverb at the band you choose and keep the rest of the signal clean. It is a one-time purchase at [$73.99 on our pricing page](https://vector-dsp.com/pricing), and a [free demo](https://vector-dsp.com/tonelab.html?demo=1) is available.
 
 ![Vector-dsp](https://csuxjmfbwmkxiegfpljm.supabase.co/storage/v1/object/public/blog-images/organization-30746/1778694946550_vector-dsp.jpg)
 

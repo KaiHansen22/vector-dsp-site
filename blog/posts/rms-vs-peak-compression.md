@@ -151,7 +151,7 @@ If you take one idea from us, make it this: choose the detector by what you want
 
 ## Doing it with a lane-based approach
 
-If you want to try this per-frequency approach in one insert, [ToneLab](https://vector-dsp.com/pricing) is one way to do it: parallel effect lanes, each targeted at its own frequency region. It is a one-time license at 73.99 USD, and there is a free demo so you can test the idea on your own session before buying.
+ToneLab, [our plugin](https://vector-dsp.com/pricing), is not a compressor, so it won't replace the detector choice above. It applies the same per-frequency idea to effects: five parallel lanes (chorus, distortion, reverb, delay and saturation), each with its own EQ, so an effect only touches the range you choose. It is a one-time license at 73.99 USD, and there is a [free demo](https://vector-dsp.com/tonelab.html?demo=1) so you can test it on your own session before buying.
 
 ## Common mistakes
 

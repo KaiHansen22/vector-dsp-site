@@ -154,7 +154,7 @@ Because band splitting is the part that can degrade audio, test any tool with a 
 
 ## One way to do it in a single plugin
 
-If you would rather not build parallel tracks by hand, ToneLab is one option. It is a multi-lane parallel effects processor with per-lane EQ targeting, so a delay in one lane can hear only the frequency range you assign it, all inside a single insert. It is a one-time purchase at [$73.99](https://vector-dsp.com/pricing), and a free demo is available so you can test it on your own sessions. The principle behind that approach is in our post on [frequency-selective effects with proportional Q](https://vector-dsp.com/blog/frequency-selective-effects/).
+If you would rather not build parallel tracks by hand, ToneLab is one option. It is a multi-lane parallel effects processor with per-lane EQ targeting, so a delay in one lane can hear only the frequency range you assign it, all inside a single insert. It is a one-time purchase at [$73.99](https://vector-dsp.com/pricing), and a [free demo](https://vector-dsp.com/tonelab.html?demo=1) is available so you can test it on your own sessions. The principle behind that approach is in our post on [frequency-selective effects with proportional Q](https://vector-dsp.com/blog/frequency-selective-effects/).
 
 ## Our perspective
 

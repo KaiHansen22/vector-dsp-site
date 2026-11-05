@@ -152,7 +152,7 @@ The practical upshot: do the cheap fixes first, before the reverb. Then use a po
 
 ## One way to do this in a single insert
 
-If you would rather not build extra buses for every band, we made ToneLab for this kind of work. It runs multiple parallel effect lanes in one insert, with EQ targeting each lane, so you can keep the lows out of a reverb lane and shape the tail separately. It costs [$73.99 as a one-time license](https://vector-dsp.com/pricing/), and a free demo is available to try on your own sessions.
+If you would rather not build extra buses for every band, we made ToneLab for this kind of work. It runs multiple parallel effect lanes in one insert, with EQ targeting each lane, so you can keep the lows out of a reverb lane and shape the tail separately. It costs [$73.99 as a one-time license](https://vector-dsp.com/pricing/), and a [free demo](https://vector-dsp.com/tonelab.html?demo=1) is available to try on your own sessions.
 
 ![Vector-dsp](https://csuxjmfbwmkxiegfpljm.supabase.co/storage/v1/object/public/blog-images/organization-30746/1778694946550_vector-dsp.jpg)
 

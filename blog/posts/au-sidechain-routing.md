@@ -162,7 +162,7 @@ Before you trust a routing for a whole session, run a two-minute test:
 
 Sidechain routing is the right tool when you need one track to control another. It is not always the right tool when you want to treat one part of a sound differently from another within the same track. A kick-and-bass clash, for example, is usually only a low-frequency problem. Ducking the entire bass removes midrange and top end that did not need to move.
 
-This is where we built ToneLab. It is a single plugin that runs multiple parallel effect lanes, with EQ targeting on each lane, so you can shape a specific region without splitting a track across several channels. It ships in VST3, AU and AAX formats for Windows and macOS, and it is a one-time purchase at [73.99 USD on our pricing page](https://vector-dsp.com/pricing). A free demo is available, so you can test it in your own DAW before buying, and minor version updates are included.
+This is where we built ToneLab. It is a single plugin that runs multiple parallel effect lanes, with EQ targeting on each lane, so you can shape a specific region without splitting a track across several channels. It ships in VST3, AU and AAX formats for Windows and macOS, and it is a one-time purchase at [73.99 USD on our pricing page](https://vector-dsp.com/pricing). A [free demo](https://vector-dsp.com/tonelab.html?demo=1) is available, so you can test it in your own DAW before buying, and minor version updates are included.
 
 ## FAQ
 

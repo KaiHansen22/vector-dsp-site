@@ -163,7 +163,7 @@ Something else to keep in mind with stereo: Mid/Side compression can create appa
 
 ## Try the technique with per-band lanes
 
-If you want to build a per-band parallel setup without wiring buses and crossovers by hand, ToneLab is one way to do it. It puts multiple parallel effect lanes inside a single insert, with EQ targeting for each lane, and it is $73.99 as a one-time license with a free demo to try first. You can see details on the [ToneLab pricing page](https://vector-dsp.com/pricing/).
+If you want to build a per-band parallel setup without wiring buses and crossovers by hand, ToneLab is one way to do it. It puts multiple parallel effect lanes inside a single insert, with EQ targeting for each lane, and it is $73.99 as a one-time license with a [free demo](https://vector-dsp.com/tonelab.html?demo=1) to try first. You can see details on the [ToneLab pricing page](https://vector-dsp.com/pricing/).
 
 ![Vector-dsp](https://csuxjmfbwmkxiegfpljm.supabase.co/storage/v1/object/public/blog-images/organization-30746/1778694946550_vector-dsp.jpg)
 

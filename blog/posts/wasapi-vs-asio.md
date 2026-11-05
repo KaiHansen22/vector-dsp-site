@@ -133,7 +133,7 @@ Driver latency and plugin latency add up. The audio path after ASIO or WASAPI ha
 
 A minimum-phase filter does not escape this either. It avoids pre-ringing, but it still has group delay, so it is never a free path. Treat every filter as something that costs a little time, and let the driver buffer be the one you tune.
 
-One approach we built around this: running several frequency-targeted effects in parallel lanes inside a single insert, so the delay stays one plugin's worth instead of stacking across a chain. ToneLab, our multi-lane effects plugin with per-lane EQ, works that way, and it is $73.99 as a one-time license with a free demo on the [ToneLab page](https://vector-dsp.com/pricing).
+One approach we built around this: running several frequency-targeted effects in parallel lanes inside a single insert, so the delay stays one plugin's worth instead of stacking across a chain. ToneLab, our multi-lane effects plugin with per-lane EQ, works that way, and it is $73.99 as a one-time license with a [free demo](https://vector-dsp.com/tonelab.html?demo=1) on the [ToneLab page](https://vector-dsp.com/pricing).
 
 ## Our perspective
 

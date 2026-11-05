@@ -179,7 +179,7 @@ People describe saturation on a bus as glue. [Sound On Sound's Oli Freke explain
 
 ## Doing it in one insert
 
-If you want to try per-band saturation in parallel without building a routing maze, ToneLab is one way to do it: a multi-lane effects insert with per-lane EQ targeting, a one-time license at [$73.99](https://vector-dsp.com/pricing/), with a free demo available.
+If you want to try per-band saturation in parallel without building a routing maze, ToneLab is one way to do it: a multi-lane effects insert with per-lane EQ targeting, a one-time license at [$73.99](https://vector-dsp.com/pricing/), with a [free demo](https://vector-dsp.com/tonelab.html?demo=1) available.
 
 ![Vector-dsp](https://csuxjmfbwmkxiegfpljm.supabase.co/storage/v1/object/public/blog-images/organization-30746/1778694946550_vector-dsp.jpg)
 

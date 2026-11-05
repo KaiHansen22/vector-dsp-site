@@ -161,7 +161,7 @@ The effect is often subtle. Training your ears to hear it is part of the work, a
 
 ## Doing it per band: one way to apply the idea
 
-To be clear up front: [ToneLab](https://vector-dsp.com/pricing/), our plugin, does not include a compressor, so it won't set a knee for you. What it shares with this approach is the per-band thinking. ToneLab runs five parallel effect lanes (chorus, distortion, reverb, delay and saturation), each with its own EQ, so you can keep saturation on the low end and leave the upper mids clean within one insert, then pair it with whatever compressor you already trust. It is a one-time purchase at $73.99, and there is a [free demo](https://vector-dsp.com/tonelab.html?demo=1) so you can hear it on your own material first.
+To be clear up front: [ToneLab](https://vector-dsp.com/tonelab.html), our plugin, does not include a compressor, so it won't set a knee for you. What it shares with this approach is the per-band thinking. ToneLab runs five parallel effect lanes (chorus, distortion, reverb, delay and saturation), each with its own EQ, so you can keep saturation on the low end and leave the upper mids clean within one insert, then pair it with whatever compressor you already trust. It is a one-time purchase at $73.99, and there is a [free demo](https://vector-dsp.com/tonelab.html?demo=1) so you can hear it on your own material first.
 
 ![Vector-dsp](https://csuxjmfbwmkxiegfpljm.supabase.co/storage/v1/object/public/blog-images/organization-30746/1778694946550_vector-dsp.jpg)
 

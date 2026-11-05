@@ -146,7 +146,7 @@ Other frequency-specific processors follow the same logic. Gating only the band 
 
 ## One way to build the parallel side
 
-Sidechain ducking is only half of a frequency-specific mix. The other half is deciding how much of each band you blend back in. If you want to do the band-split, parallel part inside one insert, [ToneLab](https://vector-dsp.com/pricing/) is one way: it runs multiple parallel effect lanes, each with its own EQ targeting, and it is a one-time $73.99 license with a [free demo](https://vector-dsp.com/tonelab.html?demo=1).
+Sidechain ducking is only half of a frequency-specific mix. The other half is deciding how much of each band you blend back in. If you want to do the band-split, parallel part inside one insert, [ToneLab](https://vector-dsp.com/tonelab.html) is one way: it runs multiple parallel effect lanes, each with its own EQ targeting, and it is a one-time $73.99 license with a [free demo](https://vector-dsp.com/tonelab.html?demo=1).
 
 ![Vector-dsp](https://csuxjmfbwmkxiegfpljm.supabase.co/storage/v1/object/public/blog-images/organization-30746/1778694946550_vector-dsp.jpg)
 

@@ -147,7 +147,7 @@ Our advice is plain. Use the meter as a smoke detector. When it goes off, find t
 
 ## Doing the technique with ToneLab
 
-If you want to treat bands separately in a single insert, our plugin [ToneLab](https://vector-dsp.com/pricing) runs parallel effect lanes with per-lane EQ targeting, so you can narrow or process one frequency range without touching the rest. It is a one-time purchase at 73.99 USD, and there is a [free demo](https://vector-dsp.com/tonelab.html?demo=1) so you can check how it behaves against your own correlation meter.
+If you want to treat bands separately in a single insert, our plugin [ToneLab](https://vector-dsp.com/tonelab.html) runs parallel effect lanes with per-lane EQ targeting, so you can narrow or process one frequency range without touching the rest. It is a one-time purchase at 73.99 USD, and there is a [free demo](https://vector-dsp.com/tonelab.html?demo=1) so you can check how it behaves against your own correlation meter.
 
 ## FAQ
 

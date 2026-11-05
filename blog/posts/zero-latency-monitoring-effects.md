@@ -123,7 +123,7 @@ Plug-in developers face a real design tension here: a look-ahead limiter or a li
 
 ## How ToneLab supports low-latency monitoring workflows
 
-Vector DSP built [ToneLab](https://vector-dsp.com/pricing) around a multi-lane parallel effects architecture with per-lane EQ targeting, aimed at giving engineers surgical control without forcing a trade-off between tonal shaping and real-time performance. The plugin runs on real-time, low-latency DSP built on industry-standard C++/JUCE frameworks, in VST3, AU, and AAX formats across Windows and macOS.
+Vector DSP built [ToneLab](https://vector-dsp.com/tonelab.html) around a multi-lane parallel effects architecture with per-lane EQ targeting, aimed at giving engineers surgical control without forcing a trade-off between tonal shaping and real-time performance. The plugin runs on real-time, low-latency DSP built on industry-standard C++/JUCE frameworks, in VST3, AU, and AAX formats across Windows and macOS.
 
 ![Vector-dsp](https://csuxjmfbwmkxiegfpljm.supabase.co/storage/v1/object/public/blog-images/organization-30746/1778694946550_vector-dsp.jpg)
 

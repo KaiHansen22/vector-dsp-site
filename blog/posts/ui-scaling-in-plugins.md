@@ -198,7 +198,7 @@ A few things worth checking if you are evaluating plugins with scaling in mind:
 - A demo version is available for users to test scaling behavior before purchasing.
 - Licensing is by one-time purchase rather than subscription.
 
-Details on demo access and license pricing for [ToneLab](https://vector-dsp.com/pricing) are on the pricing page.
+Details on demo access and license pricing for [ToneLab](https://vector-dsp.com/tonelab.html) are on the pricing page.
 
 ## Official documentation and key threads to consult next
 

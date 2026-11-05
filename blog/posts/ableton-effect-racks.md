@@ -142,7 +142,7 @@ Racks are efficient, but a project with several multi-chain racks running simult
 
 ## What does per-lane parallel routing teach us about sound design?
 
-Our work building per-lane processing for [ToneLab](https://vector-dsp.com/tonelab) gave us a close view of what makes parallel routing reliable rather than messy, and the same principles translate directly to Ableton racks. Our [parallel effects routing](https://vector-dsp.com/blog/parallel-effects-routing/) guidance lays out a five-step DAW setup: split the signal into separate lanes, assign distinct processing to each, meter every lane individually, match levels before summing, and confirm the blend with a reference check.
+Our work building per-lane processing for [ToneLab](https://vector-dsp.com/tonelab.html) gave us a close view of what makes parallel routing reliable rather than messy, and the same principles translate directly to Ableton racks. Our [parallel effects routing](https://vector-dsp.com/blog/parallel-effects-routing/) guidance lays out a five-step DAW setup: split the signal into separate lanes, assign distinct processing to each, meter every lane individually, match levels before summing, and confirm the blend with a reference check.
 
 - Meter each parallel chain independently and match them within a small loudness tolerance before blending, a practice detailed in our [guide to metering parallel chains](https://vector-dsp.com/blog/metering-parallel-chains/).
 - Run a null test after summing to confirm the combined output matches your intended balance rather than an accidental phase cancellation.

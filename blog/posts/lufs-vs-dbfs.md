@@ -158,7 +158,7 @@ One more habit: do not make a LUFS target the goal of the mix. The standards bod
 
 ## A quick way to apply this on a bus
 
-If you do per-band or parallel work, the most practical thing you can do is build a level-matching habit into the process. One way to do that is a multi-lane plugin such as [ToneLab](https://vector-dsp.com/pricing), which splits a signal into parallel lanes with per-lane EQ targeting inside one insert, so each lane's contribution can be balanced against the rest of the signal while you watch your own meters. It is a one-time license at $73.99 with a [free demo](https://vector-dsp.com/tonelab.html?demo=1) available, so you can test the level-matching workflow on your own material before buying. The technique works with any set of tools that lets you split, process and re-sum while keeping the gain honest.
+If you do per-band or parallel work, the most practical thing you can do is build a level-matching habit into the process. One way to do that is a multi-lane plugin such as [ToneLab](https://vector-dsp.com/tonelab.html), which splits a signal into parallel lanes with per-lane EQ targeting inside one insert, so each lane's contribution can be balanced against the rest of the signal while you watch your own meters. It is a one-time license at $73.99 with a [free demo](https://vector-dsp.com/tonelab.html?demo=1) available, so you can test the level-matching workflow on your own material before buying. The technique works with any set of tools that lets you split, process and re-sum while keeping the gain honest.
 
 ## Common mistakes to avoid
 

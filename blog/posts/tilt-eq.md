@@ -105,7 +105,7 @@ Tilt EQ earns its spot not because it's clever but because it's fast: one contro
 
 ## Where ToneLab Fits for Precise Tonal Control
 
-We build plugins at Vector DSP for broad tonal moves and more targeted adjustments. [ToneLab](https://vector-dsp.com/pricing) is one option to consider for tonal shaping and targeted adjustments.
+We build plugins at Vector DSP for broad tonal moves and more targeted adjustments. [ToneLab](https://vector-dsp.com/tonelab.html) is one option to consider for tonal shaping and targeted adjustments.
 
 ![Vector-dsp](https://csuxjmfbwmkxiegfpljm.supabase.co/storage/v1/object/public/blog-images/organization-30746/1778694946550_vector-dsp.jpg)
 

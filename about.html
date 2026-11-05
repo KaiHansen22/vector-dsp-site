@@ -3,6 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- ── Google tag (Google Ads AW-18558753967) ── sitewide. The purchase
+     conversion fires from checkout-tracking.js on Checkout.Success, not here. -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-18558753967"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'AW-18558753967');
+</script>
+
 <!-- ── OpenAI pixel ── sitewide base tag. This must be the only oaiq("init") on
      the page; conversion events fire from where the action actually happens.
      debug:true logs to the console — remove it once you've verified delivery. -->

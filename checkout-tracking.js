@@ -34,6 +34,26 @@
     } catch (e) {}
   }
 
+  /* ── Google Ads purchase conversion ───────────────────────────────────────
+     Paste the conversion label from Google Ads (Goals → Conversions → your
+     Purchase action → Tag setup → "Use Google tag" → event snippet, the part
+     after the slash in send_to: 'AW-18558753967/XXXXXXXX'). Until it is set,
+     nothing is sent. Google wants value in DOLLARS (not cents like the OpenAI
+     pixel), and transaction_id lets it drop duplicate reports of one order. */
+  var GADS_SEND_TO = ""; // e.g. "AW-18558753967/AbCdEfGhIjK"
+
+  function googleConversion(orderId, cents, currency) {
+    try {
+      if (!GADS_SEND_TO || typeof window.gtag !== "function") return;
+      var params = { send_to: GADS_SEND_TO, transaction_id: String(orderId || "") };
+      if (cents !== null) {
+        params.value = cents / 100;
+        params.currency = currency || "USD";
+      }
+      window.gtag("event", "conversion", params);
+    } catch (e) {}
+  }
+
   /* ── Open the checkout as an overlay ──────────────────────────────────────
      If Lemon.js has not loaded (blocked, offline, script error) we return
      false and let the browser follow the href exactly as it does today. */
@@ -135,6 +155,7 @@
       }
 
       measure("order_created", payload);
+      googleConversion(data.id, amount, attrs.currency);
     } catch (e) {}
   }
 

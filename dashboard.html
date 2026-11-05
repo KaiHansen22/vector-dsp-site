@@ -108,6 +108,21 @@ td.num{text-align:right;font-family:'IBM Plex Mono',ui-monospace,monospace}
   text-transform:uppercase;color:var(--purple);margin-bottom:5px}
 .resp .qa .aa{font-size:15px;font-weight:300;line-height:1.6;white-space:pre-wrap;overflow-wrap:anywhere}
 .resp .qa .aa.none{color:var(--muted2)}
+h3{font-family:'Barlow Condensed','Arial Narrow',sans-serif;font-weight:700;font-size:20px;
+   text-transform:uppercase;letter-spacing:0.04em;margin:0 0 12px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.pill{font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:10px;font-weight:500;letter-spacing:0.14em;
+  text-transform:uppercase;border-radius:3px;padding:3px 8px;border:1px solid}
+.pill.on{color:var(--lane-rev);border-color:rgba(43,217,107,0.4);background:rgba(43,217,107,0.08)}
+.pill.off{color:var(--muted);border-color:var(--line)}
+.warn{background:rgba(168,225,12,0.06);border:1px solid rgba(168,225,12,0.3);color:#D8F58A;
+  border-radius:6px;padding:13px 16px;font-size:14px;line-height:1.55;margin-top:14px}
+details.paused{margin-top:34px;border-top:1px solid var(--line);padding-top:22px}
+details.paused summary{cursor:pointer;list-style:none;outline:none}
+details.paused summary::-webkit-details-marker{display:none}
+details.paused summary h3{margin:0;color:var(--muted)}
+details.paused summary h3::before{content:'▸';font-size:14px;color:var(--muted)}
+details.paused[open] summary h3::before{content:'▾'}
+details.paused[open] summary{margin-bottom:16px}
 .spark i{flex:1;background:var(--lane-dly);opacity:0.8;border-radius:1px;min-height:2px}
 </style>
 </head>
@@ -154,6 +169,37 @@ td.num{text-align:right;font-family:'IBM Plex Mono',ui-monospace,monospace}
 
   <h2>Ads</h2>
 
+  <!-- Google Ads — the active campaign. Entered by hand from the Google Ads
+       Overview (set the date range to "campaign start → today"), kept in this
+       browser. Sales since the start date come from Lemon Squeezy, so the
+       page can check Google's purchase count against real orders. -->
+  <h3>Google Ads <span class="pill on">Active · Purchases goal</span></h3>
+  <div class="inputs">
+    <div class="field"><label for="gStart">Start date</label><input id="gStart" type="date"></div>
+    <div class="field"><label for="gBudget">Daily budget $</label><input id="gBudget" type="number" step="0.01" min="0" placeholder="0.00"></div>
+    <div class="field"><label for="gSpend">Spend $</label><input id="gSpend" type="number" step="0.01" min="0" placeholder="0.00"></div>
+    <div class="field"><label for="gImpr">Impressions</label><input id="gImpr" type="number" min="0" placeholder="0"></div>
+    <div class="field"><label for="gClicks">Clicks</label><input id="gClicks" type="number" min="0" placeholder="0"></div>
+    <div class="field"><label for="gConvs">Conversions</label><input id="gConvs" type="number" step="0.01" min="0" placeholder="0"></div>
+  </div>
+  <div class="grid" style="margin-top:14px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr))">
+    <div class="tile t-dst"><div class="label">Spend</div><div class="value" id="gSpendTile">—</div><div class="sub" id="gSpendSub">Set a start date</div></div>
+    <div class="tile t-dst"><div class="label">CTR</div><div class="value" id="gCtr">—</div></div>
+    <div class="tile t-dst"><div class="label">Avg CPC</div><div class="value" id="gCpc">—</div></div>
+    <div class="tile t-dst"><div class="label">Cost per conversion</div><div class="value" id="gCpa">—</div><div class="sub">As Google counts them</div></div>
+    <div class="tile t-cho"><div class="label">Sales since start</div><div class="value v-cyan" id="gSales">—</div><div class="sub" id="gSalesSub">Paid orders from Lemon Squeezy</div></div>
+    <div class="tile t-rev"><div class="label">Spend vs revenue</div><div class="value" id="gRoas">—</div><div class="sub">Revenue since start per dollar spent</div></div>
+  </div>
+  <div id="gWarn"></div>
+  <p class="note">
+    <em>Sales since start</em> counts every paid order from the start date on, however it arrived, so
+    <em>spend vs revenue</em> is the whole store over the campaign window, not ad-only ROAS. If Google's
+    conversions run higher than real sales, the conversion goal is counting something that isn't a purchase.
+  </p>
+
+  <details class="paused">
+  <summary><h3>OpenAI Ads <span class="pill off">Paused Nov 5, 2026</span></h3></summary>
+
   <div id="adsLive" style="display:none">
     <div class="scroll" style="margin-bottom:14px">
       <table><thead><tr><th>Campaign</th><th style="text-align:right">Impressions</th>
@@ -190,6 +236,7 @@ td.num{text-align:right;font-family:'IBM Plex Mono',ui-monospace,monospace}
     Note OpenAI attributes a conversion to the ad, while <strong>net revenue</strong> above counts every
     sale however it arrived, so <em>spend vs revenue</em> is a business-wide ratio, not ad ROAS.
   </p>
+  </details>
   <p class="note">
     <strong>Paid orders</strong> counts orders that actually took money. Fully discounted
     licences — beta testers, gifts, 100% codes — are counted separately as <em>comped</em> and
@@ -272,6 +319,8 @@ function render(d) {
 
     /* Orders per day over the last 30 — belongs beside the order count, not
        beside downloads, which it has nothing to do with. */
+    salesDaily = s.daily || [];
+    computeGoogle();
     const days = (s.daily || []).slice(-30);
     if (days.length) {
       const max = Math.max.apply(null, days.map((x) => x.orders));
@@ -381,6 +430,64 @@ AD_FIELDS.forEach((f) => {
     computeAds();
   });
 });
+
+/* ── Google Ads ─────────────────────────────────────────────────────────────
+   Manual figures, same per-browser storage as the OpenAI fallback. Sales since
+   the start date come from the daily order series (UTC dates, paid orders only
+   — refunds and comps are already excluded upstream). */
+const G_FIELDS = ["gStart", "gBudget", "gSpend", "gImpr", "gClicks", "gConvs"];
+let salesDaily = null;
+
+function computeGoogle() {
+  const f = (id) => parseFloat($(id).value);
+  const spend = f("gSpend"), impr = f("gImpr"), clicks = f("gClicks"),
+        convs = f("gConvs"), budget = f("gBudget");
+  const start = $("gStart").value;
+
+  let days = null;
+  if (start) {
+    const t = new Date(start + "T00:00:00");
+    days = Math.max(1, Math.floor((Date.now() - t.getTime()) / 86400000) + 1);
+  }
+  $("gSpendTile").textContent = spend > 0 ? usd(spend) : "—";
+  $("gSpendSub").textContent = days
+    ? "Day " + days + (budget > 0 ? " · " + usd(budget * days) + " budgeted" : "")
+    : "Set a start date";
+  $("gCtr").textContent = impr > 0 ? pct(clicks / impr) : "—";
+  $("gCpc").textContent = clicks > 0 ? usd(spend / clicks) : "—";
+  $("gCpa").textContent = convs > 0 ? usd(spend / convs) : "—";
+
+  let orders = null, rev = null;
+  if (start && salesDaily) {
+    const rows = salesDaily.filter((x) => x.date >= start);
+    orders = rows.reduce((a, x) => a + x.orders, 0);
+    rev = rows.every((x) => typeof x.usd === "number")
+      ? rows.reduce((a, x) => a + x.usd, 0) : null;
+  }
+  $("gSales").textContent = orders === null ? "—" : num(orders);
+  $("gSalesSub").textContent = orders === null
+    ? (start ? "Waiting on sales data" : "Set a start date")
+    : (rev === null ? "Paid orders from Lemon Squeezy" : usd(rev) + " revenue");
+  $("gRoas").textContent = spend > 0 && rev !== null ? (rev / spend).toFixed(2) + "×" : "—";
+
+  $("gWarn").innerHTML = orders !== null && convs > orders
+    ? '<div class="warn"><strong>Google reports ' + num(convs) + " conversions but only " + num(orders) +
+      " sales came in since " + start + ".</strong> The purchase goal is counting visits that aren't " +
+      "purchases — check which URL or tag it fires on.</div>"
+    : "";
+}
+
+G_FIELDS.forEach((id) => {
+  try {
+    const saved = localStorage.getItem("vdsp_" + id);
+    if (saved !== null) $(id).value = saved;
+  } catch (e) {}
+  $(id).addEventListener("input", () => {
+    try { localStorage.setItem("vdsp_" + id, $(id).value); } catch (e) {}
+    computeGoogle();
+  });
+});
+computeGoogle();
 
 $("refresh").addEventListener("click", load);
 load();

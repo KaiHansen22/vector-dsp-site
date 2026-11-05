@@ -251,7 +251,9 @@ function summariseOrders(rows) {
     if (now - created < 7 * day) last7++;
     if (now - created < 30 * day) last30++;
     const key = new Date(created).toISOString().slice(0, 10);
-    series[key] = (series[key] || 0) + 1;
+    const day_ = series[key] || (series[key] = { orders: 0, cents: 0 });
+    day_.orders++;
+    day_.cents += cents;
   }
 
   return {
@@ -262,7 +264,7 @@ function summariseOrders(rows) {
        would report the full list price of every free licence as a "discount". */
     discountUsd: discountCents / 100,
     last7, last30,
-    daily: Object.keys(series).sort().map((d) => ({ date: d, orders: series[d] }))
+    daily: Object.keys(series).sort().map((d) => ({ date: d, orders: series[d].orders, usd: series[d].cents / 100 }))
   };
 }
 

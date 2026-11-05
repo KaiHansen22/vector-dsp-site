@@ -53,7 +53,7 @@ document.addEventListener("click", function (e) {
   "headline": {{ title | dump | safe }},
   "description": {{ metaDesc | dump | safe }},
   "datePublished": "{{ date | isoDate }}",
-  "author": { "@type": "Person", "name": "Kai Hansen", "url": "https://vector-dsp.com/about.html", "jobTitle": "Founder, Vector DSP", "sameAs": ["https://www.linkedin.com/in/kai-hansen0/", "https://www.instagram.com/kaihansen0/"] },
+  "author": { "@type": "Organization", "name": "Vector DSP", "legalName": "Vector DSP LLC", "url": "https://vector-dsp.com/about.html" },
   "publisher": {
     "@type": "Organization",
     "name": "Vector DSP",
@@ -326,7 +326,7 @@ footer {
     <span>·</span>
     <time datetime="{{ date | isoDate }}">{{ date | readableDate }}</time>
     <span>·</span>
-    <a href="/about.html" rel="author">By Kai Hansen</a>
+    <a href="/about.html" rel="author">By Vector DSP</a>
   </div>
   <h1>{{ title }}</h1>
   {% if description %}<div class="lede">{{ description }}</div>{% endif %}

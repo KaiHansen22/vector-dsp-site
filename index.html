@@ -1492,7 +1492,7 @@ footer {
       <a class="footer-link" href="/tonelab.html">ToneLab</a>
       <a class="footer-link" href="/pricing.html">Pricing</a>
       <a class="footer-link" href="/about.html">About</a>
-      <a class="footer-link" href="/cdn-cgi/l/email-protection#3e4d4b4e4e514c4a7e485b5d4a514c135a4d4e105d5153">Contact</a>
+      <a class="footer-link" href="mailto:support@vector-dsp.com">Contact</a>
       <a class="footer-link" href="/terms.html">Terms</a>
       <a class="footer-link" href="/privacy.html">Privacy</a>
       <a class="footer-link" href="/refunds.html">Refunds</a>
@@ -1503,7 +1503,7 @@ footer {
 
 
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 function scrollToSection(sel) {
   const el = document.querySelector(sel);
   if (el) el.scrollIntoView({ behavior: 'smooth' });
@@ -1629,4 +1629,23 @@ if (tlHero && tlGlow) {
 /* ─── EMAIL INPUT GLOW ─── */
 document.querySelectorAll('.tl-email-input').forEach(input => {
   const row = input.closest('.tl-input-row');
-  i
+  input.addEventListener('focus', () => {
+    emailFocused = true;
+    if (row) row.classList.add('focused');
+    if (tlGlow) tlGlow.style.opacity = 0;
+  });
+  input.addEventListener('blur', () => {
+    emailFocused = false;
+    if (row) row.classList.remove('focused');
+  });
+});
+
+/* index.html was cut off here (mid-statement) from the first commit until
+   2026-11-05, so none of the script above ever ran. Ending restored from the
+   same block in tonelab.html. The homepage has no #tl-bars, hence the guard. */
+document.addEventListener('DOMContentLoaded', () => {
+  if (document.getElementById('tl-bars')) buildBars();
+});
+</script>
+</body>
+</html>

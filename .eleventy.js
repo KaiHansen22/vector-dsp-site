@@ -11,6 +11,7 @@ module.exports = function (eleventyConfig) {
     "tonelab-buy.html",
     "thank-you.html", // post-purchase landing; Lemon Squeezy confirmation-modal button link
     "checkout-tracking.js", // Lemon.js overlay + purchase measurement
+    "black-friday.js", // date-gated Black Friday 2026 sale (Nov 21 - Dec 1); inert outside the window
     "survey.html", // post-purchase survey form, linked from the survey email
     "dashboard.html", // private metrics tracker (password-gated at the edge)
     "pricing.html",

@@ -1425,6 +1425,24 @@ body {
   cursor: pointer;
 }
 .btn-preorder.lemonsqueezy-button:hover { background: #33CEFF; }
+
+/* ─── Free demo CTA — sits right under every Buy button ─── */
+.btn-demo {
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  width: 100%; margin-top: 12px; padding: 13px 28px;
+  background: rgba(77,255,236,0.06);
+  border: 1.5px solid var(--mint); color: var(--mint);
+  font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 19px;
+  letter-spacing: 0.15em; text-transform: uppercase; white-space: nowrap;
+  cursor: pointer;
+  clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+  transition: background 0.2s, color 0.2s, transform 0.2s;
+}
+.btn-demo:hover, .btn-demo:focus-visible { background: var(--mint); color: var(--bg); transform: translateY(-2px); }
+.btn-demo-note { display:block; margin-top:8px; font-size:13px; letter-spacing:0.05em; color:var(--muted2); text-align:center; }
+.nav-cta--demo { background: rgba(77,255,236,0.08); border-color: rgba(77,255,236,0.45); color: var(--mint); }
+.nav-cta--demo:hover { background: var(--mint); color: var(--bg); }
+@media (max-width: 480px) { .btn-demo { font-size: 16px; padding: 12px 18px; } }
 </style>
 
 <!-- Lemon Squeezy overlay checkout + purchase measurement. Order matters:
@@ -1454,6 +1472,7 @@ body {
   <div class="nav-links" id="tonelab-nav-links">
     <a class="nav-link" href="/">← Vector DSP</a>
     <a class="nav-link" href="/pricing.html">Pricing</a>
+    <button type="button" class="nav-cta nav-cta--demo" onclick="openDemoModal()">Free Demo</button>
   </div>
 </nav>
 
@@ -1549,6 +1568,10 @@ body {
          data-product-id="913987">
         Buy ToneLab →
       </a>
+      <button type="button" class="btn-demo" onclick="openDemoModal()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg><span>Try the free demo</span>
+      </button>
+      <span class="btn-demo-note">Full plugin · no time limit · macOS &amp; Windows</span>
       <div class="preorder-fineprint" style="display:flex;flex-direction:column;gap:6px;align-items:center;">
         <span>Secure Checkout</span>
         <a href="/refunds.html" style="color:inherit;text-decoration:underline;text-decoration-color:rgba(255,255,255,0.25);text-underline-offset:3px;">Refund Policy</a>
@@ -1818,6 +1841,11 @@ body {
          style="text-decoration:none;display:inline-block;padding:18px 36px;font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;cursor:pointer;">
         Buy ToneLab →
       </a>
+    </div>
+    <div style="display:flex;justify-content:center;margin-bottom:18px;">
+      <button type="button" class="btn-demo" onclick="openDemoModal()" style="width:auto;margin-top:0;padding:16px 34px;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg><span>Or try the free demo</span>
+      </button>
     </div>
     <div class="tl-privacy" style="text-align:center;display:flex;flex-direction:column;gap:6px;align-items:center;">
       <span>Secure Checkout</span>

@@ -40,7 +40,7 @@
      after the slash in send_to: 'AW-18558753967/XXXXXXXX'). Until it is set,
      nothing is sent. Google wants value in DOLLARS (not cents like the OpenAI
      pixel), and transaction_id lets it drop duplicate reports of one order. */
-  var GADS_SEND_TO = ""; // e.g. "AW-18558753967/AbCdEfGhIjK"
+  var GADS_SEND_TO = "AW-18558753967/J2LWCIjU8bIdEK-5wJFF"; // ToneLab Purchase
 
   function googleConversion(orderId, cents, currency) {
     try {

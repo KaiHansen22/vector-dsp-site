@@ -9,6 +9,11 @@ module.exports = function (eleventyConfig) {
     "index.html",
     "tonelab.html",
     "tonelab-buy.html",
+    "specular.html", // Specular waitlist page (pre-launch)
+    "specular-lockup.jpg",
+    "specular-lockup-512.jpg",
+    "specular-loop.mp4",
+    "specular-loop-poster.jpg",
     "thank-you.html", // post-purchase landing; Lemon Squeezy confirmation-modal button link
     "checkout-tracking.js", // Lemon.js overlay + purchase measurement
     "black-friday.js", // date-gated Black Friday 2026 sale (Nov 21 - Dec 1); inert outside the window

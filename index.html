@@ -1326,27 +1326,22 @@ footer {
         <a class="product-link" href="/tonelab.html">Get ToneLab <span>→</span></a>
       </div>
 
-      <!-- Next product teaser — category only, no name until clearance -->
-      <div class="product-card coming-soon-card" style="opacity:0.55; pointer-events:none;">
+      <!-- Specular — pre-launch, links to the waitlist page -->
+      <div class="product-card specular-card" onclick="window.location='/specular.html'" style="cursor:pointer;">
         <div class="product-status">
-          <div class="status-dot" style="background:var(--muted); width:6px;height:6px;border-radius:50%;"></div>
-          <span style="color:var(--muted);font-size:14px;letter-spacing:0.25em;">In Development</span>
+          <div class="status-dot coming" style="background:#FF6B1A;box-shadow:0 0 8px #FF6B1A;"></div>
+          <span style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:15px;letter-spacing:0.25em;text-transform:uppercase;color:#FF9A5C;">Coming Soon</span>
         </div>
 
-        <!-- placeholder mark: waveform driving a light cone -->
-        <div class="tl-mark-inline">
-          <svg width="56" height="56" viewBox="0 0 44 44" fill="none">
-            <rect x="2" y="2" width="40" height="40" rx="5" fill="rgba(155,109,255,0.05)" stroke="rgba(155,109,255,0.18)" stroke-width="1.5"/>
-            <polyline points="6,22 9,22 11,15 13,29 15,18 17,22 20,22" stroke="#5A6070" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-            <path d="M23 22 L37 13 L37 31 Z" stroke="#5A6070" stroke-width="1.5" stroke-linejoin="round" fill="rgba(155,109,255,0.06)"/>
-          </svg>
-        </div>
+        <!-- Specular mark: the lockup, on a black tile feathered into the card -->
+        <div class="tl-mark-inline" style="width:72px;height:72px;margin:-8px 0 8px -8px;background:#000 url('/specular-lockup-512.jpg') center/cover no-repeat;-webkit-mask-image:radial-gradient(circle at 50% 50%, black 50%, transparent 100%);mask-image:radial-gradient(circle at 50% 50%, black 50%, transparent 100%);"></div>
 
-        <div class="product-name" style="font-size:30px; color:var(--muted);">Audio-Reactive Visuals</div>
-        <div class="product-type">Offline Renderer · In Development</div>
-        <p class="product-desc" style="margin-top:auto;">
-          Visuals driven by the audio itself, rendered offline rather than captured off a screen — linear light, 16-bit float, no banding. Name and date when it's ready.
+        <div class="product-name" style="color:#FF6B1A;letter-spacing:0.18em;">Specular</div>
+        <div class="product-type">Audio-Reactive Visuals · Plugin + Offline Renderer</div>
+        <p class="product-desc">
+          A capture plugin reads the master and every stem during a normal playback pass; an offline renderer turns that into video on your own machine. Local, deterministic, no cloud. Waitlist open.
         </p>
+        <a class="product-link" href="/specular.html" style="color:#FF9A5C;">Join the waitlist <span>→</span></a>
       </div>
     </div>
   </section>

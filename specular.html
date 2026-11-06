@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- ── Google tag (Google Ads AW-18558753967) ── sitewide. -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-18558753967"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'AW-18558753967');
+</script>
+
+<title>Specular — Audio-Reactive Visuals by Vector DSP</title>
+<meta name="description" content="Specular is a capture plugin for your DAW and an offline renderer. It reads the master and every stem during a normal playback pass, then renders audio-reactive video on your machine. Local, deterministic, no cloud. Coming soon from Vector DSP.">
+<link rel="canonical" href="https://vector-dsp.com/specular">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Specular — Audio-Reactive Visuals by Vector DSP">
+<meta property="og:description" content="A DAW plugin captures your stems. A renderer turns them into video. Local, deterministic, no cloud. Join the waitlist.">
+<meta property="og:url" content="https://vector-dsp.com/specular">
+<meta property="og:image" content="https://vector-dsp.com/specular-lockup.jpg">
+<meta property="og:site_name" content="Vector DSP">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Specular — Audio-Reactive Visuals by Vector DSP">
+<meta name="twitter:description" content="A DAW plugin captures your stems. A renderer turns them into video. Local, deterministic, no cloud. Join the waitlist.">
+<meta name="twitter:image" content="https://vector-dsp.com/specular-lockup.jpg">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Specular",
+  "description": "Audio-reactive visuals: a capture plugin for your DAW (VST3, AU, AAX) and an offline renderer that turns the captured analysis into video on your own machine.",
+  "brand": { "@type": "Brand", "name": "Vector DSP" },
+  "url": "https://vector-dsp.com/specular",
+  "operatingSystem": "macOS",
+  "applicationCategory": "MultimediaApplication",
+  "releaseNotes": "In development. Join the waitlist for launch pricing."
+}
+</script>
+<link rel="icon" href="/favicon.ico">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════
+   TOKENS — site tokens + the Specular pair
+═══════════════════════════════════════ */
+:root {
+  --bg:        #0B0D11;
+  --surface:   #13161D;
+  --surface2:  #1C2029;
+  --line:      rgba(255,255,255,0.07);
+  --purple:    #9B6DFF;
+  --purple-lt: #C4A8FF;
+  --purple-dim: rgba(155,109,255,0.12);
+  --white:     #EDF0F4;
+  --muted:     #5A6070;
+  --muted2:    #383D4A;
+
+  /* Specular brand (Brand/README): black · purple · orange */
+  --sp-black:   #0E0A14;
+  --sp-purple:  #8B5CF6;
+  --sp-purple-lt: #B79CFF;
+  --sp-orange:  #FF6B1A;
+  --sp-orange-lt: #FF9A5C;
+  --sp-orange-dim: rgba(255,107,26,0.12);
+  --sp-orange-line: rgba(255,107,26,0.35);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--white);
+  font-family: 'IBM Plex Mono', monospace;
+  overflow-x: hidden;
+  cursor: default;
+}
+body::after {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+  background-size: 256px;
+  pointer-events: none; z-index: 9999;
+}
+img, video { display: block; max-width: 100%; }
+
+/* ═══════════════════════════════════════
+   NAV — identical to the rest of the site
+═══════════════════════════════════════ */
+nav {
+  position: fixed; top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 56px;
+  height: 64px;
+  background: rgba(11,13,17,0.88);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--line);
+}
+.nav-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+.nav-wordmark {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700; font-size: 21px;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--white);
+}
+.nav-wordmark em { color: var(--purple); font-style: normal; }
+.nav-links { display: flex; align-items: center; gap: 32px; }
+.nav-link {
+  font-size: 16px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--muted); text-decoration: none;
+  transition: color 0.2s; cursor: pointer;
+}
+.nav-link:hover { color: var(--white); }
+.nav-cta {
+  padding: 8px 20px;
+  background: var(--sp-orange-dim);
+  border: 1px solid var(--sp-orange-line);
+  color: var(--sp-orange-lt);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 16px; letter-spacing: 0.15em; text-transform: uppercase;
+  cursor: pointer; text-decoration: none;
+  transition: all 0.2s;
+}
+.nav-cta:hover { background: rgba(255,107,26,0.22); border-color: var(--sp-orange); color: var(--white); }
+
+/* ═══════════════════════════════════════
+   HERO
+═══════════════════════════════════════ */
+.sp-hero {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  gap: clamp(32px, 5vw, 72px);
+  align-items: center;
+  padding: 120px 56px 80px;
+  position: relative; overflow: hidden;
+}
+/* grid, same as the home hero but in the Specular pair */
+.sp-hero-grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(139,92,246,0.09) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(139,92,246,0.09) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse 80% 80% at 30% 50%, black 10%, transparent 70%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 80% at 30% 50%, black 10%, transparent 70%);
+  pointer-events: none;
+}
+/* a warm beam, echoing the gobo in the lockup */
+.sp-hero-beam {
+  position: absolute; top: -20%; right: -10%;
+  width: 60vw; height: 140%;
+  background: radial-gradient(ellipse 40% 60% at 60% 30%, rgba(255,107,26,0.14), transparent 70%);
+  filter: blur(20px);
+  pointer-events: none;
+}
+.sp-hero-copy { position: relative; z-index: 1; max-width: 640px; }
+.sp-eyebrow {
+  font-size: 15px; letter-spacing: 0.4em; text-transform: uppercase;
+  color: var(--sp-orange); margin-bottom: 28px;
+  display: flex; align-items: center; gap: 12px;
+  animation: fadeUp 0.7s ease both;
+}
+.sp-eyebrow::before { content: ''; width: 32px; height: 1px; background: var(--sp-orange); }
+.sp-eyebrow .pill {
+  margin-left: 6px;
+  padding: 4px 10px;
+  border: 1px solid var(--sp-orange-line);
+  background: var(--sp-orange-dim);
+  font-size: 12px; letter-spacing: 0.25em;
+  color: var(--sp-orange-lt);
+}
+/* The lockup is Kai's final render (RGB on pure black). It sits on a black
+   tile that is feathered into the page so the black never shows as a square. */
+.sp-lockup {
+  width: min(100%, 460px);
+  aspect-ratio: 1 / 1;
+  margin: -4% 0 -2% -3%;
+  background: #000 url('/specular-lockup.jpg') center / cover no-repeat;
+  -webkit-mask-image: radial-gradient(ellipse 62% 62% at 50% 50%, black 55%, transparent 100%);
+  mask-image: radial-gradient(ellipse 62% 62% at 50% 50%, black 55%, transparent 100%);
+  animation: fadeUp 0.9s 0.05s ease both;
+}
+.sp-headline {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 800;
+  font-size: clamp(44px, 6.4vw, 84px);
+  line-height: 0.94;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  margin-bottom: 28px;
+  animation: fadeUp 0.7s 0.1s ease both;
+}
+.sp-headline .ghost {
+  -webkit-text-stroke: 2px rgba(237,240,244,0.5);
+  color: transparent;
+}
+@media (min-width: 1100px) { .sp-headline .ghost { -webkit-text-stroke-width: 3px; } }
+.sp-headline .hl { color: var(--sp-orange); }
+.sp-body {
+  font-family: 'Barlow', sans-serif;
+  font-size: 20px; font-weight: 300; line-height: 1.8;
+  color: rgba(237,240,244,0.55);
+  max-width: 520px; margin-bottom: 40px;
+  animation: fadeUp 0.7s 0.2s ease both;
+}
+.sp-body strong { color: var(--white); font-weight: 500; }
+
+/* signup */
+.sp-form { animation: fadeUp 0.7s 0.3s ease both; max-width: 520px; }
+.sp-input-row { display: flex; }
+.sp-email {
+  flex: 1; min-width: 0;
+  padding: 16px 18px;
+  background: var(--surface);
+  border: 1px solid rgba(255,107,26,0.25);
+  border-right: none;
+  color: var(--white);
+  font-family: 'IBM Plex Mono', monospace; font-size: 15px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.sp-email::placeholder { color: var(--muted); }
+.sp-email:focus { border-color: var(--sp-orange); }
+.sp-submit {
+  padding: 16px 28px;
+  background: var(--sp-orange);
+  color: var(--sp-black);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700; font-size: 18px;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  border: none; cursor: pointer; white-space: nowrap;
+  clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+  transition: background 0.2s, transform 0.2s;
+}
+.sp-submit:hover:not(:disabled) { background: var(--sp-orange-lt); transform: translateY(-1px); }
+.sp-submit:disabled { cursor: default; }
+.sp-submit.success { background: var(--sp-purple); color: var(--white); }
+.sp-form-note {
+  margin-top: 12px;
+  font-size: 13px; letter-spacing: 0.05em; line-height: 1.6;
+  color: var(--muted);
+}
+.sp-success {
+  display: none;
+  margin-top: 12px;
+  font-size: 14px; letter-spacing: 0.05em; line-height: 1.6;
+  color: var(--sp-purple-lt);
+}
+
+/* hero video */
+.sp-hero-media { position: relative; z-index: 1; animation: fadeUp 0.9s 0.25s ease both; }
+.sp-frame {
+  position: relative;
+  background: #000;
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow:
+    0 0 0 1px rgba(139,92,246,0.15),
+    0 40px 80px -30px rgba(255,107,26,0.35),
+    0 30px 60px -40px rgba(139,92,246,0.5);
+}
+.sp-frame::before, .sp-frame::after {
+  content: ''; position: absolute; width: 14px; height: 14px; pointer-events: none;
+  border-color: var(--sp-orange); border-style: solid;
+}
+.sp-frame::before { top: -1px; left: -1px; border-width: 1px 0 0 1px; }
+.sp-frame::after  { bottom: -1px; right: -1px; border-width: 0 1px 1px 0; }
+.sp-frame video { width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; }
+.sp-sound {
+  position: absolute; right: 12px; bottom: 12px;
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 8px 12px;
+  background: rgba(14,10,20,0.78);
+  border: 1px solid var(--sp-orange-line);
+  color: var(--sp-orange-lt);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+  cursor: pointer; backdrop-filter: blur(8px);
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
+}
+.sp-sound:hover { background: rgba(255,107,26,0.18); border-color: var(--sp-orange); color: var(--white); }
+.sp-sound .ic-on { display: none; }
+.sp-sound[aria-pressed="true"] .ic-on { display: block; }
+.sp-sound[aria-pressed="true"] .ic-off { display: none; }
+.sp-sound[aria-pressed="true"] { border-color: rgba(139,92,246,0.5); color: var(--sp-purple-lt); }
+.sp-caption {
+  margin-top: 14px;
+  display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+  font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted);
+}
+.sp-caption span b { color: var(--sp-orange-lt); font-weight: 500; }
+
+@keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+
+/* ═══════════════════════════════════════
+   SECTIONS
+═══════════════════════════════════════ */
+.section { padding: clamp(60px, 8vw, 110px) 56px; border-top: 1px solid var(--line); }
+.section-label {
+  font-size: 14px; letter-spacing: 0.4em; text-transform: uppercase;
+  color: var(--sp-orange); margin-bottom: 16px;
+  display: flex; align-items: center; gap: 12px;
+}
+.section-label::before { content: ''; width: 24px; height: 1px; background: var(--sp-orange); }
+.section-heading {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 800; font-size: clamp(34px, 4.6vw, 60px);
+  line-height: 1; letter-spacing: -0.01em; text-transform: uppercase;
+  margin-bottom: 18px;
+}
+.section-sub {
+  font-family: 'Barlow', sans-serif;
+  font-size: 19px; font-weight: 300; line-height: 1.75;
+  color: rgba(237,240,244,0.5);
+  max-width: 620px; margin-bottom: 48px;
+}
+
+/* How it works: three steps */
+.sp-steps {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px;
+}
+.sp-step {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  padding: 36px 32px;
+  position: relative; overflow: hidden;
+}
+.sp-step::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, var(--sp-orange), var(--sp-purple), transparent);
+}
+.sp-step-n {
+  font-size: 13px; letter-spacing: 0.3em; color: var(--sp-orange); margin-bottom: 18px;
+}
+.sp-step h3 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700; font-size: 28px; letter-spacing: 0.02em; text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.sp-step p {
+  font-family: 'Barlow', sans-serif;
+  font-size: 17px; font-weight: 300; line-height: 1.75;
+  color: rgba(237,240,244,0.55);
+}
+.sp-step p b { color: var(--white); font-weight: 500; }
+
+/* Looks: preset chips */
+.sp-chips { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; }
+.sp-chip {
+  padding: 10px 16px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  font-size: 13px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: rgba(237,240,244,0.7);
+  transition: border-color 0.2s, color 0.2s;
+}
+.sp-chip:hover { border-color: var(--sp-orange-line); color: var(--sp-orange-lt); }
+
+/* Two-column: in the box + later */
+.sp-cols { display: grid; grid-template-columns: 1.3fr 1fr; gap: 2px; }
+.sp-col {
+  background: var(--surface); border: 1px solid var(--line); padding: 40px 36px;
+}
+.sp-col h3 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700; font-size: 26px; letter-spacing: 0.04em; text-transform: uppercase;
+  margin-bottom: 20px;
+}
+.sp-col h3 small { display: block; margin-top: 6px; font-family: 'IBM Plex Mono', monospace; font-weight: 400; font-size: 12px; letter-spacing: 0.3em; color: var(--muted); }
+.sp-list { list-style: none; }
+.sp-list li {
+  padding: 14px 0; border-top: 1px solid var(--line);
+  display: grid; grid-template-columns: 150px 1fr; gap: 16px;
+  font-family: 'Barlow', sans-serif; font-size: 17px; font-weight: 300; line-height: 1.6;
+  color: rgba(237,240,244,0.6);
+}
+.sp-list li:first-child { border-top: none; padding-top: 0; }
+.sp-list li span:first-child {
+  font-family: 'IBM Plex Mono', monospace; font-size: 13px; letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--white); padding-top: 3px;
+}
+.sp-col.later { background: var(--bg); }
+.sp-col.later .sp-list li span:first-child { color: var(--sp-purple-lt); }
+.sp-note {
+  margin-top: 20px; font-size: 13px; line-height: 1.6; letter-spacing: 0.04em; color: var(--muted);
+}
+
+/* Closing signup */
+.sp-close {
+  padding: clamp(70px, 9vw, 120px) 56px;
+  border-top: 1px solid var(--line);
+  text-align: center;
+  position: relative; overflow: hidden;
+}
+.sp-close::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse 50% 60% at 50% 100%, rgba(255,107,26,0.12), transparent 70%);
+  pointer-events: none;
+}
+.sp-close .section-heading { margin-bottom: 14px; }
+.sp-close .section-sub { margin: 0 auto 36px; }
+.sp-close .sp-form { margin: 0 auto; text-align: left; }
+.sp-close > * { position: relative; }
+
+/* Footer — same as the ToneLab page, Specular wordmark */
+footer {
+  padding: clamp(24px,4vw,40px) clamp(16px,5vw,56px);
+  border-top: 1px solid var(--line);
+  display: flex; flex-direction: column; align-items: center; gap: 16px; text-align: center;
+}
+.footer-brand { display: flex; align-items: baseline; gap: 10px; }
+.footer-brand .wm { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 22px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--sp-orange); }
+.footer-brand .by { font-size: 15px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); }
+.footer-links { display: flex; gap: 24px; flex-wrap: wrap; justify-content: center; align-items: center; }
+.footer-links a { font-size: 13px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
+.footer-links a:hover { color: var(--white); }
+.footer-copy { font-size: 15px; color: var(--muted2); letter-spacing: 0.05em; }
+
+/* ═══════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════ */
+@media (max-width: 1000px) {
+  .sp-hero { grid-template-columns: 1fr; padding-top: 100px; gap: 40px; }
+  .sp-hero-media { max-width: 640px; }
+  .sp-steps { grid-template-columns: 1fr; }
+  .sp-cols { grid-template-columns: 1fr; }
+}
+@media (max-width: 768px) {
+  nav { padding: 0 20px; }
+  .nav-links { gap: 16px; }
+  .nav-link { font-size: 12px; letter-spacing: 0.1em; }
+  .nav-cta { font-size: 12px; padding: 6px 12px; letter-spacing: 0.1em; }
+  .sp-hero { padding: 92px 24px 56px; }
+  .sp-lockup { margin-left: -4%; }
+  .sp-body { font-size: 17px; margin-bottom: 32px; }
+  .sp-input-row { flex-direction: column; }
+  .sp-email { border-right: 1px solid rgba(255,107,26,0.25); border-bottom: none; font-size: 16px; }
+  .sp-submit { clip-path: none; }
+  .section, .sp-close { padding-left: 24px; padding-right: 24px; }
+  .sp-step { padding: 28px 22px; }
+  .sp-col { padding: 28px 22px; }
+  .sp-list li { grid-template-columns: 1fr; gap: 4px; }
+}
+@media (max-width: 480px) {
+  nav { padding: 0 16px; }
+  .nav-link:not(.nav-cta) { display: none; }
+  .sp-hero { padding: 80px 16px 48px; }
+  .section, .sp-close { padding-left: 16px; padding-right: 16px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+</style>
+</head>
+<body>
+
+<nav id="main-nav">
+  <a class="nav-brand" href="/">
+    <svg width="26" height="26" viewBox="0 0 28 28" fill="none">
+      <polygon points="14,2 26,8 26,20 14,26 2,20 2,8" stroke="#9B6DFF" stroke-width="1.5" fill="rgba(155,109,255,0.06)"/>
+      <polyline points="7,14 10,10 13,15 16,11 21,14" stroke="#9B6DFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <span class="nav-wordmark">Vector<em> DSP</em></span>
+  </a>
+  <div class="nav-links">
+    <a class="nav-link" href="/">← Vector DSP</a>
+    <a class="nav-link" href="/tonelab.html">ToneLab</a>
+    <a class="nav-cta" href="#waitlist">Waitlist</a>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════ HERO ═══════════════════════════ -->
+<section class="sp-hero" id="top">
+  <div class="sp-hero-grid"></div>
+  <div class="sp-hero-beam"></div>
+
+  <div class="sp-hero-copy">
+    <div class="sp-eyebrow">Vector DSP <span class="pill">Coming soon</span></div>
+
+    <div class="sp-lockup" role="img" aria-label="Specular"></div>
+
+    <h1 class="sp-headline">
+      Visuals that<br>
+      <span class="ghost">listen to</span><br>
+      <span class="hl">the stems.</span>
+    </h1>
+
+    <p class="sp-body">
+      Specular is a capture plugin for your DAW and an offline renderer. It reads the master
+      and every stem you give it during a normal playback pass, then renders audio-reactive
+      video on your own machine. <strong>Local. Deterministic. No cloud, no credits.</strong>
+    </p>
+
+    <div class="sp-form" id="waitlist">
+      <div class="sp-input-row">
+        <input class="sp-email" id="sp-email" type="email" inputmode="email" autocomplete="email"
+               placeholder="your@email.com" aria-label="Email address"
+               onkeydown="if(event.key==='Enter'){handleSignup('sp-email','sp-submit','sp-success');}">
+        <button class="sp-submit" id="sp-submit" type="button"
+                onclick="handleSignup('sp-email','sp-submit','sp-success')">Join the waitlist</button>
+      </div>
+      <div class="sp-form-note">Launch pricing goes to the list first. No spam, unsubscribe any time.</div>
+      <div class="sp-success" id="sp-success">You're on the list. We'll write when there's something to show.</div>
+    </div>
+  </div>
+
+  <div class="sp-hero-media">
+    <div class="sp-frame">
+      <!-- Browsers only autoplay muted video; the button unmutes on a real click
+           and the loop keeps its audio from then on. -->
+      <video id="sp-hero-video" autoplay muted loop playsinline preload="auto" poster="/specular-loop-poster.jpg" aria-label="Specular render of 11th Hour">
+        <source src="/specular-loop.mp4" type="video/mp4">
+      </video>
+      <button class="sp-sound" id="sp-sound" type="button" onclick="toggleSound()" aria-pressed="false" aria-label="Turn sound on">
+        <svg class="ic-off" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
+        <svg class="ic-on" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
+        <span class="sp-sound-label">Sound on</span>
+      </button>
+    </div>
+    <div class="sp-caption">
+      <span><b>11th Hour</b> · 160 BPM · strata</span>
+      <span>Rendered with Specular Studio</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ HOW IT WORKS ═══════════════════════════ -->
+<section class="section" id="how">
+  <div class="section-label">How it works</div>
+  <h2 class="section-heading">Capture once. Render anything.</h2>
+  <p class="section-sub">
+    No screen capture, no re-analysing a bounce. The analysis is taken from inside the session,
+    sample-accurate to the playhead, so every render lines up with the music to the frame.
+  </p>
+
+  <div class="sp-steps">
+    <div class="sp-step">
+      <div class="sp-step-n">01 — CAPTURE</div>
+      <h3>Drop the plugin on the master</h3>
+      <p>Add children to the stems you care about — kick, 808, hats, vocal. Play the song through once.
+         <b>Specular writes a capture file</b> with level, bands, transients, pitch and the tempo map for every source.</p>
+    </div>
+    <div class="sp-step">
+      <div class="sp-step-n">02 — ROUTE</div>
+      <h3>Decide what drives what</h3>
+      <p>Open the capture in Specular Studio. Pick a look, then wire stems to it: <b>the kick moves the geometry, the 808 sets the hue, the hats light the detail.</b> Presets get you there in one click; the cross-wire panel goes as deep as you want.</p>
+    </div>
+    <div class="sp-step">
+      <div class="sp-step-n">03 — RENDER</div>
+      <h3>Export on your own GPU</h3>
+      <p>Offline, so there is no realtime budget: full supersampling, linear light, 10-bit HEVC if you want it.
+         <b>Portrait or landscape, mp4 with the audio muxed in,</b> ready to post.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ LOOKS ═══════════════════════════ -->
+<section class="section" id="looks">
+  <div class="section-label">Looks</div>
+  <h2 class="section-heading">Ten looks at launch</h2>
+  <p class="section-sub">
+    Each one is its own construction, built on real line work and light rather than a particle system
+    with a different skin. More will follow in updates.
+  </p>
+  <div class="sp-chips">
+    <span class="sp-chip">Radial</span>
+    <span class="sp-chip">Organic</span>
+    <span class="sp-chip">Cracks</span>
+    <span class="sp-chip">Strata</span>
+    <span class="sp-chip">Lattice</span>
+    <span class="sp-chip">Weave</span>
+    <span class="sp-chip">Filament</span>
+    <span class="sp-chip">Nebula</span>
+    <span class="sp-chip">Orbit</span>
+    <span class="sp-chip">Fractal</span>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ IN THE BOX ═══════════════════════════ -->
+<section class="section" id="box">
+  <div class="section-label">What ships</div>
+  <h2 class="section-heading">Two pieces, one license</h2>
+  <p class="section-sub">
+    Perpetual license, the same way ToneLab works. Nothing phones home, nothing expires, nothing is metered.
+  </p>
+
+  <div class="sp-cols">
+    <div class="sp-col">
+      <h3>At launch <small>Specular + Specular Studio</small></h3>
+      <ul class="sp-list">
+        <li><span>Plugin</span><span>Specular — the capture plugin. VST3, AU and AAX. Parent on the master, children on stems. Diagnostic meters, not a preview, so it costs the session nothing.</span></li>
+        <li><span>Renderer</span><span>Specular Studio — the offline renderer. Ten looks, six palettes, per-stem routing, GPU render to H.264 or 10-bit HEVC.</span></li>
+        <li><span>Platform</span><span>macOS first, Apple Silicon native.</span></li>
+        <li><span>Licensing</span><span>One-time purchase, not a subscription. Activates locally.</span></li>
+      </ul>
+    </div>
+    <div class="sp-col later">
+      <h3>Later <small>Tiers on the same app</small></h3>
+      <ul class="sp-list">
+        <li><span>Pro</span><span>Export the motion, not just the video: keyframes for After Effects, Blender, TouchDesigner and MIDI.</span></li>
+        <li><span>Live</span><span>The same looks driving lights, haze and video on stage over DMX, OSC and MIDI.</span></li>
+      </ul>
+      <div class="sp-note">Both are license tiers inside Specular Studio, not separate apps. No dates yet; the waitlist hears first.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ CLOSE ═══════════════════════════ -->
+<section class="sp-close" id="waitlist-2">
+  <div class="section-label" style="justify-content:center;">Waitlist</div>
+  <h2 class="section-heading">Be there when it opens</h2>
+  <p class="section-sub">Launch pricing goes to the list before anyone else sees it.</p>
+  <div class="sp-form">
+    <div class="sp-input-row">
+      <input class="sp-email" id="sp-email-2" type="email" inputmode="email" autocomplete="email"
+             placeholder="your@email.com" aria-label="Email address"
+             onkeydown="if(event.key==='Enter'){handleSignup('sp-email-2','sp-submit-2','sp-success-2');}">
+      <button class="sp-submit" id="sp-submit-2" type="button"
+              onclick="handleSignup('sp-email-2','sp-submit-2','sp-success-2')">Join the waitlist</button>
+    </div>
+    <div class="sp-success" id="sp-success-2">You're on the list. We'll write when there's something to show.</div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-brand">
+    <span class="wm">Specular</span>
+    <span class="by">by Vector DSP</span>
+  </div>
+  <div class="footer-links">
+    <a href="/">Vector DSP</a>
+    <a href="/tonelab.html">ToneLab</a>
+    <a href="/blog/">Blog</a>
+    <a href="/terms.html">Terms</a>
+    <a href="/privacy.html">Privacy</a>
+    <a href="https://www.instagram.com/vector.dsp/" target="_blank" rel="noopener" aria-label="Vector DSP on Instagram">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+      </svg>
+      Instagram
+    </a>
+  </div>
+  <div class="footer-copy">© 2026 Vector DSP LLC</div>
+</footer>
+
+<script>
+/* ─── HERO SOUND ─── */
+function toggleSound() {
+  const v = document.getElementById('sp-hero-video');
+  const b = document.getElementById('sp-sound');
+  const on = v.muted;             // currently muted → turning sound on
+  v.muted = !on;
+  if (on) {
+    v.currentTime = 0;            // restart so the title intro plays with the fade-up
+    const p = v.play(); if (p && p.catch) p.catch(() => {});
+  }
+  b.setAttribute('aria-pressed', on ? 'true' : 'false');
+  b.setAttribute('aria-label', on ? 'Turn sound off' : 'Turn sound on');
+  b.querySelector('.sp-sound-label').textContent = on ? 'Sound off' : 'Sound on';
+  if (on && window.gtag) gtag('event', 'hero_sound_on', { page: 'specular' });
+}
+
+/* ─── WAITLIST SIGNUP ───
+   Same endpoint as ToneLab; `product: "specular"` routes to the Specular list
+   in netlify/functions/subscribe.js (BREVO_SPECULAR_LIST_ID). */
+async function submitToBrevo(email) {
+  const res = await fetch('/api/subscribe', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email, product: 'specular' })
+  });
+  if (!res.ok) throw new Error('Signup failed');
+}
+
+async function handleSignup(inputId, btnId, msgId) {
+  const input = document.getElementById(inputId);
+  const btn = document.getElementById(btnId);
+  const msg = document.getElementById(msgId);
+  const email = input.value.trim();
+
+  if (!email || !email.includes('@')) {
+    input.style.borderColor = 'rgba(255,80,80,0.6)';
+    input.focus();
+    setTimeout(() => input.style.borderColor = '', 1500);
+    return;
+  }
+
+  const label = btn.textContent;
+  btn.textContent = '...';
+  btn.disabled = true;
+
+  try {
+    await submitToBrevo(email);
+    btn.textContent = '✓ On the list';
+    btn.classList.add('success');
+    input.disabled = true;
+    msg.style.display = 'block';
+    if (window.gtag) gtag('event', 'sign_up', { method: 'specular_waitlist' });
+  } catch (e) {
+    btn.textContent = 'Retry';
+    btn.disabled = false;
+    input.style.borderColor = 'rgba(255,80,80,0.6)';
+    setTimeout(() => { input.style.borderColor = ''; if (btn.textContent === 'Retry') btn.textContent = label; }, 2500);
+  }
+}
+</script>
+</body>
+</html>

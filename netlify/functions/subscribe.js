@@ -3,16 +3,32 @@ exports.handler = async (event) => {
     return { statusCode: 405, body: 'Method Not Allowed' };
   }
 
-  let email;
+  // One function, several lists. `product` picks the Brevo list; unknown or
+  // missing values fall back to the ToneLab list so the existing forms keep
+  // working unchanged. The Specular list id lives in an env var so the list
+  // can be moved in Brevo without a redeploy of this file.
+  const LISTS = {
+    tonelab: 6,
+    specular: Number(process.env.BREVO_SPECULAR_LIST_ID) || 10 // Brevo folder "Specular" > list "Waitlist" (#10), created 2026-11-06
+  };
+
+  let email, product;
   try {
     const body = JSON.parse(event.body);
     email = body.email?.trim();
+    product = String(body.product || 'tonelab').toLowerCase();
   } catch {
     return { statusCode: 400, body: 'Invalid request body' };
   }
 
   if (!email || !email.includes('@')) {
     return { statusCode: 400, body: 'Invalid email' };
+  }
+
+  const listId = LISTS[product] ?? LISTS.tonelab;
+  if (!listId) {
+    console.error(`Subscribe error: no Brevo list configured for "${product}"`);
+    return { statusCode: 500, body: JSON.stringify({ error: 'List not configured' }) };
   }
 
   try {
@@ -24,7 +40,7 @@ exports.handler = async (event) => {
       },
       body: JSON.stringify({
         email,
-        listIds: [6],
+        listIds: [listId],
         updateEnabled: true
       })
     });

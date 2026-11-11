@@ -35,6 +35,8 @@
   }
 
   /* ── Google Ads purchase conversion ───────────────────────────────────────
+     Now a SECONDARY action: the campaign optimises for demo downloads (see
+     tonelab.html). Keep this firing so purchases still show as a column.
      Paste the conversion label from Google Ads (Goals → Conversions → your
      Purchase action → Tag setup → "Use Google tag" → event snippet, the part
      after the slash in send_to: 'AW-18558753967/XXXXXXXX'). Until it is set,

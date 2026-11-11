@@ -5,7 +5,7 @@
 set -euo pipefail
 cd "$(dirname "$0")"
 
-MSG="${1:-Specular: waitlist page, hero video, Brevo list routing, home-page card}"
+MSG="${1:-Google Ads: demo download is the primary conversion}"
 
 # A cloud Cowork session can leave a stray lock behind; clear it before anything else.
 rm -f .git/index.lock
@@ -17,13 +17,10 @@ if [ -z "$(git status --porcelain)" ]; then
 fi
 
 git add -A
-git commit -m "$MSG" -m "Adds /specular (orange/purple waitlist page with the 11th Hour strata hero loop and sound toggle),
-routes product=specular signups to Brevo list #10 in netlify/functions/subscribe.js (ToneLab stays on #6),
-names the Specular card on the home page, and registers the new assets with Eleventy + a /specular redirect."
+git commit -m "$MSG"
 git push origin main
 
 echo
 echo "Pushed. Netlify is building — check https://app.netlify.com then:"
-echo "  1. open https://vector-dsp.com/specular"
-echo "  2. sign up with hansenkai22+specular@gmail.com"
-echo "  3. confirm it lands in Brevo › Specular › Waitlist (#10)"
+echo "  1. open https://vector-dsp.com/tonelab?demo=1, enter your email, click an installer"
+echo "  2. DevTools > Network: look for googleadservices.com/pagead/conversion with label lejLCMnBoLYdEK-5wJFF"

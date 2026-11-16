@@ -6,7 +6,7 @@
 <title>Your ToneLab demo — three ways to start</title></head>
 <body style="margin:0;padding:0;background:#0B0D11;">
 <!-- Inbox preview text -->
-<div style="display:none;max-height:0;overflow:hidden;opacity:0;">Three ways to get more out of the demo, plus 10% off for the next 7 days.</div>
+<div style="display:none;max-height:0;overflow:hidden;opacity:0;">{% if contact.DEMO_CODE == "BLACKFRIDAY" %}Three ways to get more out of the demo, plus the Black Friday price: $49.99 through Dec 1.{% else %}Three ways to get more out of the demo, plus 10% off for the next 7 days.{% endif %}</div>
 <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background:#0B0D11;">
   <tr><td align="center" style="padding:32px 16px;">
     <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="max-width:560px;background:#13161D;border:1px solid #1F232B;border-radius:8px;">
@@ -54,10 +54,17 @@
       <tr><td style="padding:30px 34px 0 34px;">
         <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background:#0B0D11;border:1px solid #2A2440;border-radius:6px;">
           <tr><td style="padding:22px 24px;">
+{% if contact.DEMO_CODE == "BLACKFRIDAY" %}
+            <div style="font-family:'IBM Plex Mono',Menlo,Consolas,monospace;font-size:12px;font-weight:500;letter-spacing:0.22em;text-transform:uppercase;color:#4DFFEC;">Black Friday &middot; through Dec 1</div>
+            <div style="font-family:'Barlow Condensed','Arial Narrow',Arial,sans-serif;font-size:28px;font-weight:800;text-transform:uppercase;line-height:1.1;color:#EDF0F4;padding-top:8px;">32% off &middot; <span style="color:#C4A8FF;">$49.99</span> <span style="font-size:20px;color:#5A6070;text-decoration:line-through;">$73.99</span></div>
+            <div style="font-family:'Barlow','Segoe UI',Arial,sans-serif;font-size:15px;font-weight:300;color:#C9CDD4;line-height:24px;padding-top:10px;">Good timing: ToneLab is on sale for Black Friday until <strong style="font-weight:500;color:#EDF0F4;">Tue Dec&nbsp;1</strong>. If it earns a spot in your chain, code <span style="font-family:'IBM Plex Mono',Menlo,Consolas,monospace;font-size:14px;font-weight:500;color:#EDF0F4;background:#1C2029;border:1px solid #2A2F3A;border-radius:3px;padding:2px 7px;">BLACKFRIDAY</span> is applied automatically at checkout. All v1.x updates included.</div>
+            <div style="padding-top:16px;"><a href="https://vector-dsp.lemonsqueezy.com/checkout/buy/d7ac2d6a-488f-481f-9b4d-4a2a4da76010?checkout%5Bdiscount_code%5D=BLACKFRIDAY" style="font-family:'Barlow Condensed','Arial Narrow',Arial,sans-serif;font-size:15px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#C4A8FF;text-decoration:none;">Get ToneLab for $49.99 &rarr;</a></div>
+            {% else %}
             <div style="font-family:'IBM Plex Mono',Menlo,Consolas,monospace;font-size:12px;font-weight:500;letter-spacing:0.22em;text-transform:uppercase;color:#9B6DFF;">Demo users only</div>
             <div style="font-family:'Barlow Condensed','Arial Narrow',Arial,sans-serif;font-size:28px;font-weight:800;text-transform:uppercase;line-height:1.1;color:#EDF0F4;padding-top:8px;">10% off &middot; <span style="color:#C4A8FF;">$66.59</span> <span style="font-size:20px;color:#5A6070;text-decoration:line-through;">$73.99</span></div>
             <div style="font-family:'Barlow','Segoe UI',Arial,sans-serif;font-size:15px;font-weight:300;color:#C9CDD4;line-height:24px;padding-top:10px;">If it earns a spot in your chain, use code <span style="font-family:'IBM Plex Mono',Menlo,Consolas,monospace;font-size:14px;font-weight:500;color:#EDF0F4;background:#1C2029;border:1px solid #2A2F3A;border-radius:3px;padding:2px 7px;">{{ contact.DEMO_CODE | default : "DEMO10" }}</span> at checkout within <strong style="font-weight:500;color:#EDF0F4;">7&nbsp;days</strong> &mdash; it's yours alone and works once. All v1.x updates included.</div>
             <div style="padding-top:16px;"><a href="https://vector-dsp.lemonsqueezy.com/checkout/buy/d7ac2d6a-488f-481f-9b4d-4a2a4da76010?checkout%5Bdiscount_code%5D={{ contact.DEMO_CODE | default : 'DEMO10' }}" style="font-family:'Barlow Condensed','Arial Narrow',Arial,sans-serif;font-size:15px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#C4A8FF;text-decoration:none;">Buy with 10% off &rarr;</a></div>
+            {% endif %}
           </td></tr>
         </table>
       </td></tr>

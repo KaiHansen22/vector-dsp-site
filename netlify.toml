@@ -475,3 +475,9 @@
   to = "/blog/buffer-size-for-recording/"
   status = 301
 
+
+# Black Friday 2026 switchover for demo-sequence contacts. Fires 07:05 UTC
+# (00:05 MT) on Nov 2, Nov 21, Dec 2 and Dec 21; the function only acts on
+# Nov 21 and Dec 2, 2026. Safe to delete after Dec 2, 2026.
+[functions."demo-sale-switch"]
+  schedule = "5 7 2,21 11,12 *"

@@ -27,6 +27,13 @@
      DEMO_DISCOUNT_PERCENT      default 10
      DEMO_DISCOUNT_DAYS         default 7
 
+   Black Friday 2026 (00:00 MT Nov 21 → 00:00 MT Dec 2, same window as
+   /black-friday.js): no personal code is minted. DEMO_CODE is set to the
+   public sale code BLACKFRIDAY ($49.99), and the Brevo emails switch their
+   copy on {% if contact.DEMO_CODE == "BLACKFRIDAY" %}. After the sale,
+   BLACKFRIDAY is not treated as a code the contact "already has", so
+   someone re-signing gets a fresh personal 10% code.
+
    Brevo needs a text contact attribute named DEMO_CODE. The function creates
    it on first use if it's missing, so there's nothing to set up by hand.
 
@@ -36,6 +43,14 @@
    ──────────────────────────────────────────────────────────────────────────── */
 
 const crypto = require("crypto");
+
+/* Black Friday 2026 — keep in sync with /black-friday.js. */
+const SALE_CODE  = "BLACKFRIDAY";
+const SALE_START = Date.parse("2026-11-21T00:00:00-07:00");
+const SALE_END   = Date.parse("2026-12-02T00:00:00-07:00"); // end of Tue Dec 1, Mountain
+function saleActive(now = Date.now()) {
+  return now >= SALE_START && now < SALE_END;
+}
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 /* No 0/O/1/I, so codes survive being read aloud or retyped. */
@@ -80,7 +95,7 @@ async function existingCode(email) {
 
 /* Creates a single-use, expiring discount in Lemon Squeezy. Returns the code,
    or null if anything goes wrong (logged). */
-async function createCode(email) {
+async function createCode(email, expiresAt) {
   const key = process.env.LEMONSQUEEZY_API_KEY;
   if (!key) {
     console.warn("demo-signup: LEMONSQUEEZY_API_KEY not set — no personal code");
@@ -99,7 +114,7 @@ async function createCode(email) {
     amount_type: "percent",
     is_limited_redemptions: true,
     max_redemptions: 1,
-    expires_at: new Date(Date.now() + days * 86400 * 1000).toISOString()
+    expires_at: (expiresAt || new Date(Date.now() + days * 86400 * 1000)).toISOString()
   };
   const relationships = { store: { data: { type: "stores", id: storeId } } };
   if (variantId) {
@@ -193,18 +208,30 @@ exports.handler = async (event) => {
   }
 
   try {
-    const prior = await existingCode(email);
-    const code = prior || (await createCode(email));
+    const onSale = saleActive();
+    const stored = await existingCode(email);
+    /* The sale code isn't personal: after the sale, mint a real one. */
+    const prior = stored === SALE_CODE ? null : stored;
+    /* During Black Friday, point everyone at the public sale price instead of
+       minting a (worse) 10% code. */
+    const code = onSale ? SALE_CODE : (prior || (await createCode(email)));
     /* Brevo may silently drop an attribute it doesn't know, so make sure it
        exists before saving a new code. One cheap call; a no-op once created. */
     if (code && !prior) await ensureCodeAttribute();
     await addToList(email, listId, code);
     console.log("demo-signup: added to demo list " + listId +
       (platform ? " (" + platform + ")" : "") +
-      (code ? (prior ? " — kept code " : " — new code ") + code : " — no code"));
+      (code ? (onSale ? " — Black Friday code " : prior ? " — kept code " : " — new code ") + code : " — no code"));
     return reply(200, { ok: true });
   } catch (e) {
     console.error("demo-signup:", e.message);
     return reply(502, { error: "Could not save email" });
   }
 };
+
+/* Shared with demo-sale-switch.js (scheduled Black Friday switchover). */
+exports.SALE_CODE = SALE_CODE;
+exports.SALE_START = SALE_START;
+exports.SALE_END = SALE_END;
+exports.createCode = createCode;
+exports.brevoHeaders = brevoHeaders;

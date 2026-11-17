@@ -29,7 +29,7 @@
 
    Black Friday 2026 (00:00 MT Nov 21 → 00:00 MT Dec 2, same window as
    /black-friday.js): no personal code is minted. DEMO_CODE is set to the
-   public sale code BLACKFRIDAY ($49.99), and the Brevo emails switch their
+   public sale code BLACKFRIDAY (50% off, $36.99), and the Brevo emails switch their
    copy on {% if contact.DEMO_CODE == "BLACKFRIDAY" %}. After the sale,
    BLACKFRIDAY is not treated as a code the contact "already has", so
    someone re-signing gets a fresh personal 10% code.

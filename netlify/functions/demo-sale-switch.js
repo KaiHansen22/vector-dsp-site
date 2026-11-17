@@ -7,7 +7,7 @@
 
    Nov 21 (sale starts): contacts who joined the demo list in the last 5 days
      still have their reminder coming. Swap their personal 10% code for
-     BLACKFRIDAY so the reminder shows $49.99 instead of $66.59.
+     BLACKFRIDAY so the reminder shows $36.99 instead of $66.59.
 
    Dec 2 (sale over): contacts who joined in the last 5 days have BLACKFRIDAY
      but their reminder lands after the sale. Give them a personal 10% code

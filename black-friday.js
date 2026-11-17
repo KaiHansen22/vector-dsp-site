@@ -1,9 +1,9 @@
 /* ─────────────────────────────────────────────────────────────────────────────
-   Black Friday 2026: ToneLab $49.99 (list $73.99), Sat Nov 21 → Tue Dec 1.
+   Black Friday 2026: ToneLab 50% off, $36.99 (list $73.99), Sat Nov 21 → Tue Dec 1.
 
    Switches itself on and off by date, so nothing needs deploying when the
    sale starts or ends. The price is enforced by the Lemon Squeezy code
-   BLACKFRIDAY (fixed $24 off, same date window); this script only shows the
+   BLACKFRIDAY (fixed $37 off, same date window); this script only shows the
    sale and adds the code to checkout links.
 
    Preview any time with ?bf=1 on a page that loads this file.
@@ -15,7 +15,7 @@
   var END   = Date.parse("2026-12-02T00:00:00-07:00"); // end of Tue Dec 1, Mountain
   var CODE  = "BLACKFRIDAY";
   var LIST  = "73.99";
-  var SALE  = "49.99";
+  var SALE  = "36.99";
 
   var now = Date.now();
   var preview = /[?&]bf=1\b/.test(location.search);
@@ -64,7 +64,7 @@
     bar.href = "/tonelab";
     bar.innerHTML =
       '<span class="bf-tag">Black Friday</span>' +
-      '<span class="bf-txt">ToneLab <s>$' + LIST + '</s> <strong>$' + SALE + '</strong> · through Dec 1</span>' +
+      '<span class="bf-txt">ToneLab <strong>50% off</strong> · <s>$' + LIST + '</s> <strong>$' + SALE + '</strong> · through Dec 1</span>' +
       '<span class="bf-cta">Get ToneLab →</span>';
     if (nav && getComputedStyle(nav).position === "fixed") {
       bar.style.marginTop = nav.offsetHeight + "px";
@@ -86,7 +86,7 @@
       var row = amt.closest(".preorder-price-row");
       if (row) row.insertBefore(was, row.firstChild);
       var badge = document.querySelector(".preorder-badge");
-      if (badge) badge.textContent = "Black Friday · Through Dec 1";
+      if (badge) badge.textContent = "Black Friday · 50% Off Through Dec 1";
     }
     // Pricing page card
     var pn = document.querySelector(".price-row .price-now");
@@ -101,7 +101,7 @@
       if (terms) {
         var note = document.createElement("div");
         note.className = "sale-note";
-        note.textContent = "Black Friday · Save $24 through Dec 1";
+        note.textContent = "Black Friday · 50% off through Dec 1";
         terms.parentNode.insertBefore(note, terms.nextSibling);
       }
     }

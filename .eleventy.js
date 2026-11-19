@@ -28,6 +28,7 @@ module.exports = function (eleventyConfig) {
     "favicon-32x32.png",
     "apple-touch-icon.png",
     "sundown-sale-1080.png",
+    "black-friday-1200.jpg",
     "kai-headphones.jpg",
     "kai-hansen.jpg",
     "tonelab-loop.mp4",
